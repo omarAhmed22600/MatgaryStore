@@ -1,0 +1,99 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_offers"
+            android:icon="@drawable/offer_img"
+            android:fontFamily="@font/cairo_semibold"
+            android:iconTint="@color/color_primary"
+            android:title="@string/offers" />
+
+        <item
+            android:id="@+id/nav_add_product"
+            android:icon="@drawable/ic_add_product"
+            android:fontFamily="@font/cairo_semibold"
+            android:iconTint="@color/color_primary"
+            android:title="@string/add_product" />
+
+        <item
+            android:id="@+id/nav_my_products"
+            android:icon="@drawable/ic_my_products"
+            android:fontFamily="@font/cairo_semibold"
+            android:iconTint="@color/color_primary"
+            android:title="@string/my_products" />
+
+        <item
+            android:id="@+id/nav_store_code"
+            android:icon="@drawable/code"
+            android:fontFamily="@font/cairo_semibold"
+            android:iconTint="@color/color_primary"
+            android:title="@string/store_codes" />
+
+        <item
+            android:id="@+id/nav_connecting_main"
+            android:icon="@drawable/connect"
+            android:fontFamily="@font/cairo_semibold"
+            android:iconTint="@color/color_primary"
+            android:title="@string/connecting_to_the_main_headquarters" />
+
+        <item
+            android:id="@+id/nav_wallet"
+            android:icon="@drawable/ic_wallet"
+            android:fontFamily="@font/cairo_semibold"
+            android:iconTint="@color/color_primary"
+            android:title="@string/wallet" />
+
+        <item
+            android:id="@+id/nav_reports"
+            android:icon="@drawable/ic_reports"
+            android:fontFamily="@font/cairo_semibold"
+            android:iconTint="@color/color_primary"
+            android:title="@string/reports" />
+
+        <item
+            android:id="@+id/nav_busy"
+            android:icon="@drawable/busy"
+            android:iconTint="@color/color_primary"
+            android:fontFamily="@font/cairo_semibold"
+            android:title="@string/busy"
+            app:actionLayout="@layout/menu_switch_busy"/>
+
+        <item
+            android:id="@+id/nav_closed"
+            android:icon="@drawable/close"
+            android:iconTint="@color/color_primary"
+            android:fontFamily="@font/cairo_semibold"
+            android:title="@string/closed"
+            app:actionLayout="@layout/menu_switch_close"/>
+
+        <item
+            android:id="@+id/nav_help"
+            android:icon="@drawable/help_img"
+            android:iconTint="@color/color_primary"
+            android:fontFamily="@font/cairo_semibold"
+            android:title="@string/help" />
+
+        <item
+            android:id="@+id/nav_about"
+            android:icon="@drawable/about_icon"
+            android:iconTint="@color/color_primary"
+            android:fontFamily="@font/cairo_semibold"
+            android:title="@string/about" />
+
+        <item
+            android:id="@+id/nav_contact"
+            android:icon="@drawable/contact_img"
+            android:iconTint="@color/color_primary"
+            android:fontFamily="@font/cairo_semibold"
+            android:title="@string/contact" />
+    </group>
+
+</menu>

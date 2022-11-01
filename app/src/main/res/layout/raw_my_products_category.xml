@@ -1,0 +1,41 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.products.category.ItemProductCategoryViewModel" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/raw_item"
+        android:elevation="0dp"
+        android:background="@drawable/subcategory_unselect"
+        app:cardElevation="0dp"
+        android:layout_marginStart="@dimen/_4sdp"
+        android:layout_marginEnd="@dimen/_4sdp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/tv_item"
+            android:text="@{viewModel.item.name}"
+            tools:text="@tools:sample/full_names"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:paddingStart="@dimen/_16sdp"
+            android:paddingEnd="@dimen/_16sdp"
+            android:paddingTop="@dimen/_6sdp"
+            android:paddingBottom="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_4sdp" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+</layout>

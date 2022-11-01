@@ -1,0 +1,526 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.addproduct.AddProductViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/_16sdp">
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            visibleGone="@{viewModel.obsIsVisible}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingBottom="@dimen/_24sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/_24sdp"
+            android:paddingEnd="@dimen/_24sdp">
+            <TextView
+                android:id="@+id/product_category"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_42sdp"
+                android:onClick="@{() -> viewModel.onCategoriesClicked()}"
+                android:hint="@string/product_type"
+                android:textColorHint="@color/hint_color"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:fontFamily="@font/cairoregular"
+                android:gravity="center|start"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:drawablePadding="@dimen/_8sdp"
+                app:drawableTint="@color/hint_color"
+                app:drawableEndCompat="@drawable/ic_expand_down_arrow"
+                android:layout_marginTop="@dimen/_24sdp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_1sdp"
+                android:id="@+id/spinner_seperator"
+                android:background="@color/hint_color"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/product_category" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/name_layout"
+                style="@style/TextInputLayoutNoBorder"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/spinner_seperator">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_name_ar"
+                    android:inputType="text"
+                    android:textAlignment="viewStart"
+                    android:text="@={viewModel.addProductRequest.name}"
+                    android:textColorHint="@color/hint_color"
+                    android:fontFamily="@font/cairoregular"
+                    android:textColor="@color/black"
+                    android:background="@android:color/transparent">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/nameEn_layout"
+                style="@style/TextInputLayoutNoBorder"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/name_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_name_en"
+                    android:inputType="text"
+                    android:textAlignment="viewStart"
+                    android:text="@={viewModel.addProductRequest.nameEn}"
+                    android:textColorHint="@color/hint_color"
+                    android:fontFamily="@font/cairoregular"
+                    android:textColor="@color/black"
+                    android:background="@android:color/transparent">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/description_layout"
+                style="@style/TextInputLayoutNoBorder"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/nameEn_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_description_ar"
+                    android:inputType="text"
+                    android:textAlignment="viewStart"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@={viewModel.addProductRequest.description}"
+                    android:textColorHint="@color/hint_color"
+                    android:fontFamily="@font/cairoregular"
+                    android:textColor="@color/black"
+                    android:background="@android:color/transparent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/descriptionEn_layout"
+                style="@style/TextInputLayoutNoBorder"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@android:color/transparent"
+                app:layout_constraintTop_toBottomOf="@+id/description_layout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_description_en"
+                    android:inputType="text"
+                    android:textAlignment="viewStart"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    android:text="@={viewModel.addProductRequest.descriptionEn}"
+                    android:textColorHint="@color/hint_color"
+                    android:fontFamily="@font/cairoregular"
+                    android:textColor="@color/black"
+                    android:background="@android:color/transparent"/>
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/txt_images_layout"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@+id/descriptionEn_layout">
+
+
+                <TextView
+                    android:id="@+id/text_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="@string/product_photo"
+                    android:textSize="@dimen/_9ssp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textColor="@color/black"
+                    app:layout_constraintStart_toEndOf="@+id/ib_code"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/text_codeDesc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:layout_marginStart="@dimen/_5sdp"
+                    android:text="@string/a_maximum_of_4_photos"
+                    android:textSize="@dimen/_9ssp"
+                    android:fontFamily="@font/cairo_semibold"
+                    app:layout_constraintStart_toEndOf="@+id/text_code"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:orientation="horizontal"
+                android:id="@+id/photos1_layout"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@+id/txt_images_layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:id="@+id/photo1_layout"
+                    android:background="@drawable/ic_photo_border">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_img1"
+                        android:onClick="@{() -> viewModel.onPhoto1Clicked()}"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/iv_photo1"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:onClick="@{() -> viewModel.onPhoto1Clicked()}"
+                        android:id="@+id/not_photo1"
+                        android:gravity="center_horizontal|center_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_Add_photo1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_add_a_photo_24px"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/text_add_photo1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="@string/click_here_to_add_photo"
+                            android:textSize="@dimen/_9ssp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:textColor="@color/black"
+                            android:gravity="center"
+                            app:layout_constraintTop_toBottomOf="@+id/iv_photo1"
+                            app:layout_constraintStart_toStartOf="@id/iv_photo1"
+                            app:layout_constraintEnd_toEndOf="@id/iv_photo1"/>
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/_80sdp"
+                    android:id="@+id/photo2_layout"
+                    android:background="@drawable/ic_photo_border">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_img2"
+                        android:onClick="@{() -> viewModel.onPhoto2Clicked()}"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/iv_photo2"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:onClick="@{() -> viewModel.onPhoto2Clicked()}"
+                        android:id="@+id/not_photo2"
+                        android:gravity="center_horizontal|center_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_Add_photo2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_add_a_photo_24px"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/text_add_photo2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="@string/click_here_to_add_photo"
+                            android:textSize="@dimen/_9ssp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:textColor="@color/black"
+                            android:gravity="center"
+                            app:layout_constraintTop_toBottomOf="@+id/iv_photo2"
+                            app:layout_constraintStart_toStartOf="@id/iv_photo2"
+                            app:layout_constraintEnd_toEndOf="@id/iv_photo2"/>
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_80sdp"
+                android:orientation="horizontal"
+                android:id="@+id/photos2_layout"
+                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@+id/photos1_layout">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/_80sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:id="@+id/photo3_layout"
+                    android:background="@drawable/ic_photo_border">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_img3"
+                        android:onClick="@{() -> viewModel.onPhoto3Clicked()}"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/iv_photo3"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:onClick="@{() -> viewModel.onPhoto3Clicked()}"
+                        android:id="@+id/not_photo3"
+                        android:gravity="center_horizontal|center_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_Add_photo3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_add_a_photo_24px"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/text_add_photo3"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="@string/click_here_to_add_photo"
+                            android:textSize="@dimen/_9ssp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:textColor="@color/black"
+                            android:gravity="center"
+                            app:layout_constraintTop_toBottomOf="@+id/iv_photo3"
+                            app:layout_constraintStart_toStartOf="@id/iv_photo3"
+                            app:layout_constraintEnd_toEndOf="@id/iv_photo3"/>
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="@dimen/_80sdp"
+                    android:id="@+id/photo4_layout"
+                    android:background="@drawable/ic_photo_border">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/iv_img4"
+                        android:onClick="@{() -> viewModel.onPhoto4Clicked()}"
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:id="@+id/iv_photo4"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                    </androidx.cardview.widget.CardView>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical"
+                        android:onClick="@{() -> viewModel.onPhoto4Clicked()}"
+                        android:id="@+id/not_photo4"
+                        android:gravity="center_horizontal|center_vertical"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_Add_photo4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_add_a_photo_24px"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:ignore="ContentDescription" />
+
+                        <TextView
+                            android:id="@+id/text_add_photo4"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/_8sdp"
+                            android:text="@string/click_here_to_add_photo"
+                            android:textSize="@dimen/_9ssp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:textColor="@color/black"
+                            android:gravity="center"
+                            app:layout_constraintTop_toBottomOf="@+id/iv_photo4"
+                            app:layout_constraintStart_toStartOf="@id/iv_photo4"
+                            app:layout_constraintEnd_toEndOf="@id/iv_photo4"/>
+
+                    </LinearLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_product_sku"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                adapter="@{viewModel.addproductSkuAdapter}"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:orientation="vertical"
+                android:padding="@dimen/_5sdp"
+                app:layout_constraintTop_toBottomOf="@+id/photos2_layout"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/raw_add_product_sku" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/text_addSizePrice"
+                android:onClick="@{() -> viewModel.onAddSizeClicked()}"
+                android:textAlignment="viewStart"
+                android:gravity="start"
+                app:rippleColor="@color/color_primary"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:background="@android:color/transparent"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:textSize="@dimen/_12ssp"
+                android:textColor="@color/price_color"
+                android:text="@string/dd_new_size"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rv_product_sku" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_24sdp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:id="@+id/btn_add"
+        android:onClick="@{() -> viewModel.onAddClicked()}"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:cornerRadius="@dimen/_8sdp"
+        android:textAllCaps="false"
+        style="@style/Widget.MaterialComponents.Button"
+        android:fontFamily="@font/cairo_semibold"
+        tools:text="@string/add"
+        android:text="@string/add"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

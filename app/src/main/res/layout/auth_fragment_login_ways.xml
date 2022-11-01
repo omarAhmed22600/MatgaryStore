@@ -1,0 +1,129 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@drawable/app_background"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/login_logo"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_150sdp"
+                android:layout_marginTop="@dimen/_80sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/app_logo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_ways_layout"
+            android:paddingStart="@dimen/_30sdp"
+            android:background="@drawable/splash_bg"
+            android:paddingEnd="@dimen/_30sdp"
+            android:paddingBottom="@dimen/_24sdp"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:src="@drawable/app_logo"
+                android:scaleType="centerCrop"
+                android:id="@+id/login_text"
+                android:fontFamily="@font/cairoregular"
+                android:textStyle="bold"
+                android:textSize="@dimen/_16ssp"
+                android:textColor="@color/black"
+                android:text="@string/welcome"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:src="@drawable/app_logo"
+                android:scaleType="centerCrop"
+                android:id="@+id/login_desc"
+                android:gravity="center"
+                android:fontFamily="@font/cairoregular"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_12ssp"
+                android:text="@string/register_your_store_and_enjoy_the_best_selling_experience_ever_or_log_in_if_you_already_have_an_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_text" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_42sdp"
+                android:id="@+id/btn_register"
+                app:layout_constraintTop_toBottomOf="@id/login_desc"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/color_primary"
+                android:text="@string/create_store"
+                android:gravity="center"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="@dimen/_6sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:textSize="@dimen/_12ssp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_login"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_42sdp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:insetTop="0dp"
+                android:textAllCaps="false"
+                android:insetBottom="0dp"
+                android:gravity="center"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                app:cornerRadius="@dimen/_6sdp"
+                app:strokeWidth="@dimen/_1sdp"
+                app:strokeColor="@color/grey_subcategory"
+                android:fontFamily="@font/cairo_semibold"
+                android:textSize="@dimen/_12ssp"
+                android:text="@string/login"
+                android:textColor="@color/black"
+                android:backgroundTint="#FAFAFA"
+                app:layout_constraintTop_toBottomOf="@+id/btn_register" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,298 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.auth.login.LoginViewModel" />
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginStart="@dimen/_30sdp"
+            android:layout_marginEnd="@dimen/_30sdp">
+
+            <ImageView
+                android:id="@+id/login_logo"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/app_logo2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/login_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_24sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:scaleType="centerCrop"
+                android:src="@drawable/app_logo"
+                android:text="@string/login_to_start_your_trips"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_logo" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_layout"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_10sdp"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/login_text">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:indeterminate="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:indeterminateTint="@color/color_primary"
+                    android:indeterminateTintMode="src_atop"
+                    android:progressTint="@color/color_primary" />
+
+            </RelativeLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:id="@+id/phone_layout"
+                android:paddingBottom="@dimen/_8sdp"
+                android:background="@drawable/login_field_bg"
+                app:layout_constraintTop_toBottomOf="@+id/progress_layout">
+
+                <ImageButton
+                    android:id="@+id/img_phone"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:background="?actionBarItemBackground"
+                    android:src="@drawable/ic_phone_android_24px"
+                    android:scaleType="fitCenter"
+                    android:tint="@color/color_primary"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription" />
+
+                <TextView
+                    android:id="@+id/text_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:text="@string/phone_number"
+                    android:textSize="@dimen/_9ssp"
+                    android:fontFamily="@font/cairo_semibold"
+                    app:layout_constraintStart_toEndOf="@+id/img_phone"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/tv_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    app:layout_constraintStart_toStartOf="@+id/text_phone"
+                    android:hint="@string/enter_phone_number"
+                    android:text="@={viewModel.request.email}"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:inputType="phone"
+                    android:maxLines="1"
+                    android:maxLength="9"
+                    android:textSize="@dimen/_12ssp"
+                    android:textAlignment="viewStart"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/cairoregular"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/img_phone"
+                    app:layout_constraintTop_toBottomOf="@+id/text_phone"
+                    tools:ignore="Autofill" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/password_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@drawable/login_field_bg"
+                android:paddingStart="@dimen/_12sdp"
+                android:paddingTop="@dimen/_8sdp"
+                android:paddingEnd="@dimen/_12sdp"
+                android:paddingBottom="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@+id/phone_layout">
+
+                <ImageButton
+                    android:id="@+id/ib_passwordIcon"
+                    android:layout_width="@dimen/_16sdp"
+                    android:layout_height="@dimen/_16sdp"
+                    android:background="?actionBarItemBackground"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_lock_outline_24px"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="ContentDescription"
+                    android:tint="@color/color_primary" />
+
+                <TextView
+                    android:id="@+id/tv_passwordTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/password"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_9ssp"
+                    app:layout_constraintStart_toEndOf="@+id/ib_passwordIcon"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <EditText
+                    android:id="@+id/et_password"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_12sdp"
+                    android:layout_marginTop="@dimen/_3sdp"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    android:background="@android:color/transparent"
+                    android:fontFamily="@font/cairoregular"
+                    android:hint="@string/enter_password"
+                    android:inputType="textPassword"
+                    android:textAlignment="viewStart"
+                    android:maxLines="1"
+                    android:textSize="@dimen/_12ssp"
+                    android:text="@={viewModel.request.password}"
+                    showPass="@{viewModel.isShown()}"
+                    app:layout_constraintEnd_toStartOf="@+id/ib_showPass"
+                    app:layout_constraintStart_toEndOf="@+id/ib_passwordIcon"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_passwordTitle"
+                    tools:ignore="Autofill" />
+
+                <ImageButton
+                    android:id="@+id/ib_showPass"
+                    android:layout_width="@dimen/_30sdp"
+                    android:layout_height="@dimen/_30sdp"
+                    android:padding="@dimen/_6sdp"
+                    android:background="?actionBarItemBackground"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_visibility_off_24px"
+                    showEyeIcon="@{viewModel.isShown()}"
+                    android:onClick="@{() -> viewModel.onEyeClicked()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:ignore="ContentDescription" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+<!--            <CheckBox-->
+<!--                android:id="@+id/cb_rememberMe"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:fontFamily="@font/cairoregular"-->
+<!--                android:scaleType="centerCrop"-->
+<!--                android:src="@drawable/app_logo"-->
+<!--                android:text="@string/remember_me"-->
+<!--                android:textColor="@color/grey"-->
+<!--                android:textSize="@dimen/_12ssp"-->
+<!--                android:onClick="@{() -> viewModel.onRememberMeClicked()}"-->
+<!--                android:checked="@{viewModel.obsRememberMe}"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/password_layout" />-->
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_forgotPass"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo_semibold"
+                android:scaleType="centerCrop"
+                android:src="@drawable/app_logo"
+                android:text="@string/forgot_password"
+                android:textAllCaps="false"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_9ssp"
+                android:onClick="@{() -> viewModel.onForgotClicked()}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/password_layout" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_login"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_42sdp"
+                android:layout_marginTop="@dimen/_36sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:clickable="@{viewModel.obsIsClickable}"
+                android:onClick="@{() -> viewModel.onLoginClicked()}"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:text="@string/login"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_14ssp"
+                app:cornerRadius="@dimen/_6sdp"
+                app:layout_constraintTop_toBottomOf="@id/btn_forgotPass" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal"
+                app:layout_constraintTop_toBottomOf="@+id/btn_login">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/_11ssp"
+                    android:text="@string/dont_have_account" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="?actionBarSize"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:onClick="@{() -> viewModel.onRegisterClicked()}"
+                    android:id="@+id/btn_createAccount"
+                    android:textColor="#1976D2"
+                    android:text="@string/create_account"
+                    android:textAllCaps="false"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    app:cornerRadius="@dimen/_6sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:textSize="@dimen/_11ssp" />
+
+            </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>

@@ -1,0 +1,343 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:padding="@dimen/_8sdp"
+        android:id="@+id/item_layout"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_24sdp"
+        android:layout_marginEnd="@dimen/_24sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        android:elevation="@dimen/_8sdp"
+        app:cardElevation="@dimen/_8sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_12sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="#EEE">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_60sdp"
+                android:id="@+id/img_layout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:elevation="0dp"
+                android:backgroundTint="@color/grey_subcategory"
+                app:cardElevation="0dp"
+                app:cardCornerRadius="@dimen/_8sdp"/>
+
+            <View
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/grey_subcategory"
+                app:layout_constraintStart_toEndOf="@id/img_layout"
+                app:layout_constraintTop_toTopOf="@+id/img_layout" />
+
+            <View
+                android:id="@+id/tv_desc"
+                android:layout_width="@dimen/_150sdp"
+                android:layout_height="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/grey_subcategory"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintStart_toStartOf="@id/tv_title" />
+
+            <View
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_8sdp"
+                android:id="@+id/last_divider"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:background="@color/grey_subcategory"
+                app:layout_constraintStart_toStartOf="@id/tv_title"
+                app:layout_constraintTop_toBottomOf="@+id/tv_desc"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating1"
+        android:paddingStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@+id/item_layout"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="@dimen/_24sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ratingbar1"
+            />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyRatingBarStyle"
+            android:id="@+id/ratingbar1"
+            android:progressTint="@color/grey_subcategory"
+            app:mrb_progressTint="@color/grey_subcategory"
+            app:mrb_indeterminateTint="@color/grey_subcategory"
+            android:paddingStart="@dimen/_8sdp"
+            app:mrb_secondaryProgressTintMode="src_in"
+            app:mrb_secondaryProgressTint="@color/grey_subcategory"
+            app:mrb_progressBackgroundTint="@color/grey_subcategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:rating="3.5"
+            android:rating="3.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating2"
+        android:paddingStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@+id/rating1"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/tv_name2"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="@dimen/_24sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ratingbar2"
+            />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyRatingBarStyle"
+            android:id="@+id/ratingbar2"
+            android:progressTint="@color/grey_subcategory"
+            app:mrb_progressTint="@color/grey_subcategory"
+            app:mrb_indeterminateTint="@color/grey_subcategory"
+            android:paddingStart="@dimen/_8sdp"
+            app:mrb_secondaryProgressTintMode="src_in"
+            app:mrb_secondaryProgressTint="@color/grey_subcategory"
+            app:mrb_progressBackgroundTint="@color/grey_subcategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:rating="3.5"
+            android:rating="3.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_name32"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:background="@drawable/radius_background"
+        android:backgroundTint="@color/grey_subcategory"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="@dimen/_24sdp"
+        app:layout_constraintTop_toBottomOf="@+id/rating2"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating3"
+        android:paddingStart="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_12sdp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name32"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/tv_name3"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="@dimen/_24sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ratingbar3"
+            />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyRatingBarStyle"
+            android:id="@+id/ratingbar3"
+            android:progressTint="@color/grey_subcategory"
+            app:mrb_progressTint="@color/grey_subcategory"
+            app:mrb_indeterminateTint="@color/grey_subcategory"
+            android:paddingStart="@dimen/_8sdp"
+            app:mrb_secondaryProgressTintMode="src_in"
+            app:mrb_secondaryProgressTint="@color/grey_subcategory"
+            app:mrb_progressBackgroundTint="@color/grey_subcategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:rating="3.5"
+            android:rating="3.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating4"
+        android:paddingStart="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@+id/rating3"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/tv_name4"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="@dimen/_24sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ratingbar4"
+            />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyRatingBarStyle"
+            android:id="@+id/ratingbar4"
+            android:progressTint="@color/grey_subcategory"
+            app:mrb_progressTint="@color/grey_subcategory"
+            app:mrb_indeterminateTint="@color/grey_subcategory"
+            android:paddingStart="@dimen/_8sdp"
+            app:mrb_secondaryProgressTintMode="src_in"
+            app:mrb_secondaryProgressTint="@color/grey_subcategory"
+            app:mrb_progressBackgroundTint="@color/grey_subcategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:rating="3.5"
+            android:rating="3.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rating5"
+        android:paddingStart="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        app:layout_constraintTop_toBottomOf="@+id/rating4"
+        android:padding="@dimen/_8sdp">
+
+        <TextView
+            android:id="@+id/tv_name5"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_10sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="@dimen/_24sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/ratingbar5"
+            />
+
+        <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/MyRatingBarStyle"
+            android:id="@+id/ratingbar5"
+            android:progressTint="@color/grey_subcategory"
+            app:mrb_progressTint="@color/grey_subcategory"
+            app:mrb_indeterminateTint="@color/grey_subcategory"
+            android:paddingStart="@dimen/_8sdp"
+            app:mrb_secondaryProgressTintMode="src_in"
+            app:mrb_secondaryProgressTint="@color/grey_subcategory"
+            app:mrb_progressBackgroundTint="@color/grey_subcategory"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:rating="3.5"
+            android:rating="3.5" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_name34"
+        android:layout_width="@dimen/_130sdp"
+        android:layout_height="@dimen/_10sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:background="@drawable/radius_background"
+        android:backgroundTint="@color/grey_subcategory"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginEnd="@dimen/_24sdp"
+        app:layout_constraintTop_toBottomOf="@+id/rating5"/>
+
+    <TextView
+        android:id="@+id/tv_name35"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_70sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:background="@drawable/radius_background"
+        android:backgroundTint="@color/grey_subcategory"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/_24sdp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name34"/>
+
+    <TextView
+        android:id="@+id/tv_name36"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_36sdp"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginStart="@dimen/_48sdp"
+        android:background="@drawable/radius_background"
+        android:backgroundTint="@color/grey_subcategory"
+        android:layout_marginEnd="@dimen/_48sdp"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name35"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

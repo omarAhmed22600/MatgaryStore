@@ -1,0 +1,134 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_nav"
+    app:startDestination="@id/navigation_splash">
+
+    <!--    splash-->
+    <fragment
+        android:id="@+id/navigation_splash"
+        android:name="com.brandsin.store.ui.auth.splash.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/auth_fragment_splash" >
+
+        <action
+            android:id="@+id/splash_to_login_ways"
+            app:destination="@id/navigation_login_ways" />
+    </fragment>
+
+    <!--    login_ways-->
+    <fragment
+        android:id="@+id/navigation_login_ways"
+        android:name="com.brandsin.store.ui.auth.authways.LoginWaysFragment"
+        tools:layout="@layout/auth_fragment_login_ways" >
+        <action
+            android:id="@+id/ways_to_login"
+            app:destination="@id/navigation_login" />
+
+        <action
+            android:id="@+id/ways_to_register"
+            app:destination="@id/navigation_register" />
+    </fragment>
+
+    <!--    login-->
+    <fragment
+        android:id="@+id/navigation_login"
+        android:name="com.brandsin.store.ui.auth.login.LoginFragment"
+        tools:layout="@layout/auth_fragment_login" >
+
+        <action
+            android:id="@+id/login_to_register"
+            app:destination="@id/navigation_register" />
+
+        <action
+            android:id="@+id/login_to_forgot"
+            app:destination="@id/navigation_frogot" />
+
+        <action
+            android:id="@+id/login_to_verify"
+            app:destination="@id/navigation_verify" />
+    </fragment>
+
+    <!--    verify-->
+    <fragment
+        android:id="@+id/navigation_verify"
+        android:name="com.brandsin.store.ui.auth.verify.VerifyFragment"
+        android:label="VerifyFragment" >
+
+        <action
+            android:id="@+id/verify_to_reset"
+            app:destination="@id/navigation_reset" />
+        <argument
+            android:name="phone"
+            app:argType="string" />
+
+        <argument
+            android:name="userId"
+            app:argType="string" />
+
+        <argument
+            android:name="fromWhere"
+            app:argType="string" />
+    </fragment>
+
+    <!--    register-->
+    <fragment
+        android:id="@+id/navigation_register"
+        android:name="com.brandsin.store.ui.auth.register.RegisterFragment"
+        android:label="RegisterFragment" >
+
+        <action android:id="@+id/register_to_login"
+            app:destination="@+id/navigation_login"/>
+
+        <action android:id="@+id/register_to_verify"
+            app:destination="@+id/navigation_verify"/>
+
+        <action android:id="@+id/register_to_condition"
+            app:destination="@+id/navigation_condition"/>
+    </fragment>
+
+    <!--    frogot-->
+    <fragment
+        android:id="@+id/navigation_frogot"
+        android:name="com.brandsin.store.ui.auth.forgotpassword.ForgotPassFragment"
+        android:label="ForgotPassFragment" >
+
+        <action android:id="@+id/forgot_to_verify"
+            app:destination="@+id/navigation_verify"/>
+    </fragment>
+
+    <!--    reset-->
+    <fragment
+        android:id="@+id/navigation_reset"
+        android:name="com.brandsin.store.ui.auth.resetpass.ResetPassFragment"
+        android:label="ResetPassFragment" >
+
+        <action android:id="@+id/reset_to_login"
+            app:destination="@+id/navigation_login"/>
+
+        <argument
+            android:name="phone"
+            app:argType="string" />
+
+        <argument
+            android:name="userId"
+            app:argType="string" />
+
+        <argument
+            android:name="code"
+            app:argType="string" />
+
+    </fragment>
+
+    <!--    condition-->
+    <fragment
+        android:id="@+id/navigation_condition"
+        android:name="com.brandsin.store.ui.auth.condition.ConditionFragment"
+        android:label="ConditionFragment" />
+
+</navigation>

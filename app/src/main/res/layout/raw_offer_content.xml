@@ -1,0 +1,53 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.offers.offercontent.ItemOfferContentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:id="@+id/raw_layout">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="false"
+            android:fontFamily="@font/cairo_semibold"
+            android:textSize="@dimen/_10ssp"
+            android:text="@{viewModel.item.name}"
+            android:textAlignment="viewStart"
+            android:textColor="@color/grey_subcategory"
+            android:paddingStart="@dimen/_8sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/img_circle"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="بطاطس عائلي" />
+
+        <ImageView
+            android:id="@+id/img_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:rotation="180"
+            android:src="@drawable/ic_circle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintTop_toTopOf="@+id/tv_title"
+            tools:ignore="ContentDescription"
+            android:tint="@color/color_primary"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

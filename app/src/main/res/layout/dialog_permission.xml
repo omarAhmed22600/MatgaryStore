@@ -1,0 +1,154 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="@dimen/_24sdp"
+            android:layout_marginEnd="@dimen/_24sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/radius_background"
+                android:padding="@dimen/_16sdp"
+                android:backgroundTint="#FFF"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_title"
+                    android:textSize="@dimen/_12ssp"
+                    android:textAlignment="center"
+                    android:text="@string/allow_location_permission"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:textColor="@color/black" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_desc"
+                    android:textSize="@dimen/_11ssp"
+                    android:textAlignment="center"
+                    android:lineSpacingExtra="-5dp"
+                    android:text="@string/permission_desc"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                    android:fontFamily="@font/cairoregular" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_step1"
+                    android:textSize="@dimen/_11ssp"
+                    android:textAlignment="viewStart"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:text="@string/permission_step1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_desc"
+                    android:fontFamily="@font/cairoregular" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_step2"
+                    android:textSize="@dimen/_11ssp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textAlignment="viewStart"
+                    android:text="@string/permission_step2"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_step1"
+                    android:fontFamily="@font/cairoregular" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_step3"
+                    android:textSize="@dimen/_11ssp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:textAlignment="viewStart"
+                    android:text="@string/permission_step3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_step2"
+                    android:fontFamily="@font/cairoregular" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_24sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_step3"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/_36sdp"
+                        android:insetTop="0dp"
+                        android:id="@+id/btn_confirm"
+                        android:insetBottom="0dp"
+                        style="@style/Widget.MaterialComponents.Button"
+                        app:cornerRadius="@dimen/_8sdp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_order_duccess"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:textColor="@color/white"
+                        android:textAllCaps="false"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="@string/go_to_settings" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="@dimen/_36sdp"
+                        android:insetTop="0dp"
+                        android:id="@+id/btn_ignore"
+                        android:textAllCaps="false"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                        app:cornerRadius="@dimen/_8sdp"
+                        app:strokeColor="@color/color_primary"
+                        app:strokeWidth="@dimen/_1sdp"
+                        android:insetBottom="0dp"
+                        android:layout_marginStart="@dimen/_5sdp"
+                        android:layout_marginEnd="@dimen/_5sdp"
+                        android:src="@drawable/ic_order_duccess"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:textColor="@color/color_primary"
+                        android:textSize="@dimen/_11ssp"
+                        android:text="@string/no_thanks" />
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

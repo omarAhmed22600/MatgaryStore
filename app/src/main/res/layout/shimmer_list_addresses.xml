@@ -1,0 +1,104 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/raw_layout"
+    app:cardElevation="0dp"
+    android:background="@color/white"
+    app:cardCornerRadius="@dimen/_6sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/_8sdp"
+        android:paddingBottom="@dimen/_8sdp"
+        android:background="?selectableItemBackground">
+
+        <ImageView
+            android:id="@+id/image_view"
+            android:layout_width="@dimen/_14sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:id="@+id/tv_title"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:background="@color/grey_subcategory"
+            app:layout_constraintStart_toEndOf="@+id/image_view"
+            app:layout_constraintBottom_toBottomOf="@+id/image_view"
+            app:layout_constraintTop_toTopOf="@+id/image_view" />
+
+        <View
+            android:id="@+id/tv_desc"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@color/grey_subcategory"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title"
+            app:layout_constraintStart_toStartOf="@id/tv_title" />
+
+        <View
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:id="@+id/last_divider"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:background="@color/grey_subcategory"
+            app:layout_constraintStart_toStartOf="@id/tv_title"
+            app:layout_constraintTop_toBottomOf="@+id/tv_desc"/>
+
+        <ImageView
+            android:id="@+id/tv_change"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/last_divider"
+            android:layout_marginEnd="@dimen/_8sdp"
+            tools:ignore="ContentDescription" />
+
+        <ImageView
+            android:id="@+id/tv_delete"
+            android:layout_width="@dimen/_42sdp"
+            android:layout_height="@dimen/_14sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            android:layout_marginEnd="@dimen/_6sdp"
+            app:layout_constraintEnd_toStartOf="@+id/tv_change"
+            app:layout_constraintTop_toTopOf="@+id/tv_change"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_change"
+            tools:ignore="ContentDescription" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_1sdp"
+            android:background="@color/raw_home_about_border_color"
+            android:fontFamily="@font/cairoregular"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            app:layout_constraintTop_toBottomOf="@+id/tv_delete"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@string/change"
+            android:textColor="#00C7BD" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

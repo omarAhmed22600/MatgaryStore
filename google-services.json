@@ -1,0 +1,105 @@
+{
+  "project_info": {
+    "project_number": "682053538591",
+    "firebase_url": "https://hajaty-8c5ef.firebaseio.com",
+    "project_id": "hajaty-8c5ef",
+    "storage_bucket": "hajaty-8c5ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682053538591:android:a633a2cdedf25a9dd7962a",
+        "android_client_info": {
+          "package_name": "com.hajaty.store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682053538591-p6l68uk6c2lmaajaflthknupv8qv90jo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8oy--bpwY4vfUay5imKQo01T33EPWTZs"
+        },
+        {
+          "current_key": "AIzaSyDWTbmhcokQYyU4PKjBLnzAZlac4hphs_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682053538591-p6l68uk6c2lmaajaflthknupv8qv90jo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "682053538591-2m33b1rjif9embaf4802f9jepvcavl6n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Biko.Hagaty"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:682053538591:android:6540eaf68ef4840dd7962a",
+        "android_client_info": {
+          "package_name": "com.hajaty.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "682053538591-55v3i5guevun611hqoivc049kimkp2gm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hajaty.user",
+            "certificate_hash": "b7d65f45c8291cfa1e29a24144b420fea9e0973f"
+          }
+        },
+        {
+          "client_id": "682053538591-hp8dcfs2tblbbpg6lkab56q5kfungt73.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.hajaty.user",
+            "certificate_hash": "35b0a3e3eac1303a29b83e40d305050445ad064c"
+          }
+        },
+        {
+          "client_id": "682053538591-p6l68uk6c2lmaajaflthknupv8qv90jo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB8oy--bpwY4vfUay5imKQo01T33EPWTZs"
+        },
+        {
+          "current_key": "AIzaSyDWTbmhcokQYyU4PKjBLnzAZlac4hphs_I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "682053538591-p6l68uk6c2lmaajaflthknupv8qv90jo.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "682053538591-2m33b1rjif9embaf4802f9jepvcavl6n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Biko.Hagaty"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

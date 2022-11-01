@@ -1,0 +1,98 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tv_answer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="false"
+        android:textColor="@color/black"
+        android:paddingTop="@dimen/_12sdp"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_1sdp"
+        android:paddingBottom="@dimen/_12sdp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/iv_location"
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_65sdp"
+            android:background="@drawable/radius_background"
+            android:padding="@dimen/_5sdp"
+            android:scaleType="fitCenter"
+            android:backgroundTint="@color/grey_subcategory"
+            app:tint="@color/grey_subcategory"
+            android:layout_marginEnd="@dimen/_4sdp"
+            android:src="@drawable/ic_place"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_8sdp"
+            app:layout_constraintStart_toEndOf="@+id/iv_location"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="@dimen/_120sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintTop_toBottomOf="@+id/tv_location"
+            app:layout_constraintStart_toEndOf="@+id/iv_location" />
+
+        <TextView
+            android:id="@+id/tv_loginTitle"
+            android:layout_width="@dimen/_90sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            app:layout_constraintTop_toBottomOf="@+id/tv_address"
+            app:layout_constraintStart_toEndOf="@+id/iv_location" />
+
+        <TextView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:id="@+id/btn_change"
+            android:backgroundTint="@color/grey_subcategory"
+            android:background="@drawable/radius_background"
+            android:layout_marginEnd="@dimen/_6sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:layout_width="@dimen/_60sdp"
+            android:layout_height="@dimen/_8sdp"
+            android:src="@drawable/ic_order_status"
+            app:tint="@color/grey_subcategory"
+            android:background="@drawable/radius_background"
+            android:backgroundTint="@color/grey_subcategory"
+            android:layout_marginEnd="@dimen/_5sdp"
+            app:layout_constraintEnd_toStartOf="@+id/btn_change"
+            app:layout_constraintTop_toTopOf="@+id/btn_change"
+            app:layout_constraintBottom_toBottomOf="@+id/btn_change"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

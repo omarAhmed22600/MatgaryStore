@@ -1,0 +1,142 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.home.acceptconnectingmain.AcceptConnectingMainViewModel" />
+    </data>
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/progress_layout"
+                android:gravity="center"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <ProgressBar
+                    android:id="@+id/progressBar"
+                    android:indeterminate="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:layout_centerInParent="true"
+                    android:indeterminateTint="@color/color_primary"
+                    android:indeterminateTintMode="src_atop"
+                    android:progressTint="@color/color_primary" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/store_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_80sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@={viewModel.storeName}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_16ssp"
+                app:layout_constraintTop_toTopOf="parent"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="@dimen/_20sdp"
+                android:paddingEnd="@dimen/_20sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@string/asks_for_your_products_to_be_linked_to_it"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintTop_toBottomOf="@+id/store_name"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/tv_descrip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_5sdp"
+                android:paddingStart="@dimen/_10sdp"
+                android:paddingEnd="@dimen/_10sdp"
+                android:fontFamily="@font/cairoregular"
+                android:text="@={viewModel.txt}"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                android:gravity="center"/>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_16sdp"
+                android:paddingStart="@dimen/_30sdp"
+                android:paddingEnd="@dimen/_30sdp"
+                app:layout_constraintTop_toBottomOf="@id/tv_descrip"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_42sdp"
+                android:id="@+id/btn_agree_to_link"
+                app:layout_constraintTop_toTopOf="parent"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:onClick="@{() -> viewModel.onAgreeClicked()}"
+                android:textColor="@color/white"
+                android:text="@string/agree_to_link"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="@dimen/_6sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:textSize="@dimen/_14ssp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_42sdp"
+                android:id="@+id/btn_refused_to_link"
+                app:layout_constraintTop_toBottomOf="@id/btn_agree_to_link"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:layout_marginTop="@dimen/_10sdp"
+                android:textAllCaps="false"
+                android:onClick="@{() -> viewModel.onRefuseClicked()}"
+                android:textColor="@color/color_primary"
+                android:text="@string/refused_to_link"
+                android:backgroundTint="@color/white"
+                style="@style/Widget.MaterialComponents.Button"
+                app:cornerRadius="@dimen/_6sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:textSize="@dimen/_14ssp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_10sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_refused_to_link"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+</layout>

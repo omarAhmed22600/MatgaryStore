@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.brandsin.store">
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
+    <uses-feature android:name="android.hardware.location.gps" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <application
+        android:name="com.brandsin.store.utils.MyApp"
+        android:allowBackup="true"
+        android:icon="@drawable/app_logo"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/app_logo"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        tools:replace="android:supportsRtl"
+        android:hardwareAccelerated="true"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true">
+
+        <uses-library android:name="com.google.android.maps" />
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
+        <activity android:name="com.brandsin.store.ui.main.updateproduct.UpdateProductActivity"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.main.addofffer.AddOfferActivity"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.activity.map.MapsActivity"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.activity.auth.condition.ConditionActivity"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.auth.register.storeinfo.RegisterStoreInfoActivity"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.auth.register.personalinfo.RegisterPersonalInfoActivity"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.auth.register.password.RegisterPassActivity"
+            android:exported="true"/>
+        <activity
+            android:name="com.brandsin.store.ui.activity.DialogActivity"
+            android:theme="@style/DialogActivityTheme"
+            android:exported="true"/>
+        <activity
+            android:name="com.brandsin.store.ui.activity.home.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:theme="@style/AppTheme"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.activity.auth.AuthActivity"
+            android:exported="true"/>
+        <activity android:name="com.brandsin.store.ui.activity.WelcomeActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+
+        <service android:name="com.brandsin.store.utils.NotificationFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+    </application>
+
+</manifest>

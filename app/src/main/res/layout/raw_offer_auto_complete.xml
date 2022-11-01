@@ -1,0 +1,71 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.addofffer.ItemAutoCompleteViewModel" />
+    </data>
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="match_parent"
+        android:padding="@dimen/_8sdp"
+        android:layout_height="wrap_content"
+        android:duplicateParentState="false"
+        android:fontFamily="@font/cairo_semibold"
+        android:textSize="@dimen/_10ssp"
+        android:text="Mouaz Salah"
+        android:textAlignment="viewStart"
+        android:textColor="@color/black"
+        android:paddingStart="@dimen/_8sdp"
+        android:paddingEnd="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/img_circle"
+        app:layout_constraintTop_toTopOf="@id/img_circle"
+        app:layout_constraintBottom_toBottomOf="@id/img_circle"
+        tools:text="بطاطس عائلي" />
+
+<!--
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/_8sdp"
+        android:background="?selectableItemBackground"
+        android:id="@+id/raw_layout">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="false"
+            android:fontFamily="@font/cairo_semibold"
+            android:textSize="@dimen/_10ssp"
+            android:text="Mouaz Salah"
+            android:textAlignment="viewStart"
+            android:textColor="@color/grey_subcategory"
+            android:paddingStart="@dimen/_8sdp"
+            android:paddingEnd="@dimen/_8sdp"
+            app:layout_constraintStart_toEndOf="@+id/img_circle"
+            app:layout_constraintTop_toTopOf="@id/img_circle"
+            app:layout_constraintBottom_toBottomOf="@id/img_circle"
+            tools:text="بطاطس عائلي" />
+
+        <ImageView
+            android:id="@+id/img_circle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:src="@drawable/ic_add_offer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+-->
+</layout>

@@ -1,0 +1,186 @@
+<resources
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryVariant">@color/color_primary</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/color_primary</item>
+        <item name="colorSecondaryVariant">@color/color_primary</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" >@color/colorPrimaryDark</item>
+        <!-- Customize your theme here. -->
+    </style>
+
+
+
+    <style name="DialogActivityTheme" parent="AppTheme">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <!--<item name="android:windowIsFloating">true</item> &lt;!&ndash;act like dialog&ndash;&gt;-->
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:statusBarColor" >@color/colorPrimaryDark</item>
+    </style>
+
+    <style name="BottomNavStyle"
+        parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="fontFamily">@font/cairo_bold</item>
+        <item name="android:textSize"> @dimen/_20ssp </item>
+        <item name="android:textColor"> @color/black </item>
+    </style>
+
+
+    <style name="MyRatingBarStyle.Indicator.Small" parent="Widget.MaterialRatingBar.RatingBar.Indicator.Small">
+        <item name="android:indeterminate">false</item>
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="mrb_fillBackgroundStars">false</item>
+        <item name="mrb_progressTint">#FFC500</item>
+        <item name="colorControlNormal">@color/color_primary</item>
+        <item name="mrb_secondaryProgressTint"> @color/color_primary </item>
+        <item name="mrb_progressBackgroundTint">@color/color_primary </item>
+    </style>
+
+    <style name="MyRatingBarStyle.Indicator" parent="Widget.MaterialRatingBar.RatingBar.Indicator">
+        <item name="android:indeterminate">false</item>
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="mrb_fillBackgroundStars">false</item>
+        <item name="mrb_progressTint">@color/color_primary</item>
+        <item name="mrb_secondaryProgressTint">@color/color_primary</item>
+        <item name="mrb_progressBackgroundTint">@color/color_primary</item>
+    </style>
+
+    <style name="MyRatingBarSmall" parent="Widget.MaterialRatingBar.RatingBar.Small">
+        <item name="android:indeterminate">false</item>
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="mrb_fillBackgroundStars">false</item>
+        <item name="mrb_progressTint">@color/color_primary</item>
+        <item name="mrb_secondaryProgressTint">@color/color_primary</item>
+        <item name="mrb_progressBackgroundTint">@color/color_primary</item>
+    </style>
+
+    <style name="MyRatingBarStyle" parent="Widget.MaterialRatingBar.RatingBar">
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="mrb_fillBackgroundStars">false</item>
+        <item name="mrb_progressTint">@color/color_primary</item>
+        <item name="mrb_secondaryProgressTint">@color/color_accent</item>
+        <item name="mrb_progressBackgroundTint">@color/color_primary</item>
+    </style>
+
+    <style name="MyRatingBarStyle.small" parent="Widget.MaterialRatingBar.RatingBar.Small">
+        <item name="android:numStars">5</item>
+        <item name="android:stepSize">0.5</item>
+        <item name="mrb_fillBackgroundStars">false</item>
+        <item name="mrb_progressTint">@color/color_primary</item>
+        <item name="mrb_secondaryProgressTint">@color/color_accent</item>
+        <item name="mrb_progressBackgroundTint">@color/color_primary</item>
+    </style>
+
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
+    <!-- Styles of Text Input layout -->
+    <style name="TextInputLayoutNoBorder" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="errorIconDrawable">@null</item>
+        <item name="errorIconTint">@null</item>
+        <item name="hintEnabled">true</item>
+        <item name="boxBackgroundMode">filled</item>
+        <item name="hintTextColor">@color/hint_color</item>
+        <item name="android:textColorHint">@color/hint_color</item>
+        <item name="boxStrokeColor">@color/hint_color</item>
+    </style>
+
+    <style name="TextInputLayoutBorder" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintEnabled">false</item>
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+    </style>
+
+    <style name="TextInputLayoutBorder.Dense" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+        <item name="hintEnabled">false</item>
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+    </style>
+
+    <style name="TextInputLayoutBorderColored" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintEnabled">false</item>
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+    </style>
+
+    <style name="TextInputLayoutNoBorderDisabled" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/colorPrimaryDark</item>
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="errorIconDrawable">@null</item>
+        <item name="errorIconTint">@null</item>
+        <item name="startIconTint">@color/colorPrimaryDark</item>
+        <item name="hintEnabled">false</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+    </style>
+
+    <style name="TextInputLayoutNoBorderColoredBackground" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintEnabled">false</item>
+        <item name="boxStrokeColor">@color/colorPrimaryDark</item>
+        <item name="boxBackgroundColor">@color/colorPrimaryDark</item>
+        <item name="android:elevation">3dp</item>
+    </style>
+
+    <style name="NumberPickerStyle" parent="android:Widget.Material.Light.TimePicker">
+        <item name="android:textSize"> @dimen/_16ssp </item>
+        <item name="fontFamily"> @font/cairo_semibold</item>
+        <item name="android:textColor"> @color/color_primary</item>
+    </style>
+
+    <style name="NavigationDrawerStyle">
+        <item name="android:textSize"> @dimen/_14ssp </item><!-- text size in menu-->
+        <item name="fontFamily"> @font/cairo_semibold</item>
+    </style>
+
+    <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout.Colored" >
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="tabIconTint">@color/mtrl_tabs_icon_color_selector_colored</item>
+        <item name="tabIndicatorColor">?attr/colorOnPrimary</item>
+        <item name="tabTextColor">@color/mtrl_tabs_icon_color_selector_colored</item>
+        <item name="tabRippleColor">@color/mtrl_tabs_colored_ripple_color</item>
+        <item name="fontFamily"> @font/cairo_semibold</item>
+        <item name="android:textSize"> @dimen/_18ssp</item>
+        <item name="android:fontFamily">@font/cairo_semibold </item>
+    </style>
+
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+        <item name="android:textColorPrimary">@color/color_primary</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="android:fontFamily">@font/cairo_bold</item>
+        <item name="android:colorControlNormal">@color/color_primary</item>
+    </style>
+
+</resources>

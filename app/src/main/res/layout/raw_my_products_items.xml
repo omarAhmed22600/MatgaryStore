@@ -1,0 +1,171 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.products.products.ItemProductViewModel" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:id="@+id/raw_layout"
+        app:cardCornerRadius="@dimen/_8sdp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/_8sdp"
+            android:background="?selectableItemBackground">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:id="@+id/offer_img_layout"
+                android:layout_marginStart="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_offers"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/coffer_img"
+                    setImage="@{viewModel.item.image}"
+                    tools:ignore="ContentDescription" />
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@{viewModel.item.name}"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                android:textAlignment="viewStart"
+                android:paddingEnd="@dimen/_6sdp"
+                app:layout_constraintStart_toEndOf="@+id/offer_img_layout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/offer_img_layout"
+                app:layout_constraintBottom_toBottomOf="@+id/offer_img_layout"
+                tools:text="خصم 20% علي صلصة" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:id="@+id/tv_price"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@{viewModel.obsPrice}"
+                android:textSize="@dimen/_12ssp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:textColor="@color/price_color"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintStart_toEndOf="@+id/offer_img_layout"
+                app:layout_constraintEnd_toStartOf="@+id/tv_edit"
+                tools:text="200 ج.م" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_28sdp"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:id="@+id/editPrice_layout"
+                android:background="@drawable/ic_edit_border"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:visibility="invisible"
+                android:layout_marginEnd="@dimen/_8sdp"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintStart_toEndOf="@+id/offer_img_layout"
+                app:layout_constraintEnd_toStartOf="@+id/tv_edit">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="@dimen/_28sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_currency"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintVertical_bias=".5"
+                    android:background="@android:color/transparent"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:textAlignment="viewStart"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:inputType="numberDecimal"
+                    android:textSize="@dimen/_12ssp"
+                    android:textColorHint="@color/price_color"
+                    android:textColor="@color/price_color" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/tv_currency"
+                    android:fontFamily="@font/cairoregular"
+                    android:textSize="@dimen/_10ssp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:layout_marginEnd="@dimen/_12sdp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="@string/currency" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairoregular"
+                android:textSize="@dimen/_12ssp"
+                android:id="@+id/tv_delete"
+                android:textColor="@color/order_rejected_color"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:layout_constraintTop_toTopOf="@+id/tv_price"
+                app:layout_constraintBottom_toBottomOf="@id/tv_price"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/delete" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairoregular"
+                android:textSize="@dimen/_12ssp"
+                android:id="@+id/tv_edit"
+                android:textColor="@color/edit_color"
+                app:layout_constraintTop_toTopOf="@+id/tv_delete"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_delete"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_delete"
+                android:text="@string/edit" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairoregular"
+                android:textSize="@dimen/_12ssp"
+                android:id="@+id/tv_save"
+                android:visibility="gone"
+                android:textColor="@color/edit_color"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_delete"
+                app:layout_constraintTop_toTopOf="@+id/tv_price"
+                android:layout_marginEnd="@dimen/_12sdp"
+                app:layout_constraintEnd_toStartOf="@+id/tv_delete"
+                android:text="@string/save" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>
+

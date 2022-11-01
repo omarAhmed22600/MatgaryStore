@@ -1,0 +1,118 @@
+{
+  "project_info": {
+    "project_number": "199936501775",
+    "project_id": "brands-in",
+    "storage_bucket": "brands-in.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199936501775:android:a65d7638d5a96fd64d9b7a",
+        "android_client_info": {
+          "package_name": "com.brandsin.driver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199936501775-tjfhjkaa4a42gp8g7tr5assjql4bgjs1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUJqff1bACuc5bLdYVPzaXiXyYkRpCH2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199936501775-tjfhjkaa4a42gp8g7tr5assjql4bgjs1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199936501775-tip9eqdh71lt7via5frtcj0irpsimqbv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ahmed.BRANDS-IN"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199936501775:android:ab9a1347b88304764d9b7a",
+        "android_client_info": {
+          "package_name": "com.brandsin.store"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199936501775-tjfhjkaa4a42gp8g7tr5assjql4bgjs1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUJqff1bACuc5bLdYVPzaXiXyYkRpCH2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199936501775-tjfhjkaa4a42gp8g7tr5assjql4bgjs1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199936501775-tip9eqdh71lt7via5frtcj0irpsimqbv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ahmed.BRANDS-IN"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:199936501775:android:88fc896db5c8e87b4d9b7a",
+        "android_client_info": {
+          "package_name": "com.brandsin.user"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "199936501775-tjfhjkaa4a42gp8g7tr5assjql4bgjs1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCUJqff1bACuc5bLdYVPzaXiXyYkRpCH2s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "199936501775-tjfhjkaa4a42gp8g7tr5assjql4bgjs1.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "199936501775-tip9eqdh71lt7via5frtcj0irpsimqbv.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ahmed.BRANDS-IN"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

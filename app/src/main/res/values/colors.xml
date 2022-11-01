@@ -1,0 +1,43 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<resources>
+    <color name="color_primary"> #7737A9 </color>
+    <color name="color_accent"> #818181 </color>
+    <color name="colorPrimaryDark"> #000 </color>
+    <color name="blue"> #0077FF </color>
+    <color name="green"> #00C7BD </color>
+
+    <color name="white"> #FFF </color>
+    <color name="black"> #000 </color>
+    <color name="grey"> #818181</color>
+    <color name="grey_subcategory"> #C9C9C9 </color>
+    <color name="yellow"> #FFC400 </color>
+
+    <color name="demo_dark_transparent">#24000000</color>
+    <color name="raw_home_about_bg_color">#EDEDED</color>
+
+    <color name="raw_home_about_border_color">#C9C9C9</color>
+    <color name="black_transparent">#81000000</color>
+    <color name="seperator_color">#F3F3F3</color>
+    <color name="logout_color">#FD3456</color>
+    <color name="hint_color">#AFAFAF</color>
+    <color name="offers_bg_color">#FAFAFA</color>
+    <color name="payment_color">#7737A9</color>
+    <color name="toast_failed_color">#C42826</color>
+    <color name="toast_success_color">#00D76E</color>
+    <color name="price_color">#1976D2</color>
+    <color name="border_volor">#C9C9C9</color>
+    <color name="status_bar_color"> #000 </color>
+
+    <color name="order_prepared_color"> #FFD500 </color>
+    <color name="order_completed_color"> #00C7BD </color>
+    <color name="order_rejected_color"> #E51937 </color>
+    <color name="order_accepted_color"> #407AFF </color>
+
+    <color name="edit_color">#00C7BD</color>
+
+    <color name="story_background">#535353</color>
+
+</resources>

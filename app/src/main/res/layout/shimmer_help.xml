@@ -1,0 +1,47 @@
+<?xml
+    version="1.0"
+    encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/_52sdp"
+    android:background="@drawable/radius_background"
+    android:backgroundTint="#EEE"
+    android:layout_margin="@dimen/_8sdp"
+    android:layout_marginBottom="@dimen/_16sdp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:id="@+id/img_view"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:backgroundTint="@color/grey_subcategory"
+        android:background="@drawable/radius_background" />
+
+    <TextView
+        android:layout_width="@dimen/_200sdp"
+        android:layout_height="@dimen/_8sdp"
+        app:layout_constraintStart_toEndOf="@+id/img_view"
+        app:layout_constraintTop_toTopOf="@+id/img_view"
+        android:layout_marginStart="@dimen/_12sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/img_view"
+        android:background="@drawable/radius_background"
+        android:backgroundTint="@color/grey_subcategory" />
+
+    <ImageView
+        android:layout_width="@dimen/_16sdp"
+        android:layout_height="@dimen/_16sdp"
+        android:id="@+id/img_view1"
+        app:tint="@color/grey_subcategory"
+        android:src="@drawable/ic_expand_arrow"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="@dimen/_8sdp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
