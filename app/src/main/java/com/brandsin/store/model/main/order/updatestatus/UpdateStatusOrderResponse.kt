@@ -55,7 +55,7 @@ data class ShippingAddress(
 	val zip: String? = null,
 
 	@field:SerializedName("country")
-	val country: Country? = null,
+	val country: String? = null,
 
 	@field:SerializedName("city")
 	val city: String? = null,
