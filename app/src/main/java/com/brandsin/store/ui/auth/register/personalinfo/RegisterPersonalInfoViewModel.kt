@@ -21,7 +21,7 @@ class RegisterPersonalInfoViewModel : BaseViewModel()
             userData.userPhone == null -> {
                 setValue(Codes.EMPTY_PHONE)
             }
-            userData.userPhone!!.length < 9 -> {
+            userData.userPhone!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             userData.userEmail .isNullOrEmpty() ||  userData.userEmail .isNullOrBlank() -> {

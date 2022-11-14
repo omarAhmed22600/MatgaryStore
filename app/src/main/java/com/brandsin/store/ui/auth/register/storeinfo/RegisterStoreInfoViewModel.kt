@@ -90,13 +90,13 @@ class RegisterStoreInfoViewModel : BaseViewModel()
             storeRequest.storePhoneNumber == null -> {
                 setValue(Codes.EMPTY_STORE_PHONE)
             }
-            storeRequest.storePhoneNumber!!.length < 9 -> {
+            storeRequest.storePhoneNumber!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             storeRequest.storeWhatsApp == null -> {
                 setValue(Codes.EMPTY_STORE_WHATS)
             }
-            storeRequest.storeWhatsApp!!.length < 11 -> {
+            storeRequest.storeWhatsApp!!.length < 10 -> {
                 setValue(Codes.INVALID_STORE_WHATS)
             }
             storeRequest.checkDelivery == true && storeRequest.storeDeliveryPrice == null -> {

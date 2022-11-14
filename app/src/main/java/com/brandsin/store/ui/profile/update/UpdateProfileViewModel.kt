@@ -41,7 +41,7 @@ class UpdateProfileViewModel : BaseViewModel()
             request.phone_number.isNullOrEmpty() || request.phone_number.isNullOrBlank() -> {
                 setValue(Codes.EMPTY_PHONE)
             }
-            request.phone_number!!.length < 9 -> {
+            request.phone_number!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             request.email.isNullOrEmpty() || request.email.isNullOrBlank() -> {

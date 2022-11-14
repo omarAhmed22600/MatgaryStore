@@ -29,7 +29,7 @@ class LoginViewModel : BaseViewModel() {
             request.email == null -> {
                 setValue(Codes.EMPTY_PHONE)
             }
-            request.email!!.length < 9 -> {
+            request.email!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             request.password.isNullOrEmpty() || request.password.isNullOrBlank() -> {

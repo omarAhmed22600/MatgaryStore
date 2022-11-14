@@ -20,7 +20,7 @@
     <string name="login">Login</string>
     <string name="login_via_email">Login via email</string>
     <string name="phone_number">Phone number</string>
-    <string name="enter_phone_number">5xxxxxxxx</string>
+    <string name="enter_phone_number">5xxxxxxxxx</string>
     <string name="password">Password</string>
     <string name="enter_password">Enter password</string>
     <string name="create_account">Create account</string>
@@ -36,8 +36,8 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="enter_confirm_password">Enter confirm password</string>
     <string name="empty_phone">Please enter phone number</string>
-    <string name="invalid_phone">"Phone number must consist of 9 digits "</string>
-    <string name="invalid_whatsapp">"whatsapp number must consist of 11 digits "</string>
+    <string name="invalid_phone">"Phone number must consist of 10 digits "</string>
+    <string name="invalid_whatsapp">"whatsapp number must consist of 10 digits "</string>
     <string name="empty_password">Please enter your password</string>
     <string name="not_matc_passwords">Your passwords not matches</string>
     <string name="empty_confirm_password">Enter confirm password</string>

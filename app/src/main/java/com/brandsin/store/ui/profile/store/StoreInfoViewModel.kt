@@ -95,13 +95,13 @@ class StoreInfoViewModel : BaseViewModel()
             updateRequest.storePhoneNumber == null -> {
                 setValue(Codes.EMPTY_STORE_PHONE)
             }
-            updateRequest.storePhoneNumber!!.length < 11 -> {
+            updateRequest.storePhoneNumber!!.length < 10 -> {
                 setValue(Codes.INVALID_PHONE)
             }
             updateRequest.storeWhatsApp == null -> {
                 setValue(Codes.EMPTY_STORE_WHATS)
             }
-            updateRequest.storeWhatsApp!!.length < 11 -> {
+            updateRequest.storeWhatsApp!!.length < 10 -> {
                 setValue(Codes.INVALID_STORE_WHATS)
             }
             checkDelivery && updateRequest.storeDeliveryPrice == null -> {

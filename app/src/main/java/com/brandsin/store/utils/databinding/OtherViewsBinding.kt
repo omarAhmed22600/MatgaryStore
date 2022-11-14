@@ -198,10 +198,10 @@ class OtherViewsBinding {
         fun registerState(view: ImageView, isEntered: Boolean?) {
             when (isEntered == false) {
                 true -> {
-                    Glide.with(view.context).load(R.drawable.ic_step_not_selected).error(R.drawable.french_fries).into(view)
+                    Glide.with(view.context).load(R.drawable.ic_step_not_selected).error(R.drawable.app_logo).into(view)
                 }
                 else -> {
-                    Glide.with(view.context).load(R.drawable.ic_step_selected).error(R.drawable.french_fries).into(view)
+                    Glide.with(view.context).load(R.drawable.ic_step_selected).error(R.drawable.app_logo).into(view)
                 }
             }
         }
@@ -211,10 +211,10 @@ class OtherViewsBinding {
         fun registerLineState(view: ImageView, isEntered: Boolean?) {
             when (isEntered == false) {
                 true -> {
-                    Glide.with(view.context).load(R.drawable.ic_line_not_selected).error(R.drawable.french_fries).into(view)
+                    Glide.with(view.context).load(R.drawable.ic_line_not_selected).error(R.drawable.app_logo).into(view)
                 }
                 else -> {
-                    Glide.with(view.context).load(R.drawable.ic_line_selected).error(R.drawable.french_fries).into(view)
+                    Glide.with(view.context).load(R.drawable.ic_line_selected).error(R.drawable.app_logo).into(view)
                 }
             }
         }

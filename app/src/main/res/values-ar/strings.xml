@@ -25,7 +25,7 @@
     <string name="login">تسجيل دخول</string>
     <string name="login_via_email">سجل عبر البريد الإلكتروني</string>
     <string name="phone_number">رقم الموبايل</string>
-    <string name="enter_phone_number">5xxxxxxxx</string>
+    <string name="enter_phone_number">5xxxxxxxxx</string>
     <string name="password">كلمة المرور</string>
     <string name="enter_password">ادخل كلمة المرور</string>
     <string name="create_account">إنشاء حساب</string>
@@ -41,8 +41,8 @@
     <string name="confirm_password">تأكيد كلمة المرور</string>
     <string name="enter_confirm_password">اعد ادخال كلمة المرور</string>
     <string name="empty_phone">من فضلك ادخل رقم الموبايل</string>
-    <string name="invalid_phone">"رقم الموبايل يجب ان يتكون من 9 رقم "</string>
-    <string name="invalid_whatsapp">"رقم الواتس اب يجب ان يتكون من 11 رقم "</string>
+    <string name="invalid_phone">"رقم الموبايل يجب ان يتكون من 10 رقم "</string>
+    <string name="invalid_whatsapp">"رقم الواتس اب يجب ان يتكون من 10 رقم "</string>
     <string name="empty_password">من فضلك ادخل كلمة المرور</string>
     <string name="not_matc_passwords">كلمة المرور غير متطابقة</string>
     <string name="empty_confirm_password">اعد ادخال كلمة المرور</string>
