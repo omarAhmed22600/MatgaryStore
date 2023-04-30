@@ -13,10 +13,10 @@ data class SocialLinksResponse(
 
 data class SocialLinks(
 
-	@field:SerializedName("twitter")
+	@field:SerializedName("Twitter")
 	val twitter: String? = null,
 
-	@field:SerializedName("facebook")
+	@field:SerializedName("Facebook")
 	val facebook: String? = null,
 
 	@field:SerializedName("pinterest")
@@ -25,6 +25,9 @@ data class SocialLinks(
 	@field:SerializedName("linkedin")
 	val linkedin: String? = null,
 
-	@field:SerializedName("instagram")
-	val instagram: String? = null
+	@field:SerializedName("Instagram")
+	val instagram: String? = null,
+
+	@field:SerializedName("Tik Tok")
+     val TikTok: String? = null
 )

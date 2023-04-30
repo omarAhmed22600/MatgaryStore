@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_right_disabled"
             app:layout_constraintEnd_toEndOf="parent"
-            tools:text="20 ج.م"
+            tools:text="20 ر.س"
             android:text="@{viewModel.item.amount + ` ` + @string/currency}"
             android:textSize="@dimen/_10ssp"
             android:fontFamily="@font/cairo_semibold"

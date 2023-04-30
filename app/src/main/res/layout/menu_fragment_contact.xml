@@ -186,6 +186,17 @@
                                 android:src="@drawable/facebook_icon"
                                 tools:ignore="ContentDescription" />
 
+                            <ImageView
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:id="@+id/iv_tiktok"
+                                android:layout_marginHorizontal="@dimen/_5sdp"
+                                android:onClick="@{() -> viewModel.onTikTokClicked()}"
+                                android:src="@drawable/tiktok"
+                                tools:ignore="ContentDescription" />
+
+
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </LinearLayout>

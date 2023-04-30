@@ -351,6 +351,8 @@ object Codes
     const val SELECT_PHOTO5 = 288
     const val INVALID_STORE_WHATS = 289
     const val SHOW_Link = 290
+    const val SHOW_SOCIAL=291
+    const val TIKTOK_CLICKED=292
 
 
 }

@@ -51,7 +51,10 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
+        binding =
+            //DataBindingUtil.setContentView(this, R.layout.activity_home)
+            ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         //init view model
         initViewModel()
         binding.viewModel = viewModel

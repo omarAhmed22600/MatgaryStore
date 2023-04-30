@@ -27,6 +27,7 @@ class ContactViewModel : BaseViewModel()
                     obsIsFull.set(true)
                     obsIsLoading.set(false)
                     socialLinks = res.socialLinks!!
+                    setValue(Codes.SHOW_SOCIAL)
                 }
             }
         }
@@ -47,6 +48,11 @@ class ContactViewModel : BaseViewModel()
     fun onPhoneClicked()
     {
         setValue(Codes.PHONE_CLICKED)
+    }
+
+    fun onTikTokClicked()
+    {
+        setValue(Codes.TIKTOK_CLICKED)
     }
 
     fun onFaceClicked()

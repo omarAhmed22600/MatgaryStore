@@ -211,6 +211,25 @@ object Utils
         }
     }
 
+    fun openLink(activity: Activity, url1: String?){
+        if (url1 == null) return
+        var url=""
+        if (!url1.contains("http")){
+            url="https://"+url1
+        }
+        try {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            activity.startActivity(intent)
+        } catch (e: Exception) {
+            try {
+                activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            } catch (es: Exception) {
+                Timber.e("link isnt valid%s", es.message)
+            }
+        }
+    }
+
     /*
     public static void openDatePicker(Context context, ObservableField<String> result) {
         Calendar mCalendar = Calendar.getInstance();
