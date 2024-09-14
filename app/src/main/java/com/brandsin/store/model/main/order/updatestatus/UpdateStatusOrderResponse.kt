@@ -57,8 +57,8 @@ data class ShippingAddress(
 	@field:SerializedName("country")
 	val country: String? = null,
 
-	@field:SerializedName("city")
-	val city: String? = null,
+	// @field:SerializedName("city")
+	// val city: String? = null,
 
 	@field:SerializedName("user_id")
 	val userId: Int? = null,
@@ -72,8 +72,8 @@ data class ShippingAddress(
 	@field:SerializedName("phone_number")
 	val phoneNumber: String? = null,
 
-	@field:SerializedName("state")
-	val state: String? = null,
+	// @field:SerializedName("state")
+	// val state: String? = null,
 
 	@field:SerializedName("type")
 	val type: String? = null,

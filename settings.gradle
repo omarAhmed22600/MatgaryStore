@@ -1,2 +1,80 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        jcenter()
+        mavenCentral()
+        maven {
+            url 'https://jitpack.io'
+        }
+        maven { url 'https://maven.google.com' }
+        maven {
+            url 'https://mirrors.huaweicloud.com/repository/maven/'
+        }
+        maven {url "https://plugins.gradle.org/m2/" }
+        maven { url "https://verve.jfrog.io/ui/native/verve-gradle-dev" }
+        maven {
+            url "s3://my_bucket.s3.amazonaws.com"
+            authentication {
+                awsIm(AwsImAuthentication)
+            }
+        }
+        maven { url 'https://maven.google.com' }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url "https://verve.jfrog.io/artifactory/verve-gradle-dev"
+                }
+            }
+            filter {
+                includeGroup("cn.wongzhenyu") // Disable JCenter for this group (your library's group)
+            }
+        }
+    }
+    /*resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == 'dagger.hilt.android.plugin') {
+                useModule("com.google.dagger:hilt-android-gradle-plugin:2.42")
+            } else if (requested.id.id == 'com.google.firebase.crashlytics') {
+                useModule("com.google.firebase:firebase-crashlytics-gradle:2.7.0")
+            }
+        }
+    }*/
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        jcenter()
+        mavenCentral()
+        maven { url 'https://maven.google.com' }
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.google.com' }
+        maven {
+            url 'https://mirrors.huaweicloud.com/repository/maven/'
+        }
+        maven { url "https://verve.jfrog.io/ui/native/verve-gradle-dev" }
+        maven {url "https://plugins.gradle.org/m2/" }
+        maven { url "https://oss.sonatype.org/content/repositories/snapshots" }
+        maven {
+            url = uri("https://repo.spring.io/release")
+        }
+        maven {
+            url = uri("https://repository.jboss.org/maven2")
+        }
+        exclusiveContent {
+            forRepository {
+                maven {
+                    url "https://verve.jfrog.io/artifactory/verve-gradle-dev"
+                }
+            }
+            filter {
+                includeGroup("cn.wongzhenyu") // Disable JCenter for this group (your library's group)
+            }
+        }
+    }
+}
+
 include ':app'
 rootProject.name = "BrandsIn_Store"

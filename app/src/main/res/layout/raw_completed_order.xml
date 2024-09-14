@@ -1,13 +1,10 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.main.home.completedorders.ItemCompletedOrdersViewModel" />
@@ -16,45 +13,46 @@
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/_8sdp"
-        app:strokeWidth="@dimen/_1sdp"
-        android:elevation="0dp"
-        app:cardElevation="0dp"
         android:clickable="true"
         android:focusable="true"
+        android:layout_marginHorizontal="@dimen/_2sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:onClick="@{()->viewModel.onItemClicked()}"
-        app:strokeColor="@color/grey_subcategory"
-        android:layout_marginBottom="@dimen/_8sdp">
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="4dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:paddingBottom="@dimen/_8sdp"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingBottom="@dimen/_8sdp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/img_layout"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                app:cardCornerRadius="@dimen/_8sdp"
+                android:layout_alignParentStart="true"
                 android:layout_centerVertical="true"
-                android:id="@+id/img_layout"
                 android:layout_marginStart="@dimen/_16sdp"
+                app:cardCornerRadius="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_alignParentStart="true">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:id="@+id/iv_notifyImg"
+                    setImage="@{viewModel.item.user.picture}"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:gravity="top|center"
                     android:layout_margin="@dimen/_4sdp"
-                    setImage="@{viewModel.item.user.picture}"
-                    tools:src="@drawable/new_icon"
+                    android:gravity="top|center"
                     android:textColor="@color/white"
                     android:textSize="@dimen/_6ssp"
                     android:textStyle="bold"
-                    tools:ignore="ContentDescription" />
+                    tools:ignore="ContentDescription"
+                    tools:src="@drawable/new_icon" />
 
             </androidx.cardview.widget.CardView>
 
@@ -63,17 +61,17 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:layout_marginEnd="@dimen/_8sdp"
+                android:ellipsize="end"
                 android:fontFamily="@font/cairo_semibold"
+                android:lineSpacingExtra="-8dp"
+                android:maxLines="2"
                 android:text="@{viewModel.item.user.name}"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:maxLines="2"
-                android:ellipsize="end"
-                android:lineSpacingExtra="-8dp"
                 android:textSize="@dimen/_11ssp"
-                android:layout_marginTop="@dimen/_8sdp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/img_layout"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="معاذ صلاح" />
@@ -83,54 +81,58 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:textSize="@dimen/_10ssp"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:fontFamily="@font/cairoregular"
                 android:text="@{@string/order_number + `: ` + viewModel.item.orderNumber}"
                 android:textAlignment="viewStart"
-                android:fontFamily="@font/cairoregular"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/img_layout"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginEnd="@dimen/_8sdp"
                 tools:text="رقم الطلب : #125634" />
 
+            <!-- setDeliveryTime="@{viewModel.item.deliveryTime}" -->
             <TextView
+                setDeliveryTime="@{viewModel.item.createdAt}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_8sdp"
                 android:fontFamily="@font/cairoregular"
-                setDeliveryTime="@{viewModel.item.deliveryTime}"
                 android:textAlignment="viewStart"
                 android:textSize="@dimen/_10ssp"
                 app:layout_constraintEnd_toStartOf="@+id/tv_orderStatus"
-                android:layout_marginEnd="@dimen/_8sdp"
                 app:layout_constraintStart_toEndOf="@+id/img_layout"
                 app:layout_constraintTop_toBottomOf="@+id/tv_desc"
                 tools:text="22/12/2020  10:50" />
 
             <TextView
+                android:id="@+id/tv_orderStatus"
+                setStatus="@{viewModel.item.status}"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/cairoregular"
-                setStatus="@{viewModel.item.status}"
-                android:id="@+id/tv_orderStatus"
-                android:textAlignment="viewStart"
-                android:textSize="@dimen/_9ssp"
-                android:textColor="@color/order_rejected_color"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="@dimen/_12sdp"
+                android:fontFamily="@font/cairoregular"
+                android:textAlignment="viewStart"
+                android:textColor="@color/order_rejected_color"
+                android:textSize="@dimen/_9ssp"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_desc"
                 tools:text="قيد التنفيذ" />
 
-            <ImageView
+            <androidx.appcompat.widget.AppCompatImageView
+                setStatusImg="@{viewModel.item.status}"
                 android:layout_width="@dimen/_5sdp"
                 android:layout_height="@dimen/_5sdp"
                 android:layout_margin="@dimen/_3sdp"
-                setStatusImg="@{viewModel.item.status}"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@id/tv_orderStatus"
                 app:layout_constraintEnd_toStartOf="@+id/tv_orderStatus"
-                app:layout_constraintTop_toTopOf="@id/tv_orderStatus"
-                app:layout_constraintBottom_toBottomOf="@id/tv_orderStatus" />
+                app:layout_constraintTop_toTopOf="@id/tv_orderStatus" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </layout>
 

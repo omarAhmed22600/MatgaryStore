@@ -1,22 +1,19 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.menu.coomonquestions.ItemCommonQuestionViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/raw_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/raw_layout"
         android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/about_item_bg">
 
@@ -24,16 +21,16 @@
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:duplicateParentState="false"
-            android:fontFamily="@font/cairoregular"
             android:background="@drawable/about_bg"
-            android:padding="@dimen/_8sdp"
-            android:maxLines="2"
+            android:duplicateParentState="false"
             android:ellipsize="end"
+            android:fontFamily="@font/cairoregular"
+            android:maxLines="2"
+            android:padding="@dimen/_8sdp"
+            android:paddingEnd="@dimen/_32sdp"
             android:text="@{viewModel.item.title}"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
-            android:paddingEnd="@dimen/_32sdp"
             app:layout_constraintEnd_toStartOf="@+id/img_arrow"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -45,23 +42,23 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
             android:src="@drawable/ic_expand_down_arrow"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_title"
-            tools:ignore="ContentDescription"
-            android:tint="@color/color_primary"/>
+            app:tint="@color/color_primary"
+            tools:ignore="ContentDescription" />
 
+        <!-- android:text="@{viewModel.item.content}"  -->
         <TextView
-            android:id="@+id/tv_answer"
+            android:id="@+id/tvAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:duplicateParentState="false"
             android:fontFamily="@font/cairoregular"
-            android:visibility="gone"
-            android:text="@{viewModel.item.content}"
             android:padding="@dimen/_8sdp"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/tv_title"
             tools:text="@tools:sample/lorem/random" />
 

@@ -8,18 +8,16 @@ import com.brandsin.store.R
 import com.brandsin.store.databinding.RawHelpQuesBinding
 import com.brandsin.store.utils.SingleLiveEvent
 import com.brandsin.user.model.menu.help.HelpQuesItem
-import java.util.*
 
-class HelpAdapter : RecyclerView.Adapter<HelpAdapter.AboutHolder>()
-{
-    var helpList: ArrayList<HelpQuesItem> = ArrayList()
+class HelpAdapter : RecyclerView.Adapter<HelpAdapter.AboutHolder>() {
+
+    private var helpList: ArrayList<HelpQuesItem> = ArrayList()
     var helpLiveData = SingleLiveEvent<HelpQuesItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutHolder
-    {
-        val context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        val binding: RawHelpQuesBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_help_ques, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: RawHelpQuesBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_help_ques, parent, false)
         return AboutHolder(binding)
     }
 

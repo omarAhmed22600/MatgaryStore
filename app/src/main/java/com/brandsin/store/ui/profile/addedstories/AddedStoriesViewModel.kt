@@ -6,10 +6,9 @@ import com.brandsin.store.database.BaseViewModel
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.profile.addedstories.deletestory.DeleteStoryRequest
 import com.brandsin.store.model.profile.addedstories.deletestory.DeleteStoryResponse
-import com.brandsin.store.model.profile.addedstories.liststories.DataItem
+import com.brandsin.store.model.profile.addedstories.liststories.StoriesItemByDate
 import com.brandsin.store.model.profile.addedstories.liststories.ListStoriesResponse
 import com.brandsin.store.utils.PrefMethods
-import omari.hamza.storyview.model.MyStory
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -18,12 +17,12 @@ import java.util.*
 
 class AddedStoriesViewModel: BaseViewModel() {
 
-    var storiesList: ArrayList<DataItem> = ArrayList()
+    var storiesList: ArrayList<StoriesItemByDate> = ArrayList()
     var addedStoriesAdapter = AddedStoriesAdapter()
     var request = DeleteStoryRequest()
 
-    var myStory = MyStory()
-    var myStoriesList: ArrayList<MyStory> = ArrayList()
+    // var myStory = MyStory()
+    // var myStoriesList: ArrayList<MyStory> = ArrayList()
     var simpleDateFormat = SimpleDateFormat("yyyy-MM-dd hh:mm:ss")
 
     val listOfViews : ArrayList<MomentzView> = ArrayList()
@@ -42,8 +41,8 @@ class AddedStoriesViewModel: BaseViewModel() {
             override fun onResponse(call: Call<ListStoriesResponse?>, response: Response<ListStoriesResponse?>) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success!!) {
-                        if (response.body()!!.data!!.isNotEmpty()) {
-                            storiesList = response.body()!!.data as ArrayList<DataItem>
+                        if (response.body()!!.storiesItemByDate!!.isNotEmpty()) {
+                            storiesList = response.body()!!.storiesItemByDate as ArrayList<StoriesItemByDate>
                             addedStoriesAdapter.updateList(storiesList)
                             setShowProgress(false)
                             obsIsEmpty.set(false)
@@ -51,15 +50,15 @@ class AddedStoriesViewModel: BaseViewModel() {
 
                             for (item in storiesList) {
                                 for (xItem in item.stories!!) {
-                                    myStory = MyStory()
-                                    if (xItem!!.media.isNullOrEmpty()){
-                                        myStory.url = ""
+                                    // myStory = MyStory()
+                                    if (xItem!!.mediaUrl.isNullOrEmpty()){
+                                        // myStory.url = ""
                                     }else{
-                                        myStory.url = xItem.mediaUrl
+                                        // myStory.url = xItem.mediaUrl
                                     }
-                                    myStory.date = simpleDateFormat.parse(xItem.createdAt)
-                                    myStory.description = xItem.text
-                                    myStoriesList.add(myStory)
+                                    // myStory.date = simpleDateFormat.parse(xItem.createdAt)
+                                    // myStory.description = xItem.text
+                                    // myStoriesList.add(myStory)
                                 }
                             }
                         }else{

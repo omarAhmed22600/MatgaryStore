@@ -1,7 +1,6 @@
 package com.brandsin.store.model.constants
 
-object Codes
-{
+object Codes {
     const val SETTING_SUCCCESS = 10
     const val DIALOG_VERSION_REQUEST = 1001
     const val DIALOG_OFFER_REQUEST = 1002
@@ -64,6 +63,7 @@ object Codes
     const val DIALOG_PRODUCT_CATEGORY_CODE = 1027
     const val DIALOG_STORE_TAGS_CODE = 1028
     const val DIALOG_PRODUCT_UNIT_CODE = 1029
+    const val DIALOG_REJECT_ORDER_REQUEST = 1030
 
     const val EMAIL_EMPTY = 1
     const val EMAIL_INVALID = 2
@@ -163,6 +163,7 @@ object Codes
     const val OPEN_FACE = 94
     const val OPEN_TWITTER = 95
     const val OPEN_INSTA = 96
+
     // creat Order Codes
     const val EMPTY_ORIGINS = 97
     const val EMPTY_DESTINATION = 98
@@ -310,7 +311,7 @@ object Codes
     const val EMPTY_STORE_TIME = 246
     const val EMPTY_STORE_PRICE = 247
     const val EMPTY_STORE_STORE_IMG = 248
-    const val EMPTY_STORE_STORE_THUM = 249
+    const val EMPTY_STORE_STORE_THUMB = 249
     const val EMPTY_STORE_ADDRESS = 250
     const val EMPTY_STORE_IMAGE = 251
     const val EMPTY_STORE_THUMB = 252
@@ -351,8 +352,18 @@ object Codes
     const val SELECT_PHOTO5 = 288
     const val INVALID_STORE_WHATS = 289
     const val SHOW_Link = 290
-    const val SHOW_SOCIAL=291
-    const val TIKTOK_CLICKED=292
+    const val SHOW_SOCIAL = 291
+    const val TIKTOK_CLICKED = 292
 
+    const val OPEN_BANK_ACCOUNT_INFO_ACTIVITY = 293
+    const val COMPLETE_BANKING_DATA = 294
+    const val REGISTER_BANKING_DATA_INFO_REQUEST_CODE = 295
+    const val EDIT_BANK_ACCOUNT_INFO_CLICKED = 296
+    const val EMPTY_OWNER_NAME = 297
+    const val EMPTY_BANK_NAME = 298
+    const val EMPTY_IBAN = 299
 
+    const val SELECT_VIDEO = 300
+
+    const val OFFER_PRICE_LESS_OFFER_PRICE_TO = 301
 }

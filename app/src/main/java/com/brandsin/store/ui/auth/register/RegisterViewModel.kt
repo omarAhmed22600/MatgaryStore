@@ -1,5 +1,6 @@
 package com.brandsin.store.ui.auth.register
 
+import android.util.Log
 import androidx.databinding.ObservableField
 import com.brandsin.store.database.BaseRepository
 import com.brandsin.store.database.BaseViewModel
@@ -17,13 +18,14 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class RegisterViewModel : BaseViewModel()
-{
+class RegisterViewModel : BaseViewModel() {
+
     var deviceTokenRequest = DeviceTokenRequest()
     var registerRequest = RegisterRequest()
     var obsIsPasswordEntered = ObservableField(false)
     var obsIsStoreInfoEntered = ObservableField(false)
     var obsIsPersonalInfoEntered = ObservableField(false)
+    var obsIsBankingDataInfoEntered = ObservableField(false)
 
     fun onConditionsClicked() {
         setValue(Codes.SHOW_CONDITIONS)
@@ -31,6 +33,10 @@ class RegisterViewModel : BaseViewModel()
 
     fun onPersonalInfoClicked() {
         setValue(Codes.OPEN_PERSONAL_INFO_ACTIVITY)
+    }
+
+    fun onBankAccountInfoInfoClicked() {
+        setValue(Codes.OPEN_BANK_ACCOUNT_INFO_ACTIVITY)
     }
 
     fun onStoreInfoClicked() {
@@ -46,16 +52,23 @@ class RegisterViewModel : BaseViewModel()
             obsIsStoreInfoEntered.get() == false -> {
                 setValue(Codes.COMPLETE_STORE_DATA)
             }
+
             obsIsPersonalInfoEntered.get() == false -> {
                 setValue(Codes.COMPLETE_USER_DATA)
             }
+
+            obsIsBankingDataInfoEntered.get() == false -> {
+                setValue(Codes.COMPLETE_BANKING_DATA)
+            }
+
             obsIsPasswordEntered.get() == false -> {
                 setValue(Codes.PASSWORD_EMPTY)
             }
+
             else -> {
-                if (registerRequest.storeThumb == null){
+                if (registerRequest.storeThumb == null) {
                     createAccount2()
-                }else{
+                } else {
                     createAccount()
                 }
             }
@@ -64,9 +77,11 @@ class RegisterViewModel : BaseViewModel()
 
     private fun createAccount() {
         obsIsVisible.set(true)
+        Log.d("createAccount", "registerRequest == $registerRequest")
         requestCall<RegisterResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().createNewStore(registerRequest) }
+                return@withContext getApiRepo().createNewStore(registerRequest)
+            }
         })
         { res ->
             obsIsVisible.set(false)
@@ -78,18 +93,20 @@ class RegisterViewModel : BaseViewModel()
                     deviceToken(res.user!!.id)
                     apiResponseLiveData.value = ApiResponse.success(res)
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
             }
         }
     }
-    private fun createAccount2()
-    {
+
+    private fun createAccount2() {
         obsIsVisible.set(true)
         requestCall<RegisterResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().createNewStore(registerRequest) }
+                return@withContext getApiRepo().createNewStore(registerRequest)
+            }
         })
         { res ->
             obsIsVisible.set(false)
@@ -101,21 +118,26 @@ class RegisterViewModel : BaseViewModel()
                     deviceToken(res.user!!.id)
                     apiResponseLiveData.value = ApiResponse.success(res)
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
             }
         }
     }
-    fun deviceToken(id: Int?) {
 
+    private fun deviceToken(id: Int?) {
         deviceTokenRequest.user_id = id.toString()
         deviceTokenRequest.type = "android_token"
 
         val baeRepo = BaseRepository()
-        val responseCall: Call<DeviceTokenResponse?> = baeRepo.apiInterface.deviceToken(deviceTokenRequest)
+        val responseCall: Call<DeviceTokenResponse?> =
+            baeRepo.apiInterface.deviceToken(deviceTokenRequest)
         responseCall.enqueue(object : Callback<DeviceTokenResponse?> {
-            override fun onResponse(call: Call<DeviceTokenResponse?>, response: Response<DeviceTokenResponse?>) {
+            override fun onResponse(
+                call: Call<DeviceTokenResponse?>,
+                response: Response<DeviceTokenResponse?>
+            ) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success!!) {
 
@@ -124,6 +146,7 @@ class RegisterViewModel : BaseViewModel()
                     setValue(response.message())
                 }
             }
+
             override fun onFailure(call: Call<DeviceTokenResponse?>, t: Throwable) {
                 setValue(t.message!!)
                 setShowProgress(false)

@@ -8,10 +8,8 @@ import com.brandsin.store.network.requestCall
 import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import java.util.*
 
-class CompletedOrdersViewModel : BaseViewModel()
-{
+class CompletedOrdersViewModel : BaseViewModel() {
     var completedOrdersAdapter = CompletedOrdersAdapter()
 
     init {
@@ -36,14 +34,18 @@ class CompletedOrdersViewModel : BaseViewModel()
         setValue(Codes.LOGIN_CLICKED)
     }
 
-    private fun getCompletedOrders()
-    {
+    private fun getCompletedOrders() {
         obsIsEmpty.set(false)
         obsIsFull.set(false)
         obsIsLoading.set(true)
         requestCall<OldOrdersResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getStoreOrders(PrefMethods.getLanguage() , PrefMethods.getStoreData()!!.id!!.toInt()  , 30,"old" , 1)
+                return@withContext getApiRepo().getStoreOrders(
+                    PrefMethods.getLanguage(),
+                    PrefMethods.getStoreData()?.id ?: 0,
+                    limit = null, // 30,
+                    "old", page = null
+                )
             }
         })
         { res ->
@@ -59,6 +61,7 @@ class CompletedOrdersViewModel : BaseViewModel()
                                         obsIsFull.set(false)
                                         obsIsEmpty.set(true)
                                     }
+
                                     else -> {
                                         obsIsFull.set(true)
                                         obsIsEmpty.set(false)
@@ -66,6 +69,7 @@ class CompletedOrdersViewModel : BaseViewModel()
                                     }
                                 }
                             }
+
                             else -> {
                                 obsIsEmpty.set(true)
                                 obsIsFull.set(false)
@@ -73,6 +77,7 @@ class CompletedOrdersViewModel : BaseViewModel()
                         }
                     }
                 }
+
                 else -> {
                     obsIsEmpty.set(true)
                     obsIsFull.set(false)

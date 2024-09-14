@@ -11,15 +11,14 @@ import com.brandsin.store.databinding.ActivityRegisterPassBinding
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.store.utils.Utils
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 
-class RegisterPassActivity : AppCompatActivity(), Observer<Any?>
-{
-    lateinit var binding : ActivityRegisterPassBinding
-    lateinit var viewModel : RegisterPassViewModel
+class RegisterPassActivity : AppCompatActivity(), Observer<Any?> {
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    private lateinit var binding: ActivityRegisterPassBinding
+    lateinit var viewModel: RegisterPassViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_register_pass)
         viewModel = ViewModelProvider(this).get(RegisterPassViewModel::class.java)
@@ -31,7 +30,7 @@ class RegisterPassActivity : AppCompatActivity(), Observer<Any?>
             intent.hasExtra(Params.STORE_PASSWORD) -> {
                 when {
                     intent.getStringExtra(Params.STORE_PASSWORD) != null -> {
-                        viewModel.obsPassword.set(intent.getStringExtra(Params.STORE_PASSWORD) )
+                        viewModel.obsPassword.set(intent.getStringExtra(Params.STORE_PASSWORD))
                         viewModel.obsConfirmPassword.set(intent.getStringExtra(Params.STORE_PASSWORD))
                     }
                 }
@@ -39,24 +38,26 @@ class RegisterPassActivity : AppCompatActivity(), Observer<Any?>
         }
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if (it == null) return
-        it.let {
-            when (it)
-            {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        value.let {
+            when (it) {
                 Codes.PASSWORD_EMPTY -> {
                     showToast(getString(R.string.please_enter_your_password), 1)
                 }
+
                 Codes.PASSWORD_SHORT -> {
                     showToast(getString(R.string.short_password), 1)
                 }
+
                 Codes.CONFIRM_PASS_EMPTY -> {
                     showToast(getString(R.string.enter_confirm_password), 1)
                 }
+
                 Codes.PASSWORD_NOT_MATCH -> {
                     showToast(getString(R.string.password_not_match), 1)
                 }
+
                 Codes.SUCCESS -> {
                     val intent = Intent()
                     intent.putExtra(Params.STORE_PASSWORD, viewModel.obsPassword.get())
@@ -64,6 +65,7 @@ class RegisterPassActivity : AppCompatActivity(), Observer<Any?>
                     setResult(Codes.REGISTER_PASSWORD_REQUEST_CODE, intent)
                     finish()
                 }
+
                 Codes.BACK_PRESSED -> {
                     val intent = Intent()
                     intent.putExtra(Params.DIALOG_CLICK_ACTION, 0)
@@ -74,10 +76,15 @@ class RegisterPassActivity : AppCompatActivity(), Observer<Any?>
         }
     }
 
-    fun showToast(msg : String, type : Int) {
+    fun showToast(msg: String, type: Int) {
         val bundle = Bundle()
         bundle.putString(Params.DIALOG_TOAST_MESSAGE, msg)
         bundle.putInt(Params.DIALOG_TOAST_TYPE, type)
-        Utils.startDialogActivity(this, DialogToastFragment::class.java.name, Codes.DIALOG_TOAST_REQUEST, bundle)
+        Utils.startDialogActivity(
+            this,
+            DialogToastFragment::class.java.name,
+            Codes.DIALOG_TOAST_REQUEST,
+            bundle
+        )
     }
 }

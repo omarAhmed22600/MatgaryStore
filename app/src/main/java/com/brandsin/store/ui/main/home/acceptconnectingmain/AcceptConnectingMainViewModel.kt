@@ -35,6 +35,8 @@ class AcceptConnectingMainViewModel  : BaseViewModel() {
                 true -> {
                     txt = res.phoneNumber.toString()
                 }
+
+                else -> {}
             }
         }
     }

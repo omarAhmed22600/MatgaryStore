@@ -11,28 +11,30 @@ import androidx.lifecycle.ViewModelProvider
 import com.brandsin.store.databinding.DialogOfferTimeBinding
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.utils.wheelview.OrderTimeWheelView
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
+import java.util.Calendar
+import java.util.Date
+import java.util.GregorianCalendar
+import java.util.Locale
 
-class DialogOfferTimeFragment  : DialogFragment(), Observer<Any?>
-{
-    lateinit  var  binding: DialogOfferTimeBinding
-    lateinit var viewModel : DateViewModel
+class DialogOfferTimeFragment : DialogFragment(), Observer<Any?> {
+
+    private lateinit var binding: DialogOfferTimeBinding
+
+    lateinit var viewModel: DateViewModel
+
     private lateinit var rvTimes: OrderTimeWheelView
     private var datesList: ArrayList<OfferDateItem> = ArrayList()
-    var requestCode : Int = 0
-    var startDate  = ""
+    var requestCode: Int = 0
+    var startDate = ""
     var endDate = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (arguments != null)
-        {
-            if (requireArguments().containsKey(Params.DIALOG_DATE_REQUEST))
-            {
+        if (arguments != null) {
+            if (requireArguments().containsKey(Params.DIALOG_DATE_REQUEST)) {
                 requestCode = requireArguments().getInt(Params.DIALOG_DATE_REQUEST, 0)
                 startDate = requireArguments().getString("START_DATE").toString()
                 endDate = requireArguments().getString("END_DATE").toString()
@@ -40,24 +42,28 @@ class DialogOfferTimeFragment  : DialogFragment(), Observer<Any?>
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DialogOfferTimeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DateViewModel::class.java)
+
+        viewModel = ViewModelProvider(this)[DateViewModel::class.java]
         binding.viewModel = viewModel
 
-        if (startDate!="null"){
+        if (startDate != "null") {
             viewModel.selectedDate = startDate.substring(0, startDate.lastIndexOf(" "))
             viewModel.selectedTime = startDate.substring(startDate.lastIndexOf(" "))
         }
-        if (endDate!="null"){
+        if (endDate != "null") {
             viewModel.selectedDate = endDate.substring(0, endDate.lastIndexOf(" "))
-            viewModel.selectedTime  = endDate.substring(endDate.lastIndexOf(" "))
+            viewModel.selectedTime = endDate.substring(endDate.lastIndexOf(" "))
         }
 
         val sdf = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
@@ -65,7 +71,7 @@ class DialogOfferTimeFragment  : DialogFragment(), Observer<Any?>
         for (i in 0..30) {
             val calendar: Calendar = GregorianCalendar()
             calendar.add(Calendar.DATE, i)
-            val date1 : String = sdf.format(calendar.time)
+            val date1: String = sdf.format(calendar.time)
 
             val date: Date = sdf.parse(date1)
             val outFormat = SimpleDateFormat("EEEE")
@@ -87,23 +93,26 @@ class DialogOfferTimeFragment  : DialogFragment(), Observer<Any?>
         })
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        it.let {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        value.let {
             when (it) {
                 is Int -> {
                     when (it) {
                         Codes.CONFIRM_CLICKED -> {
                             val intent = Intent()
                             intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
-                            intent.putExtra(Params.OFFER_TIME, viewModel.selectedDate + " " + viewModel.selectedTime)
-                            intent.putExtra(Params.DIALOG_DATE_REQUEST , requestCode)
+                            intent.putExtra(
+                                Params.OFFER_TIME,
+                                viewModel.selectedDate + "" + viewModel.selectedTime
+                            )
+                            intent.putExtra(Params.DIALOG_DATE_REQUEST, requestCode)
                             requireActivity().setResult(Codes.DIALOG_OFFER_TIME, intent)
                             requireActivity().finish()
                         }
                     }
                 }
+
                 is OfferDateItem -> {
                     rvTimes.setStringItemList(it.time as ArrayList<String>)
                     viewModel.selectedDate = it.date.toString()
@@ -112,9 +121,8 @@ class DialogOfferTimeFragment  : DialogFragment(), Observer<Any?>
         }
     }
 
-    fun getDaHours() : ArrayList<String>
-    {
-         val timesList: ArrayList<String> = ArrayList()
+    private fun getDaHours(): ArrayList<String> {
+        val timesList: ArrayList<String> = ArrayList()
         timesList.add("00:00:00")
         timesList.add("01:00:00")
         timesList.add("02:00:00")

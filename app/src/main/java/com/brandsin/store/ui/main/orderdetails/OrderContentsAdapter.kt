@@ -8,27 +8,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
 import com.brandsin.store.databinding.RawOrderContentBinding
 import com.brandsin.store.model.main.homepage.ItemsItem
-import java.util.*
+import com.bumptech.glide.Glide
 
-class OrderContentsAdapter : RecyclerView.Adapter<OrderContentsAdapter.OrderContentsHolder>()
-{
+class OrderContentsAdapter : RecyclerView.Adapter<OrderContentsAdapter.OrderContentsHolder>() {
+
     var itemsList: ArrayList<ItemsItem> = ArrayList()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderContentsHolder
-    {
-        val context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        val binding: RawOrderContentBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_content, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderContentsHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: RawOrderContentBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_content, parent, false)
         return OrderContentsHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: OrderContentsHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: OrderContentsHolder, position: Int) {
         val itemViewModel = ItemOrderContentViewModel(itemsList[position])
         holder.binding.viewModel = itemViewModel
 
-        if (position == itemsList.size-1)
-        {
+        Glide.with(holder.itemView.context)
+            .load(itemViewModel.item.image)
+            .error(R.drawable.app_logo)
+            .into(holder.binding.imgProduct)
+
+        if (position == itemsList.size - 1) {
             holder.binding.seperator.visibility = View.GONE
         }
     }
@@ -42,8 +44,7 @@ class OrderContentsAdapter : RecyclerView.Adapter<OrderContentsAdapter.OrderCont
         notifyDataSetChanged()
     }
 
-    inner class OrderContentsHolder(val binding: RawOrderContentBinding) : RecyclerView.ViewHolder(binding.root)
-    {
-
+    inner class OrderContentsHolder(val binding: RawOrderContentBinding) :
+        RecyclerView.ViewHolder(binding.root) {
     }
 }

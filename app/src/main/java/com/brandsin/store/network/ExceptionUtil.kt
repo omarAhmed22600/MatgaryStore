@@ -13,8 +13,7 @@ object ExceptionUtil {
             is HttpException -> "${this.javaClass.name}: HTTP 405 Method Not Allowed, check your network or open VPN"
             is NullPointerException -> this.message ?: "null value found"
             is IndexOutOfBoundsException -> "something wrong is happened, please try again"
-            else -> this.message?:"null exc found"
+            else -> this.message ?: "null exc found"
         }
     }
-
 }

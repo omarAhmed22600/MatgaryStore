@@ -15,36 +15,38 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
-import com.google.firebase.iid.FirebaseInstanceId
 import com.brandsin.store.R
 import com.brandsin.store.databinding.HomeFragmentHomeBinding
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.main.homepage.StoreOrderItem
+import com.brandsin.store.ui.activity.BaseFragment
 import com.brandsin.store.ui.activity.home.HomeActivity
 import com.brandsin.store.ui.main.home.completedorders.CompletedOrdersFragment
 import com.brandsin.store.ui.main.home.neworders.NewOrdersFragment
-import com.brandsin.store.ui.activity.BaseFragment
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.material.tabs.TabLayout
+import com.google.android.material.tabs.TabLayoutMediator
+import com.google.firebase.iid.FirebaseInstanceId
 
-class HomeFragment : BaseFragment(), Observer<Any?>
-{
-    lateinit var binding: HomeFragmentHomeBinding
+class HomeFragment : BaseFragment(), Observer<Any?> {
+
+    private lateinit var binding: HomeFragmentHomeBinding
     lateinit var viewModel: HomeViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_home, container, false)
-        //binding = HomeFragmentHomeBinding.inflate(inflater, container, false)
+        // binding = HomeFragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+        viewModel = ViewModelProvider(requireActivity())[HomeViewModel::class.java]
         binding.viewModel = viewModel
 
         binding.ibMenu.setOnClickListener {
@@ -54,28 +56,40 @@ class HomeFragment : BaseFragment(), Observer<Any?>
         val pagerAdapter = HomeOrdersPagerAdapter(this)
         binding.pager.adapter = pagerAdapter
 
-       val tabLayout = binding.tabLayout
+        val tabLayout = binding.tabLayout
 
         TabLayoutMediator(tabLayout, binding.pager) { tab, position ->
-            when (position)
-            {
+            when (position) {
                 0 -> {
-                    val customView = requireActivity().layoutInflater.inflate(R.layout.raw_report_tab_item, null)
+                    val customView =
+                        requireActivity().layoutInflater.inflate(R.layout.raw_report_tab_item, null)
                     val itemName = customView.findViewById<TextView>(R.id.tv_itemName)
                     itemName.text = getString(R.string.new_orders)
-                    itemName.setTextColor(ContextCompat.getColor(requireActivity(), R.color.color_primary))
+                    itemName.setTextColor(
+                        ContextCompat.getColor(
+                            requireActivity(),
+                            R.color.color_primary
+                        )
+                    )
                     tab.customView = customView
                     customView.tag = 0
 
                     val viewName = customView!!.findViewById<TextView>(R.id.tv_itemName)
                     viewName.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-                    viewName.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.tab_text_size));
-                    viewName.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_orders_selected)
-                    val myCustomFont: Typeface? = ResourcesCompat.getFont(requireActivity(), R.font.cairo_semibold)
+                    viewName.setTextSize(
+                        TypedValue.COMPLEX_UNIT_PX,
+                        resources.getDimension(R.dimen.tab_text_size)
+                    )
+                    viewName.background =
+                        ContextCompat.getDrawable(requireActivity(), R.drawable.btn_orders_selected)
+                    val myCustomFont: Typeface? =
+                        ResourcesCompat.getFont(requireActivity(), R.font.cairo_semibold)
                     viewName.typeface = myCustomFont
                 }
+
                 1 -> {
-                    val customView = requireActivity().layoutInflater.inflate(R.layout.raw_report_tab_item, null)
+                    val customView =
+                        requireActivity().layoutInflater.inflate(R.layout.raw_report_tab_item, null)
                     val itemName = customView.findViewById<TextView>(R.id.tv_itemName)
                     itemName.text = getString(R.string.completed_orders)
                     tab.customView = customView
@@ -90,45 +104,60 @@ class HomeFragment : BaseFragment(), Observer<Any?>
 
             override fun onTabUnselected(p0: TabLayout.Tab?) {
                 val viewName = p0!!.customView!!.findViewById<TextView>(R.id.tv_itemName)
-                viewName.setTextColor(ContextCompat.getColor(requireActivity(), R.color.grey_subcategory))
-                viewName.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_orders_unselected)
-                val myCustomFont: Typeface? = ResourcesCompat.getFont(requireActivity(), R.font.cairo_semibold)
+                viewName.setTextColor(
+                    ContextCompat.getColor(
+                        requireActivity(),
+                        R.color.grey_subcategory
+                    )
+                )
+                viewName.background =
+                    ContextCompat.getDrawable(requireActivity(), R.drawable.btn_orders_unselected)
+                val myCustomFont: Typeface? =
+                    ResourcesCompat.getFont(requireActivity(), R.font.cairo_semibold)
                 viewName.typeface = myCustomFont
-                viewName.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.tab_text_size));
+                viewName.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    resources.getDimension(R.dimen.tab_text_size)
+                )
             }
 
             override fun onTabSelected(p0: TabLayout.Tab?) {
                 val viewName = p0!!.customView!!.findViewById<TextView>(R.id.tv_itemName)
                 viewName.setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-                viewName.setTextSize(TypedValue.COMPLEX_UNIT_PX, resources.getDimension(R.dimen.tab_text_size));
-                viewName.background = ContextCompat.getDrawable(requireActivity(), R.drawable.btn_orders_selected)
-                val myCustomFont: Typeface? = ResourcesCompat.getFont(requireActivity(), R.font.cairo_semibold)
+                viewName.setTextSize(
+                    TypedValue.COMPLEX_UNIT_PX,
+                    resources.getDimension(R.dimen.tab_text_size)
+                )
+                viewName.background =
+                    ContextCompat.getDrawable(requireActivity(), R.drawable.btn_orders_selected)
+                val myCustomFont: Typeface? =
+                    ResourcesCompat.getFont(requireActivity(), R.font.cairo_semibold)
                 viewName.typeface = myCustomFont
             }
         })
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
-      /*  (requireActivity() as HomeActivity).orderClickLiveData.observe(viewLifecycleOwner, Observer {
-           // findNavController().navigate(R.id.home_to_order_details)
-           // (requireActivity() as HomeActivity).navController.navigate(R.id.home_to_order_details)
-            Navigation.findNavController(binding.root).navigate(R.id.completed_orders_to_order_details)
-        })*/
+        /*  (requireActivity() as HomeActivity).orderClickLiveData.observe(viewLifecycleOwner, Observer {
+             // findNavController().navigate(R.id.home_to_order_details)
+             // (requireActivity() as HomeActivity).navController.navigate(R.id.home_to_order_details)
+              Navigation.findNavController(binding.root).navigate(R.id.completed_orders_to_order_details)
+          })*/
 
         // Get token
         // [START retrieve_current_token]
         FirebaseInstanceId.getInstance().instanceId
-                .addOnCompleteListener(OnCompleteListener { task ->
-                    if (!task.isSuccessful) {
-                        return@OnCompleteListener
-                    }
-                    // Get new Instance ID token
-                    val token = task.result.token
-                    viewModel.deviceTokenRequest.token = token
-                    viewModel.deviceToken()
+            .addOnCompleteListener(OnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    return@OnCompleteListener
+                }
+                // Get new Instance ID token
+                val token = task.result.token
+                viewModel.deviceTokenRequest.token = token
+                viewModel.deviceToken()
 
-                    // Log and toast
-                    val msg = getString(R.string.msg_token_fmt, token)
-                })
+                // Log and toast
+                val msg = getString(R.string.msg_token_fmt, token)
+            })
         // [END retrieve_current_token]
 
         binding.addStory.setOnClickListener {
@@ -138,49 +167,42 @@ class HomeFragment : BaseFragment(), Observer<Any?>
         binding.consLink.setOnClickListener {
             binding.consLink.visibility = View.GONE
             val action = HomeFragmentDirections
-                .homeToAcceptConnectingMain(viewModel.requestId,viewModel.storeName)
+                .homeToAcceptConnectingMain(viewModel.requestId, viewModel.storeName)
             findNavController().navigate(action)
         }
-
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        it.let {
-            if (it is StoreOrderItem)
-            {
-//                Toasty.success(requireActivity(), "eeeeeeee").show()
-              //  findNavController().navigate(R.id.home_to_order_details)
-            }
-            else if (it is StoreOrderItem)
-            {
-//                Toasty.success(requireActivity(), "sssssssss").show()
-                //  findNavController().navigate(R.id.home_to_order_details)
-            }
-            else if (it is Int)
-            {
-                when (it) {
-                    Codes.NOTIFICATION_CLICK -> {
-                        findNavController().navigate(R.id.home_to_notifications)
-                    }
-                    Codes.SHOW_Link -> {
-                        binding.storeName.text = viewModel.storeName
-                        binding.consLink.visibility= View.VISIBLE
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        value.let {
+            when (it) {
+                is StoreOrderItem -> {
+                    //  Toasty.success(requireActivity(), "success").show()
+                    //  findNavController().navigate(R.id.home_to_order_details)
+                }
+
+                is Int -> {
+                    when (it) {
+                        Codes.NOTIFICATION_CLICK -> {
+                            findNavController().navigate(R.id.home_to_notifications)
+                        }
+
+                        Codes.SHOW_Link -> {
+                            binding.storeName.text = viewModel.storeName
+                            binding.consLink.visibility = View.VISIBLE
+                        }
                     }
                 }
             }
         }
     }
 
-    override fun onStart()
-    {
+    override fun onStart() {
         super.onStart()
         (requireActivity() as HomeActivity).customizeToolbar("", false)
     }
 
-    override fun onPause()
-    {
+    override fun onPause() {
         super.onPause()
         (activity as HomeActivity).lockDrawer()
     }

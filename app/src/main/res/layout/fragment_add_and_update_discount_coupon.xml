@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.discountCoupon.AddAndUpdateDiscountCouponFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtInputCouponCode"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/coupon_code"
+        app:boxBackgroundColor="@null"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtCouponCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            tools:text="@string/default_notification_channel_id" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtInputCouponValue"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/coupon_value"
+        app:boxBackgroundColor="@null"
+        app:layout_constraintEnd_toEndOf="@id/txtInputCouponCode"
+        app:layout_constraintStart_toStartOf="@id/txtInputCouponCode"
+        app:layout_constraintTop_toBottomOf="@id/txtInputCouponCode">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtCouponValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            tools:text="@string/default_notification_channel_id" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtInputStartDate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:layout_marginEnd="@dimen/_14sdp"
+        android:hint="@string/start_date"
+        app:boxBackgroundColor="@null"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconMode="custom"
+        app:endIconTint="@color/color_primary"
+        app:layout_constraintEnd_toStartOf="@id/txtInputEndDate"
+        app:layout_constraintStart_toStartOf="@id/txtInputCouponValue"
+        app:layout_constraintTop_toBottomOf="@id/txtInputCouponValue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtStartDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            tools:text="@string/cancel" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/txtInputEndDate"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:hint="@string/end_date"
+        app:boxBackgroundColor="@null"
+        app:endIconDrawable="@drawable/ic_calendar"
+        app:endIconMode="custom"
+        app:endIconTint="@color/color_primary"
+        app:layout_constraintEnd_toEndOf="@id/txtInputCouponValue"
+        app:layout_constraintStart_toEndOf="@id/txtInputStartDate"
+        app:layout_constraintTop_toBottomOf="@id/txtInputCouponValue">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/edtEndDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            tools:text="@string/pix_ok" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroupLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="@dimen/_10sdp"
+        app:layout_constraintEnd_toEndOf="@id/txtInputEndDate"
+        app:layout_constraintStart_toStartOf="@id/txtInputStartDate"
+        app:layout_constraintTop_toBottomOf="@id/txtInputStartDate">
+
+        <RadioButton
+            android:id="@+id/radioFixed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:fontFamily="@font/cairo_semibold"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:text="@string/fixed"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp" />
+
+        <RadioButton
+            android:id="@+id/radioPercentage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cairo_semibold"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:layout_weight="1"
+            android:text="@string/percentage"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp" />
+
+        <!-- Add more RadioButton elements as needed -->
+
+    </RadioGroup>
+
+    <!--<RadioGroup
+        android:id="@+id/radioGroupLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/txtInputEndDate"
+        app:layout_constraintStart_toStartOf="@id/txtInputStartDate"
+        app:layout_constraintTop_toBottomOf="@id/txtInputStartDate">
+
+        <RadioButton
+            android:id="@+id/radioFixed"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginEnd="@dimen/_14sdp"
+            android:checked="true"
+            android:fontFamily="@font/cairo_semibold"
+            android:paddingHorizontal="@dimen/_10sdp"
+            android:text="@string/fixed"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp" />
+
+        <RadioButton
+            android:id="@+id/radioPercentage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:fontFamily="@font/cairo_semibold"
+            android:paddingStart="@dimen/_10sdp"
+            android:text="@string/percentage"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_14ssp" />
+
+    </RadioGroup>-->
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnCreateAndUpdateCoupon"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_14sdp"
+        android:layout_marginVertical="@dimen/_16sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:textAllCaps="false"
+        android:text="@string/create_a_new_coupon"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:cornerRadius="@dimen/_8sdp"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroupLayout" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

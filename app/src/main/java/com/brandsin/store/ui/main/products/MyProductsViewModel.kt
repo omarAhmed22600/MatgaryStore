@@ -82,6 +82,8 @@ class MyProductsViewModel : BaseViewModel()
                         }
                     }
                 }
+
+                else -> {}
             }
         }
     }

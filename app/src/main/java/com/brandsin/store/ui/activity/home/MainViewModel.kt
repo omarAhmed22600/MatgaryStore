@@ -15,23 +15,25 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MainViewModel : BaseViewModel()
-{
+class MainViewModel : BaseViewModel() {
+
     val obsShowToolbar = ObservableBoolean()
     val obsTitle = ObservableField<String>()
     val obsUserName = ObservableField<String>()
     val obsBtnLogout = ObservableField<String>()
     private val obsLanguage = ObservableField<String>()
 
-    var requestMenuBusy = MenuBusyRequest()
-    var requestMenuClosed= MenuClosedRequest()
+    private var requestMenuBusy = MenuBusyRequest()
+    private var requestMenuClosed = MenuClosedRequest()
 
-    fun setUpUserData()
-    {
+    init {
+        setUpUserData()
+    }
+
+    private fun setUpUserData() {
         obsIsLogin.set(true)
         obsUserName.set(MyApp.context.getString(R.string.name))
         obsBtnLogout.set(MyApp.context.getString(R.string.information_account))
-
 
         if (PrefMethods.getStoreData() == null) {
             obsIsLogin.set(false)
@@ -40,17 +42,12 @@ class MainViewModel : BaseViewModel()
         } else {
             obsIsLogin.set(true)
             obsBtnLogout.set(MyApp.context.getString(R.string.information_account))
-            if (PrefMethods.getStoreData()!!.name.toString()!="null") {
+            if (PrefMethods.getStoreData()!!.name.toString() != "null") {
                 obsUserName.set(PrefMethods.getStoreData()!!.name.toString())
-            }else{
+            } else {
                 obsUserName.set(PrefMethods.getStoreData()!!.name.toString())
             }
         }
-    }
-
-    init
-    {
-        setUpUserData()
     }
 
     fun onLogoutClicked() {
@@ -60,7 +57,7 @@ class MainViewModel : BaseViewModel()
     }
 
     fun onEditClicked() {
-        if (PrefMethods.getStoreData() != null){
+        if (PrefMethods.getStoreData() != null) {
             setValue(Codes.EDIT_CLICKED)
         } else {
             setValue(Codes.BUTTON_LOGIN_CLICKED)
@@ -81,6 +78,7 @@ class MainViewModel : BaseViewModel()
                             PrefMethods.saveStoreData(response.body()!!.store)
                             PrefMethods.saveLoginState(true)
                         }
+
                         else -> {
                             setValue(response.body()!!.message.toString())
                         }
@@ -89,6 +87,7 @@ class MainViewModel : BaseViewModel()
                     setValue(response.message())
                 }
             }
+
             override fun onFailure(call: Call<MenuResponse?>, t: Throwable) {
                 setValue(t.message!!)
                 setShowProgress(false)
@@ -100,7 +99,8 @@ class MainViewModel : BaseViewModel()
         requestMenuClosed.isClosed = i
         requestMenuClosed.storeId = PrefMethods.getStoreData()!!.id
         val baeRepo = BaseRepository()
-        val responseCall: Call<MenuResponse?> = baeRepo.apiInterface.setMenuClosed(requestMenuClosed)
+        val responseCall: Call<MenuResponse?> =
+            baeRepo.apiInterface.setMenuClosed(requestMenuClosed)
         responseCall.enqueue(object : Callback<MenuResponse?> {
             override fun onResponse(call: Call<MenuResponse?>, response: Response<MenuResponse?>) {
                 if (response.isSuccessful) {
@@ -110,6 +110,7 @@ class MainViewModel : BaseViewModel()
                             PrefMethods.saveStoreData(response.body()!!.store)
                             PrefMethods.saveLoginState(true)
                         }
+
                         else -> {
                             setValue(response.body()!!.message.toString())
                         }
@@ -118,11 +119,11 @@ class MainViewModel : BaseViewModel()
                     setValue(response.message())
                 }
             }
+
             override fun onFailure(call: Call<MenuResponse?>, t: Throwable) {
                 setValue(t.message!!)
                 setShowProgress(false)
             }
         })
     }
-
 }

@@ -13,7 +13,7 @@ import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.main.products.add.AddProductRequest
 import com.brandsin.store.model.main.products.productcategories.ProductCategoriesData
 import com.brandsin.store.model.main.products.update.UpdateProductRequest
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 
 class DialogProductCategoriesFragment  : DialogFragment(), Observer<Any?>
 {

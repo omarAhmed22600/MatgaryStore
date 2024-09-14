@@ -37,6 +37,9 @@ data class AddOfferRequest(
     @SerializedName("active")
     var active: Int? = null,
 
+    @SerializedName("type")
+    var type: String? = null,
+
     var productsIds: ArrayList<Int>? = null,
 
     var offerImage: File? = null

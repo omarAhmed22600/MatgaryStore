@@ -22,18 +22,19 @@ class AddOfferViewModel : BaseViewModel() {
 
     var offerAddProductRequest = OfferAddProductRequest()
 
-    //Add
+    // Add
     var addOfferRequest = AddOfferRequest()
     var productsList: ArrayList<DataItem> = ArrayList()
     var productsAdapter = AddOfferProductsAdapter()
 
-    //Update
-    var isUpdated: Boolean = false
+    // Update
+    private var isUpdated: Boolean = false
     var updateOfferRequest = UpdateOfferRequest()
     var prevOfferProducts: ArrayList<OfferProductItem> = ArrayList()
     var productsUpdateAdapter = UpdateOfferProductsAdapter()
-    var itemOfferId = 0
-    var itemStoreId = 0
+
+    private var itemOfferId = 0
+    private var itemStoreId = 0
 
     var obsBtnText = ObservableField(getString(R.string.add))
     var obsToolBarTitle = ObservableField(getString(R.string.add))
@@ -50,9 +51,9 @@ class AddOfferViewModel : BaseViewModel() {
     var obsOfferPrice = ObservableField<String>()
     var obsOfferPriceTo = ObservableField<String>()
 
+    var offerType: String? = null
 
     fun setOfferData(flag: Int, offerItem: OffersItemDetails? = null) {
-
         when (flag) {
             2 -> {
                 isUpdated = true
@@ -73,6 +74,7 @@ class AddOfferViewModel : BaseViewModel() {
                 obsOfferPrice.set(offerItem.price.toString())
                 obsOfferPriceTo.set(offerItem.priceTo.toString())
             }
+
             else -> {
                 isUpdated = false
                 obsBtnText.set(getString(R.string.add))
@@ -84,50 +86,88 @@ class AddOfferViewModel : BaseViewModel() {
     fun onAddClicked() {
         when (isUpdated) {
             true -> {
-                when {
-                    prevOfferProducts.size == 0 && productsList.size == 0  -> {
-                        setValue(Codes.EMPTY_PRODUCTS)
+                if (offerType == "product") {
+                    when {
+                        prevOfferProducts.size == 0 && productsList.size == 0 -> {
+                            setValue(Codes.EMPTY_PRODUCTS)
+                        }
+
+                        isImageChanged -> {
+                            updateOffer()
+                        }
+
+                        else -> {
+                            updateOfferWithImage()
+                        }
                     }
-                    isImageChanged -> {
-                        updateOffer()
-                    }
-                    else -> {
-                        updateOfferWithImage()
+                } else {
+                    when {
+                        isImageChanged -> {
+                            updateOffer()
+                        }
+
+                        else -> {
+                            updateOfferWithImage()
+                        }
                     }
                 }
             }
+
             else -> {
                 when {
                     addOfferRequest.offerImage == null -> {
                         setValue(Codes.EMPTY_IMAGE)
                     }
-                    obsOfferName.get() == null  || obsOfferName.get().toString().trim().isEmpty() -> {
+
+                    obsOfferName.get() == null || obsOfferName.get().toString().trim()
+                        .isEmpty() -> {
                         setValue(Codes.EMPTY_OFFER_NAME)
                     }
-//                    obsOfferNameEn.get() == null  || obsOfferNameEn.get().toString().trim().isEmpty() -> {
-//                        setValue(Codes.EMPTY_OFFER_NAME_EN)
-//                    }
-                    obsOfferDescription.get() == null  || obsOfferDescription.get().toString().trim().isEmpty() -> {
+
+                    obsOfferNameEn.get() == null || obsOfferNameEn.get().toString().trim()
+                        .isEmpty() -> {
+                        setValue(Codes.EMPTY_OFFER_NAME_EN)
+                    }
+
+                    obsOfferDescription.get() == null || obsOfferDescription.get().toString().trim()
+                        .isEmpty() -> {
                         setValue(Codes.EMPTY_OFFER_DESCRIPTION)
                     }
-//                    obsOfferDescriptionEn.get() == null  || obsOfferDescriptionEn.get().toString().trim().isEmpty() -> {
-//                        setValue(Codes.EMPTY_OFFER_DESCRIPTION_EN)
-//                    }
-                    obsOfferPrice.get() == null || obsOfferPrice.get().toString().trim().isEmpty() -> {
+
+                    obsOfferDescriptionEn.get() == null || obsOfferDescriptionEn.get().toString()
+                        .trim().isEmpty() -> {
+                        setValue(Codes.EMPTY_OFFER_DESCRIPTION_EN)
+                    }
+
+                    obsOfferPrice.get() == null || obsOfferPrice.get().toString().trim()
+                        .isEmpty() -> {
                         setValue(Codes.EMPTY_OFFER_PRICE)
                     }
-                    obsStartDate.get() == null || obsStartDate.get().toString().trim().isEmpty() -> {
+
+                    obsOfferPrice.get().toString().trim().isNotEmpty()
+                            && obsOfferPriceTo.get().toString().trim().isNotEmpty()
+                            && (obsOfferPrice.get()!!.toDouble() <= obsOfferPriceTo.get()!!
+                        .toDouble()) -> {
+                        setValue(Codes.OFFER_PRICE_LESS_OFFER_PRICE_TO)
+                    }
+
+                    obsStartDate.get() == null || obsStartDate.get().toString().trim()
+                        .isEmpty() -> {
                         setValue(Codes.SELECT_START_DATE)
                     }
+
                     obsEndDate.get() == null || obsEndDate.get().toString().trim().isEmpty() -> {
                         setValue(Codes.SELECT_END_DATE)
                     }
+
                     !checkValidationDates() -> {
 
                     }
-                    productsList.size == 0 -> {
+
+                    offerType == "product" && productsList.size == 0 -> {
                         setValue(Codes.EMPTY_PRODUCTS)
                     }
+
                     else -> {
                         createNewOffer()
                     }
@@ -144,7 +184,7 @@ class AddOfferViewModel : BaseViewModel() {
         addOfferRequest.nameEn = obsOfferNameEn.get()
         addOfferRequest.descriptionEn = obsOfferDescriptionEn.get()
         addOfferRequest.price = obsOfferPrice.get()
-        if (obsOfferPriceTo.get() == null){
+        if (obsOfferPriceTo.get() == null) {
             obsOfferPriceTo.set("0")
         }
         addOfferRequest.priceTo = obsOfferPriceTo.get()
@@ -152,15 +192,22 @@ class AddOfferViewModel : BaseViewModel() {
         addOfferRequest.endDate = obsEndDate.get()
         addOfferRequest.active = 1
 
-        if ( addOfferRequest.nameEn  == null  || addOfferRequest.nameEn.toString().trim().isEmpty() ) {
+        addOfferRequest.type = offerType ?: "product"
+
+        /*if (addOfferRequest.nameEn == null || addOfferRequest.nameEn.toString().trim().isEmpty()) {
             addOfferRequest.nameEn = ""
         }
-        if ( addOfferRequest.descriptionEn == null  || addOfferRequest.descriptionEn.toString().trim().isEmpty() ) {
+        if (addOfferRequest.descriptionEn == null || addOfferRequest.descriptionEn.toString().trim()
+                .isEmpty()
+        ) {
             addOfferRequest.descriptionEn = ""
-        }
+        }*/
+
         obsIsVisible.set(true)
         requestCall<CreateOfferResponse?>({
-            withContext(Dispatchers.IO) { return@withContext getApiRepo().createNewOffer(addOfferRequest) }
+            withContext(Dispatchers.IO) {
+                return@withContext getApiRepo().createNewOffer(addOfferRequest)
+            }
         })
         { res ->
             obsIsVisible.set(false)
@@ -168,12 +215,14 @@ class AddOfferViewModel : BaseViewModel() {
                 true -> {
                     apiResponseLiveData.value = ApiResponse.success(res)
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
             }
         }
     }
+
     private fun updateOfferWithImage() {
         updateOfferRequest.locale = PrefMethods.getLanguage()
         updateOfferRequest.offerId = itemOfferId
@@ -186,39 +235,53 @@ class AddOfferViewModel : BaseViewModel() {
         updateOfferRequest.priceTo = obsOfferPriceTo.get()
 
         val d: Date?
-        val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-        d = date1.parse(obsStartDate.get())
-        updateOfferRequest.startDate = date1.format(d)
+        val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
+        d = date1.parse(obsStartDate.get().toString())
+        println("date22 ==  ${obsStartDate.get().toString()}")
+        println("date22 ==  $d")
+        updateOfferRequest.startDate = obsStartDate.get() // date1.format(d.toString())
 
         val d2: Date?
-        val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-        d2 = date2.parse(obsEndDate.get())
-        updateOfferRequest.endDate = date1.format(d2)
+        val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
+        d2 = date2.parse(obsEndDate.get().toString())
+        updateOfferRequest.endDate = obsEndDate.get() // date1.format(d2.toString())
 
         updateOfferRequest.active = 1
+        updateOfferRequest.type = offerType
 
-        if (prevOfferProducts.size>0) {
-            prevOfferProducts.forEach {
-                if (updateOfferRequest.productsIds == null) {
-                    updateOfferRequest.productsIds = ArrayList<Int>()
+        if (offerType == "product") {
+            if (prevOfferProducts.size > 0) {
+                prevOfferProducts.forEach {
+                    if (updateOfferRequest.productsIds == null) {
+                        updateOfferRequest.productsIds = ArrayList<Int>()
+                    }
+                    updateOfferRequest.productsIds!!.add(it.id!!)
                 }
-                updateOfferRequest.productsIds!!.add(it.id!!)
-            }
-        }else{
-            productsList.forEach {
-                if (updateOfferRequest.productsIds == null) {
-                    updateOfferRequest.productsIds = ArrayList<Int>()
+            } else {
+                productsList.forEach {
+                    if (updateOfferRequest.productsIds == null) {
+                        updateOfferRequest.productsIds = ArrayList<Int>()
+                    }
+                    updateOfferRequest.productsIds!!.add(it.id!!)
                 }
-                updateOfferRequest.productsIds!!.add(it.id!!)
             }
+        } else {
+            updateOfferRequest.productsIds = ArrayList()
         }
 
-        if ( updateOfferRequest.nameEn  == null  || updateOfferRequest.nameEn.toString().trim().isEmpty() ) {
-            updateOfferRequest.nameEn = ""
+        if (updateOfferRequest.nameEn == null || updateOfferRequest.nameEn.toString()
+                .trim().isEmpty()
+        ) {
+            setValue(Codes.EMPTY_OFFER_NAME_EN)
         }
-        if ( updateOfferRequest.descriptionEn == null  || updateOfferRequest.descriptionEn.toString().trim().isEmpty() ) {
-            updateOfferRequest.descriptionEn = ""
+        if (updateOfferRequest.descriptionEn == null || updateOfferRequest.descriptionEn.toString()
+                .trim().isEmpty()
+        ) {
+            setValue(Codes.EMPTY_OFFER_DESCRIPTION_EN)
         }
+
+        println("updateOfferRequest4444 == $updateOfferRequest")
+
         obsIsVisible.set(true)
         requestCall<UpdateOfferResponse?>({
             withContext(Dispatchers.IO) {
@@ -231,12 +294,14 @@ class AddOfferViewModel : BaseViewModel() {
                 true -> {
                     apiResponseLiveData.value = ApiResponse.success(res)
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
             }
         }
     }
+
     private fun updateOffer() {
         updateOfferRequest.locale = PrefMethods.getLanguage()
         updateOfferRequest.offerId = itemOfferId
@@ -254,32 +319,38 @@ class AddOfferViewModel : BaseViewModel() {
 //        }
 
         val d: Date?
-        val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-        d = date1.parse(obsStartDate.get())
-        updateOfferRequest.startDate = date1.format(d)
+        val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
+        d = date1.parse(obsStartDate.get().toString())
+        updateOfferRequest.startDate = obsStartDate.get().toString() // date1.format(d.toString())
 
         val d2: Date?
-        val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH)
-        d2 = date2.parse(obsEndDate.get())
-        updateOfferRequest.endDate = date1.format(d2)
+        val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
+        d2 = date2.parse(obsEndDate.get().toString())
+        updateOfferRequest.endDate = obsEndDate.get().toString() // date1.format(d2.toString())
 
         updateOfferRequest.active = 1
 
-        if (prevOfferProducts.size>0) {
-            prevOfferProducts.forEach {
-                if (updateOfferRequest.productsIds == null) {
-                    updateOfferRequest.productsIds = ArrayList<Int>()
+        if (offerType == "product") {
+            if (prevOfferProducts.size > 0) {
+                prevOfferProducts.forEach {
+                    if (updateOfferRequest.productsIds == null) {
+                        updateOfferRequest.productsIds = ArrayList<Int>()
+                    }
+                    updateOfferRequest.productsIds!!.add(it.id!!)
                 }
-                updateOfferRequest.productsIds!!.add(it.id!!)
-            }
-        }else{
-            productsList.forEach {
-                if (updateOfferRequest.productsIds == null) {
-                    updateOfferRequest.productsIds = ArrayList<Int>()
+            } else {
+                productsList.forEach {
+                    if (updateOfferRequest.productsIds == null) {
+                        updateOfferRequest.productsIds = ArrayList<Int>()
+                    }
+                    updateOfferRequest.productsIds!!.add(it.id!!)
                 }
-                updateOfferRequest.productsIds!!.add(it.id!!)
             }
+        } else {
+            updateOfferRequest.productsIds = ArrayList()
         }
+
+        println("updateOfferRequest == $updateOfferRequest")
 
         obsIsVisible.set(true)
         requestCall<UpdateOfferResponse?>({
@@ -293,6 +364,7 @@ class AddOfferViewModel : BaseViewModel() {
                 true -> {
                     apiResponseLiveData.value = ApiResponse.success(res)
                 }
+
                 else -> {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
@@ -316,6 +388,7 @@ class AddOfferViewModel : BaseViewModel() {
                 true -> {
                     apiResponseLiveData.value = ApiResponse.success(res)
                 }
+
                 else -> {
 //                    apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
@@ -326,18 +399,20 @@ class AddOfferViewModel : BaseViewModel() {
     @Throws(ParseException::class)
     fun checkValidationDates(): Boolean {
         var result = false
-        val sdformat = SimpleDateFormat("yyyy-MM-dd")
-        val d1 = sdformat.parse(obsStartDate.get())
-        val d2 = sdformat.parse(obsEndDate.get())
-        if (d1 > d2) {
-            setValue(Codes.START_AFTER_END)
-            result = false
-        } else if (d1 < d2) {
-            setValue(Codes.VALIDATION_SUCCESS)
-            result = true
-        } else if (d1 == d2) {
-            setValue(Codes.START_EQUAL_END)
-            result = false
+        val sdFormat = SimpleDateFormat("yyyy-MM-dd")
+        val d1 = sdFormat.parse(obsStartDate.get().toString())
+        val d2 = sdFormat.parse(obsEndDate.get().toString())
+        if (d1 != null) {
+            if (d1 > d2) {
+                setValue(Codes.START_AFTER_END)
+                result = false
+            } else if (d1 < d2) {
+                setValue(Codes.VALIDATION_SUCCESS)
+                result = true
+            } else if (d1 == d2) {
+                setValue(Codes.START_EQUAL_END)
+                result = false
+            }
         }
         return result
     }
@@ -349,7 +424,7 @@ class AddOfferViewModel : BaseViewModel() {
     fun onChangeImageClicked() {
         if (isUpdated) {
             setValue(Codes.CHANGE_IMAGES)
-        }else{
+        } else {
             setValue(Codes.SELECT_IMAGES)
         }
     }
@@ -363,6 +438,7 @@ class AddOfferViewModel : BaseViewModel() {
             obsStartDate.get() == null -> {
                 setValue(Codes.SELECT_START_DATE)
             }
+
             else -> {
                 setValue(Codes.SHOW_END_DATE)
             }

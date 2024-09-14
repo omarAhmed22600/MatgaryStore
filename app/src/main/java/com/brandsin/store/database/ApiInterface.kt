@@ -1,6 +1,7 @@
 package com.brandsin.store.database
 
 import com.brandsin.store.model.IntroResponse
+import com.brandsin.store.model.MessageResponse
 import com.brandsin.store.model.auth.StoreTagsRequest
 import com.brandsin.store.model.auth.StoreTagsResponse
 import com.brandsin.store.model.auth.StoreTypeResponse
@@ -21,8 +22,6 @@ import com.brandsin.store.model.auth.verifycode.VerifyCodeRequest
 import com.brandsin.store.model.auth.verifycode.VerifyCodeResponse
 import com.brandsin.store.model.main.homepage.OldOrdersResponse
 import com.brandsin.store.model.main.homepage.OrderDetailsResponse
-import com.brandsin.store.model.menu.commonquest.CommonQuesResponse
-import com.brandsin.store.model.menu.notifications.ReadNotificationRequest
 import com.brandsin.store.model.main.offers.add.CreateOfferResponse
 import com.brandsin.store.model.main.offers.add.OfferAddProductRequest
 import com.brandsin.store.model.main.offers.add.OfferAddProductResponse
@@ -34,22 +33,24 @@ import com.brandsin.store.model.main.offers.update.UpdateOfferResponse
 import com.brandsin.store.model.main.order.updatestatus.UpdateStatusOrderRequest
 import com.brandsin.store.model.main.order.updatestatus.UpdateStatusOrderResponse
 import com.brandsin.store.model.main.products.ListUnitResponse
-import com.brandsin.store.model.main.products.list.ListProductsResponse
-import com.brandsin.store.model.main.products.update.UpdateProductResponse
 import com.brandsin.store.model.main.products.add.AddProductResponse
 import com.brandsin.store.model.main.products.delete.DeleteProductRequest
 import com.brandsin.store.model.main.products.delete.DeleteProductResponse
+import com.brandsin.store.model.main.products.list.ListProductsResponse
 import com.brandsin.store.model.main.products.productcategories.ProductCategoriesResponse
+import com.brandsin.store.model.main.products.update.UpdateProductResponse
 import com.brandsin.store.model.main.reports.ReportsDetailsResponse
 import com.brandsin.store.model.main.reports.ReportsTotalResponse
 import com.brandsin.store.model.menu.MenuBusyRequest
 import com.brandsin.store.model.menu.MenuClosedRequest
 import com.brandsin.store.model.menu.MenuResponse
+import com.brandsin.store.model.menu.commonquest.CommonQuesResponse
 import com.brandsin.store.model.menu.connectingmain.ConnectingMainRequest
 import com.brandsin.store.model.menu.connectingmain.ConnectingMainResponse
 import com.brandsin.store.model.menu.connectingmain.accept.AcceptConnectingMainRequest
 import com.brandsin.store.model.menu.connectingmain.accept.AcceptConnectingMainResponse
 import com.brandsin.store.model.menu.connectingmain.list.ListConnectingMainResponse
+import com.brandsin.store.model.menu.notifications.ReadNotificationRequest
 import com.brandsin.store.model.profile.addedstories.deletestory.DeleteStoryRequest
 import com.brandsin.store.model.profile.addedstories.deletestory.DeleteStoryResponse
 import com.brandsin.store.model.profile.addedstories.liststories.ListStoriesResponse
@@ -61,6 +62,16 @@ import com.brandsin.store.model.profile.updateprofile.UpdateProfileRequest
 import com.brandsin.store.model.profile.updateprofile.UpdateProfileResponse
 import com.brandsin.store.model.profile.updatestore.UpdateStoreResponse
 import com.brandsin.store.model.profile.updatestore.UploadResponse
+import com.brandsin.store.ui.main.categories.model.CategoriesListResponse
+import com.brandsin.store.ui.main.discountCoupon.model.CouponListResponse
+import com.brandsin.store.ui.main.discountCoupon.model.CreateAndUpdateCouponResponse
+import com.brandsin.store.ui.main.marketingRequest.model.PinStoriesMarketingResponse
+import com.brandsin.store.ui.main.offersAndFeatures.model.OfferAndFeatureDetailsResponse
+import com.brandsin.store.ui.main.offersAndFeatures.model.OfferAndFeatureListResponse
+import com.brandsin.store.ui.main.refundableProduct.model.RefundableDetailsResponse
+import com.brandsin.store.ui.main.refundableProduct.model.RefundableProductResponse
+import com.brandsin.store.ui.main.subscriptions.SubscriptionListResponse
+import com.brandsin.store.ui.menu.wallet.model.WalletTransactionsResponse
 import com.brandsin.user.model.menu.help.HelpQuesResponse
 import com.brandsin.user.model.menu.notifications.NotificationResponse
 import com.brandsin.user.model.menu.notifications.ReadNotificationResponse
@@ -69,10 +80,10 @@ import com.brandsin.user.model.menu.settings.SocialLinksResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.*
 
-interface ApiInterface
-{
+interface ApiInterface {
     @Multipart
     @POST("/api/hajaty/store/register")
     suspend fun register(
@@ -80,11 +91,12 @@ interface ApiInterface
         @Part("store[lat]") storeLat: RequestBody,
         @Part("store[lng]") storeLng: RequestBody,
         @Part("store[address]") address: RequestBody,
-        @Part("store[delivery_price]") deliveryPrice: RequestBody,
-        @Part("store[delivery_time]") deliveryTime: RequestBody,
-        @Part("store[delivery_distance]") delivery_distance: RequestBody,
-        @Part("store[min_order_price]") min_order_price: RequestBody,
-        @Part("store[phone_number]") phone_number: RequestBody,
+        @Part("store[delivery_price]") deliveryPrice: RequestBody?,
+        @Part("store[delivery_time]") deliveryTime: RequestBody?,
+        @Part("store[delivery_type]") deliveryType: RequestBody?,
+        @Part("store[delivery_distance]") deliveryDistance: RequestBody?,
+        @Part("store[min_order_price]") minOrderPrice: RequestBody,
+        @Part("store[phone_number]") phoneNumber: RequestBody,
         @Part("store[whatsapp]") whatsapp: RequestBody,
         @Part("user[name]") userName: RequestBody,
         @Part("user[last_name]") userLastName: RequestBody,
@@ -94,9 +106,17 @@ interface ApiInterface
         @Part("categories[]") category: ArrayList<Int>,
         @Part("tags[]") tags: ArrayList<Int>,
         @Part("store[has_delivery]") hasDelivery: RequestBody,
+        @Part("store[pick_up_from_store]") pickUpFromStore: RequestBody,
+        @Part("store[cash_on_delivery]") cashOnDelivery: RequestBody,
+        // banking data
+        @Part("store[owner_name]") storeOwnerName: RequestBody,
+        @Part("store[bank_name]") storeBankName: RequestBody,
+        @Part("store[iban]") storeIban: RequestBody,
+        // Images
         @Part image: MultipartBody.Part,
         @Part image2: MultipartBody.Part,
-        @Part image3: MultipartBody.Part ): RegisterResponse
+        @Part image3: MultipartBody.Part
+    ): RegisterResponse
 
     @Multipart
     @POST("/api/hajaty/store/register")
@@ -107,9 +127,9 @@ interface ApiInterface
         @Part("store[address]") address: RequestBody,
         @Part("store[delivery_price]") deliveryPrice: RequestBody,
         @Part("store[delivery_time]") deliveryTime: RequestBody,
-        @Part("store[delivery_distance]") delivery_distance: RequestBody,
-        @Part("store[min_order_price]") min_order_price: RequestBody,
-        @Part("store[phone_number]") phone_number: RequestBody,
+        @Part("store[delivery_distance]") deliveryDistance: RequestBody,
+        @Part("store[min_order_price]") minOrderPrice: RequestBody,
+        @Part("store[phone_number]") phoneNumber: RequestBody,
         @Part("store[whatsapp]") whatsapp: RequestBody,
         @Part("user[name]") userName: RequestBody,
         @Part("user[last_name]") userLastName: RequestBody,
@@ -120,10 +140,14 @@ interface ApiInterface
         @Part("tags[]") tags: ArrayList<Int>,
         @Part("store[has_delivery]") hasDelivery: RequestBody,
         @Part imageCommercial: MultipartBody.Part,
-        @Part imageNationalId: MultipartBody.Part): RegisterResponse
+        @Part imageNationalId: MultipartBody.Part
+    ): RegisterResponse
 
     @GET("/api/common/settings")
-    suspend fun getConditions(@Query("code") code: String, @Query("lang") lang: String): ConditionsResponse
+    suspend fun getConditions(
+        @Query("code") code: String,
+        @Query("lang") lang: String
+    ): ConditionsResponse
 
     /* ---------- Auth APIs -------- */
     // login
@@ -133,52 +157,64 @@ interface ApiInterface
     // country_id+Condition
     @GET("/api/common/settings")
     fun getCountryId(
-            @Query("code") code: String?,
-            @Query("lang") lang: String?
+        @Query("code") code: String?,
+        @Query("lang") lang: String?
     ): Call<CountryIdResponse?>?
+
     // verify
     @POST("/api/users/check_code")
     fun verify(@Body verifyCodeRequest: VerifyCodeRequest?): Call<VerifyCodeResponse?>
+
     // resendCode
     @POST("/api/users/resend_code")
     fun resendCode(@Body resendCodeRequest: ResendCodeRequest?): Call<ResendCodeResponse?>
+
     // forgotPass
     @POST("/api/users/forget_password")
     fun forgotPass(@Body forgotPassRequest: ForgotPassRequest?): Call<ForgotPassResponse?>
+
     // resetPass
     @POST("/api/users/update_password")
     fun resetPass(@Body resetPassRequest: ResetPassRequest?): Call<ResetPassResponse?>
+
     // changePass
     @POST("/api/users/update_user")
     fun changePass(@Body changePassRequest: ChangePassRequest?): Call<ChangePassResponse?>
+
     // updateProfile
     @POST("/api/users/update_user")
-    fun updateProfile(@Body updateProfileRequest: UpdateProfileRequest?): Call<UpdateProfileResponse?>
+    fun updateProfile(
+        @Body updateProfileRequest: UpdateProfileRequest?
+    ): Call<UpdateProfileResponse?>
+
     // deviceToken
     @POST("/api/users/update_token")
     fun deviceToken(@Body deviceTokenRequest: DeviceTokenRequest?): Call<DeviceTokenResponse?>
 
-
-
     @GET("/api/hajaty/offers")
-    suspend fun getOffers(@Query("store_id") storeId: Int, @Query("limit") limit: Int, @Query("page") page: Int,
-                            @Query("locale") lang: String): OffersResponse
+    suspend fun getOffers(
+        @Query("store_id") storeId: Int, @Query("limit") limit: Int, @Query("page") page: Int,
+        @Query("locale") lang: String
+    ): OffersResponse
 
     @Multipart
     @POST("/api/hajaty/offers")
-     suspend fun createOffer(@Part("store_id") store_id: RequestBody,
-                             @Part("name") name: RequestBody,
-                             @Part("description") description: RequestBody,
-                             @Part("name_en") nameEn: RequestBody,
-                             @Part("description_en") descriptionEn: RequestBody,
-                             @Part("price") price: RequestBody,
-                             @Part("price_to") price_to: RequestBody,
-                             @Part("start_date") start_date: RequestBody,
-                             @Part("end_date") end_date: RequestBody,
-                             @Part("active") active: RequestBody,
-                             @Part("products[]") products: ArrayList<Int>,
-                             @Part image: MultipartBody.Part,
-                             @Part("locale") locale: RequestBody): CreateOfferResponse
+    suspend fun createOffer(
+        @Part("store_id") storeId: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("name_en") nameEn: RequestBody,
+        @Part("description_en") descriptionEn: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("price_to") priceTo: RequestBody,
+        @Part("start_date") startDate: RequestBody,
+        @Part("end_date") endDate: RequestBody,
+        @Part("active") active: RequestBody,
+        @Part("type") type: RequestBody,
+        @Part("products[]") products: ArrayList<Int>? = null,
+        @Part image: MultipartBody.Part,
+        @Part("locale") locale: RequestBody
+    ): CreateOfferResponse
 
     @POST("/api/hajaty/offers/delete")
     suspend fun deleteOffer(@Body deleteOfferRequest: DeleteOfferRequest): DeleteOfferResponse
@@ -188,41 +224,50 @@ interface ApiInterface
 
     @Multipart
     @POST("/api/hajaty/offers")
-    suspend fun updateOffer(@Part("id") id: RequestBody,
-                            @Part("store_id") store_id: RequestBody,
-                            @Part("name") name: RequestBody,
-                            @Part("description") description: RequestBody,
-                            @Part("name_en") nameEn: RequestBody,
-                            @Part("description_en") descriptionEn: RequestBody,
-                            @Part("price") price: RequestBody,
-                            @Part("price_to") price_to: RequestBody,
-                            @Part("start_date") start_date: RequestBody,
-                            @Part("end_date") end_date: RequestBody,
-                            @Part("active") active: RequestBody,
-                            @Part("products[]") products: ArrayList<Int>,
-                            @Part image: MultipartBody.Part,
-                            @Part("locale") locale: RequestBody): UpdateOfferResponse
+    suspend fun updateOffer(
+        @Part("id") id: RequestBody,
+        @Part("store_id") storeId: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("name_en") nameEn: RequestBody,
+        @Part("description_en") descriptionEn: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("price_to") priceTo: RequestBody,
+        @Part("start_date") startDate: RequestBody,
+        @Part("end_date") endDate: RequestBody,
+        @Part("active") active: RequestBody,
+        @Part("type") type: RequestBody,
+        @Part("products[]") products: ArrayList<Int>? = null,
+        @Part image: MultipartBody.Part,
+        @Part("locale") locale: RequestBody
+    ): UpdateOfferResponse
 
     @GET("/api/hajaty/store/show")
-    suspend fun getStoreProducts(@Query("store_id") storeId: Int, @Query("locale") locale: String ,
-                                 @Query("page") page: Int , @Query("limit") limit: Int): ListProductsResponse
+    suspend fun getStoreProducts(
+        @Query("store_id") storeId: Int,
+        @Query("locale") locale: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): ListProductsResponse
 
     @Multipart
     @POST("/api/hajaty/product")
-    suspend fun createProduct(@Part("name") name: RequestBody,
-                              @Part("description") description: RequestBody,
-                              @Part("name_en") nameEn: RequestBody,
-                              @Part("description_en") descriptionEn: RequestBody,
-                              @Part("type") type: RequestBody,
-                              @Part("status") status: RequestBody,
-                              @Part("product_status") productStatus: RequestBody,
-                              @Part("store_id") storeId: RequestBody,
-                              @Part("skus") skus:RequestBody,
-                              @Part("categories[]") categories: ArrayList<Int>,
-                              @Part("device") device: RequestBody,
-                              @Part("media_id[]") storeMedia: ArrayList<Int>,
-                              @Part("delete_media_id[]") deleteMedia: ArrayList<Int>,
-                              @Part("locale") locale: RequestBody): AddProductResponse
+    suspend fun createProduct(
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("name_en") nameEn: RequestBody,
+        @Part("description_en") descriptionEn: RequestBody,
+        @Part("type") type: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("product_status") productStatus: RequestBody,
+        @Part("store_id") storeId: RequestBody,
+        @Part("skus") skus: RequestBody,
+        @Part("categories[]") categories: ArrayList<Int>,
+        @Part("device") device: RequestBody,
+        @Part("media_id[]") storeMedia: ArrayList<Int>,
+        @Part("delete_media_id[]") deleteMedia: ArrayList<Int>,
+        @Part("locale") locale: RequestBody
+    ): AddProductResponse
 
 
     @POST("/api/hajaty/product/delete")
@@ -230,56 +275,80 @@ interface ApiInterface
 
     @Multipart
     @POST("/api/hajaty/product")
-    suspend fun updateProduct(@Part("id") id: RequestBody,
-                              @Part("name") name: RequestBody,
-                              @Part("description") description: RequestBody,
-                              @Part("name_en") nameEn: RequestBody,
-                              @Part("description_en") descriptionEn: RequestBody,
-                              @Part("type") type: RequestBody,
-                              @Part("status") status: RequestBody,
-                              @Part("product_status") productStatus: RequestBody,
-                              @Part("store_id") storeId: RequestBody,
-                              @Part("skus") skus:RequestBody,
-                              @Part("categories[]") categories: ArrayList<Int>,
-                              @Part("device") device: RequestBody,
-                              @Part("media_id[]") storeMedia: ArrayList<Int>,
-                              @Part("delete_media_id[]") deleteMedia: ArrayList<Int>,
-                              @Part("locale") locale: RequestBody): UpdateProductResponse
+    suspend fun updateProduct(
+        @Part("id") id: RequestBody,
+        @Part("name") name: RequestBody,
+        @Part("description") description: RequestBody,
+        @Part("name_en") nameEn: RequestBody,
+        @Part("description_en") descriptionEn: RequestBody,
+        @Part("type") type: RequestBody,
+        @Part("status") status: RequestBody,
+        @Part("product_status") productStatus: RequestBody,
+        @Part("store_id") storeId: RequestBody,
+        @Part("skus") skus: RequestBody,
+        @Part("categories[]") categories: ArrayList<Int>,
+        @Part("device") device: RequestBody,
+        @Part("media_id[]") storeMedia: ArrayList<Int>,
+        @Part("delete_media_id[]") deleteMedia: ArrayList<Int>,
+        @Part("locale") locale: RequestBody
+    ): UpdateProductResponse
 
 
     @GET("/api/categories/all_categories")
-    suspend fun getProductCategories(@Query("parents_only") parents_only : Int,
-                                     @Query("lang") lang : String,
-                                     @Query("store_id") storeId: Int): ProductCategoriesResponse
+    suspend fun getProductCategories(
+        @Query("parents_only") parentsOnly: Int,
+        @Query("lang") lang: String,
+        @Query("store_id") storeId: Int
+    ): ProductCategoriesResponse
 
     @GET("/api/hajaty/notifications")
-    suspend fun getNotifications(@Query("limit") limit: Int, @Query("page") page: Int,
-                          @Query("user_id") user_id: Int): NotificationResponse
+    suspend fun getNotifications(
+        @Query("limit") limit: Int, @Query("page") page: Int,
+        @Query("user_id") userId: Int
+    ): NotificationResponse
 
     @POST("/api/hajaty/notifications")
-    suspend fun readNotification(@Body request : ReadNotificationRequest): ReadNotificationResponse
+    suspend fun readNotification(@Body request: ReadNotificationRequest): ReadNotificationResponse
 
     @GET("/api/hajaty/pages")
-    suspend fun getCommonQues(@Query("type") type: String, @Query("lang") lang: String): CommonQuesResponse
+    suspend fun getCommonQues(
+        @Query("type") type: String,
+        @Query("lang") lang: String
+    ): CommonQuesResponse
 
     @GET("/api/hajaty/pages")
-    suspend fun getHelpQues(@Query("type") type: String, @Query("lang") lang: String): HelpQuesResponse
+    suspend fun getHelpQues(
+        @Query("type") type: String,
+        @Query("lang") lang: String
+    ): HelpQuesResponse
 
     @GET("/api/orders/list_orders")
-    suspend fun getStoreOrders(@Query("lang") lang: String, @Query("store_id") storeId: Int, @Query("limit") limit : Int,
-                             @Query("status") status: String, @Query("page") page : Int): OldOrdersResponse
-
+    suspend fun getStoreOrders(
+        @Query("lang") lang: String,
+        @Query("store_id") storeId: Int,
+        @Query("limit") limit: Int? = null,
+        @Query("status") status: String,
+        @Query("page") page: Int? = null
+    ): OldOrdersResponse
 
     @GET("/api/common/settings")
-    suspend fun getPhoneNumber(@Query("code") code: String, @Query("lang") lang: String): PhoneNumberResponse
+    suspend fun getPhoneNumber(
+        @Query("code") code: String,
+        @Query("lang") lang: String
+    ): PhoneNumberResponse
 
     @GET("/api/common/settings")
-    suspend fun getSocialLinks(@Query("code") code: String, @Query("lang") lang: String): SocialLinksResponse
+    suspend fun getSocialLinks(
+        @Query("code") code: String,
+        @Query("lang") lang: String
+    ): SocialLinksResponse
 
 
     @GET("/api/orders/order_details")
-    suspend fun getOrderDetails(@Query("order_id") id : Int, @Query("lang") lang : String): OrderDetailsResponse
-
+    suspend fun getOrderDetails(
+        @Query("order_id") id: Int,
+        @Query("lang") lang: String
+    ): OrderDetailsResponse
 
 
     @GET("/api/hajaty/store/list_shop_categories")
@@ -288,22 +357,50 @@ interface ApiInterface
     @Multipart
     @POST("/api/hajaty/store/update")
     suspend fun updateStoreInfo(
-            @Part("store[id]") storeId: RequestBody,
-            @Part("store[name]") storeName: RequestBody,
-            @Part("store[lat]") storeLat: RequestBody,
-            @Part("store[lng]") storeLng: RequestBody,
-            @Part("store[address]") address: RequestBody,
-            @Part("store[delivery_price]") deliveryPrice: RequestBody,
-            @Part("store[delivery_time]") deliveryTime: RequestBody,
-            @Part("store[delivery_distance]") delivery_distance: RequestBody,
-            @Part("store[min_order_price]") min_order_price: RequestBody,
-            @Part("store[phone_number]") phone_number: RequestBody,
-            @Part("store[whatsapp]") whatsapp: RequestBody,
-            @Part("categories[]") category: ArrayList<Int>,
-            @Part("tags[]") tags: ArrayList<Int>,
-            @Part("store[has_delivery]") hasDelivery: RequestBody,
-            @Part("store_media[]") storeMedia: ArrayList<Int>,
-            @Part("delete_media[]") deleteMedia: ArrayList<Int>
+        @Part("store[id]") storeId: RequestBody,
+        @Part("store[name]") storeName: RequestBody,
+        @Part("store[lat]") storeLat: RequestBody,
+        @Part("store[lng]") storeLng: RequestBody,
+        @Part("store[address]") address: RequestBody,
+        @Part("store[delivery_price]") deliveryPrice: RequestBody,
+        @Part("store[delivery_time]") deliveryTime: RequestBody,
+        @Part("store[delivery_distance]") deliveryDistance: RequestBody,
+        @Part("store[delivery_type]") deliveryType: RequestBody?,
+        @Part("store[min_order_price]") minOrderPrice: RequestBody,
+        @Part("store[phone_number]") phoneNumber: RequestBody,
+        @Part("store[whatsapp]") whatsapp: RequestBody,
+        @Part("categories") category: ArrayList<Int>,
+        @Part("tags[]") tags: ArrayList<Int>,
+        @Part("store[pick_up_from_store]") pickUpFromStore: RequestBody,
+        @Part("store[cash_on_delivery]") cashOnDelivery: RequestBody,
+        @Part("store[has_delivery]") hasDelivery: RequestBody,
+
+        @Part("store[owner_name]") storeOwnerName: RequestBody,
+        @Part("store[bank_name]") storeBankName: RequestBody,
+        @Part("store[iban]") storeIban: RequestBody,
+
+        @Part("store_media[]") storeMedia: ArrayList<Int>,
+        @Part("delete_media[]") deleteMedia: ArrayList<Int>
+    ): UpdateStoreResponse
+
+    @Multipart
+    @POST("/api/hajaty/store/update")
+    suspend fun updateBankingAccountInfo(
+        @Part("store[id]") storeId: RequestBody,
+        @Part("store[name]") storeName: RequestBody,
+        @Part("store[lat]") storeLat: RequestBody,
+        @Part("store[lng]") storeLng: RequestBody,
+        @Part("store[address]") address: RequestBody,
+        @Part("store[delivery_price]") deliveryPrice: RequestBody,
+        @Part("store[delivery_time]") deliveryTime: RequestBody,
+        @Part("store[delivery_distance]") deliveryDistance: RequestBody,
+        @Part("store[min_order_price]") minOrderPrice: RequestBody,
+        @Part("store[phone_number]") phoneNumber: RequestBody,
+        @Part("store[whatsapp]") whatsapp: RequestBody,
+
+        @Part("store[owner_name]") storeOwnerName: RequestBody,
+        @Part("store[bank_name]") storeBankName: RequestBody,
+        @Part("store[iban]") storeIban: RequestBody,
     ): UpdateStoreResponse
 
     // OfferAddProduct
@@ -317,62 +414,63 @@ interface ApiInterface
     //reportsTotal
     @GET("/api/hajaty/reports/total")
     suspend fun getReportsTotal(
-            @Query("store_id") store_id: Int,
-            @Query("limit") limit: Int,
-            @Query("page") page: Int,
-            @Query("type") type: String,
-            @Query("from") from: String,
-            @Query("to") to: String
+        @Query("store_id") storeId: Int,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int,
+        @Query("type") type: String,
+        @Query("from") from: String,
+        @Query("to") to: String
     ): ReportsTotalResponse
 
     //reportsDetails
     @GET("/api/hajaty/reports/detailed")
     suspend fun getReportsDetails(
-            @Query("store_id") store_id: Int,
-            @Query("limit") limit: Int,
-            @Query("page") page: Int,
-            @Query("type") type: String,
-            @Query("from") from: String,
-            @Query("to") to: String
+        @Query("store_id") storeId: Int,
+        @Query("limit") limit: Int,
+        @Query("page") page: Int,
+        @Query("type") type: String,
+        @Query("from") from: String,
+        @Query("to") to: String
     ): ReportsDetailsResponse
 
 
     @POST("/api/hajaty/store/tags")
-    fun getTags(@Body request : StoreTagsRequest): Call<StoreTagsResponse?>
+    fun getTags(@Body request: StoreTagsRequest): Call<StoreTagsResponse?>
 
     @POST("/api/hajaty/store/is_busy")
-    fun setMenuBusy(@Body request : MenuBusyRequest): Call<MenuResponse?>
+    fun setMenuBusy(@Body request: MenuBusyRequest): Call<MenuResponse?>
 
     @POST("/api/hajaty/store/is_closed")
-    fun setMenuClosed(@Body request : MenuClosedRequest): Call<MenuResponse?>
+    fun setMenuClosed(@Body request: MenuClosedRequest): Call<MenuResponse?>
 
-   @GET("/api/hajaty/list_units")
+    @GET("/api/hajaty/list_units")
     suspend fun getUnitsList(
-            @Query("categories[]") category: ArrayList<Int>,
-            @Query("locale") locale: String
+        @Query("categories[]") category: ArrayList<Int>,
+        @Query("locale") locale: String
     ): ListUnitResponse
 
     @POST("/api/hajaty/clone_products")
-    fun setConnectingMain(@Body request : ConnectingMainRequest): Call<ConnectingMainResponse?>
+    fun setConnectingMain(@Body request: ConnectingMainRequest): Call<ConnectingMainResponse?>
 
     @GET("/api/hajaty/list_clone_products_requests")
     fun getListConnectingMain(
-        @Query("store_id") store_id: Int
+        @Query("store_id") storeId: Int
     ): Call<ListConnectingMainResponse?>
 
     @POST("/api/hajaty/accept_clone_products_request")
-    fun setAcceptConnectingMain(@Body request : AcceptConnectingMainRequest): Call<AcceptConnectingMainResponse?>
+    fun setAcceptConnectingMain(@Body request: AcceptConnectingMainRequest): Call<AcceptConnectingMainResponse?>
 
     @Multipart
     @POST("/api/upload")
     suspend fun upload(
-            @Part("collection") collection: RequestBody,
-            @Part image: MultipartBody.Part ): UploadResponse
+        @Part("collection") collection: RequestBody,
+        @Part image: MultipartBody.Part
+    ): UploadResponse
 
     // ListStories
     @GET("/api/hajaty/store/list_stories")
     fun getListStories(
-        @Query("store_id") store_id: Int
+        @Query("store_id") storeId: Int
     ): Call<ListStoriesResponse?>
 
     // DeleteStories
@@ -384,8 +482,12 @@ interface ApiInterface
     @POST("/api/hajaty/store/upload_story")
     suspend fun uploadStories(
         @Part("store_id") storeId: RequestBody,
-        @Part("text") text: RequestBody,
-        @Part image: MultipartBody.Part ): UploadStoryResponse
+        @Part("text") text: RequestBody?,
+        @Part("x") x: RequestBody?,
+        @Part("y") y: RequestBody?,
+        @Part("product_id") productId: RequestBody?,
+        @Part image: MultipartBody.Part?
+    ): UploadStoryResponse
 
     @POST("/api/hajaty/store/upload_story")
     suspend fun uploadStoriesWithout(
@@ -394,6 +496,138 @@ interface ApiInterface
 
     //Intro
     @GET("/api/common/introduction_app")
-    fun getIntro(@Query("app") app: String ): Call<IntroResponse?>
+    fun getIntro(@Query("app") app: String): Call<IntroResponse?>
 
+    @POST("api/hajaty/store/categories/create")
+    suspend fun addCategory(
+        @Query("store_id") storeId: Int,
+        @Query("name") nameAr: String,
+        @Query("name_en") nameEr: String,
+    ): Response<MessageResponse?>
+
+    @GET("api/hajaty/store/categories/list")
+    suspend fun getAllCategories(
+        @Query("store_id") storeId: Int
+    ): Response<CategoriesListResponse?>
+
+    @POST("api/hajaty/store/categories/delete")
+    suspend fun deleteCategoryByCategoryId(
+        @Query("category_id") categoryId: Int
+    ): Response<MessageResponse?>
+
+    @POST("api/hajaty/store/categories/update")
+    suspend fun editCategory(
+        @Query("category_id") categoryId: Int,
+        @Query("name") nameAr: String,
+        @Query("name_en") nameEr: String,
+    ): Response<MessageResponse?>
+
+    @GET("api/hajaty/offer_and_features")
+    suspend fun getAllOffersAndFeatures(): Response<OfferAndFeatureListResponse?>
+
+    @GET("api/hajaty/offer_and_features/{id}")
+    suspend fun getOfferAndFeatureById(
+        @Path("id") offerAndFeatureId: Int
+    ): Response<OfferAndFeatureDetailsResponse>
+
+    @GET("api/stores/get_plans") // {{base}}/api/stores/get_plans?store_id=130
+    suspend fun getPlansSubscription(
+        @Query("store_id") storeId: Int
+    ): Response<SubscriptionListResponse?>
+
+    @POST("api/stores/subscribe") // {{base}}/api/stores/subscribe
+    suspend fun addSubscriptionPlan(
+        @Query("store_id") storeId: Int,
+        @Query("plan_id") planId: Int
+    ): Response<SubscriptionListResponse?>
+
+    @GET("api/coupon/{id}") // {{base}}/api/coupon/65
+    suspend fun getAllCoupons(
+        @Path("id") storeId: Int
+    ): Response<CouponListResponse?>
+
+    @DELETE("api/coupon/{id}") // {{base}}/api/coupon/29
+    suspend fun deleteCouponById(
+        @Path("id") couponId: Int
+    ): Response<CouponListResponse?>
+
+    @POST("api/coupon") // {{base}}/api/coupon
+    suspend fun createNewCoupon(
+        @Query("store_id") storeId: Int,
+        @Query("code") code: String,
+        @Query("type") type: String, // fixed, percentage
+        @Query("value") value: String,
+        @Query("start") start: String,
+        @Query("expiry") expiry: String,
+    ): Response<CreateAndUpdateCouponResponse?>
+
+    @POST("api/coupon/{id}") // {{base}}/api/coupon/28
+    suspend fun updateCouponByCouponId(
+        @Path("id") couponId: Int,
+        @Query("store_id") storeId: Int,
+        @Query("code") code: String,
+        @Query("type") type: String, // fixed, percentage
+        @Query("value") value: String?,
+        @Query("start") start: String,
+        @Query("expiry") expiry: String,
+    ): Response<CreateAndUpdateCouponResponse?>
+
+    @GET("api/refundable_products") // {{base}}/api/refundable_products?store_id=130
+    suspend fun getAllRefundableProduct(
+        @Query("store_id") storeId: Int,
+    ): Response<RefundableProductResponse?>
+
+    @GET("api/refund_details") // {{base}}/api/refund_details?refundable_id=20
+    suspend fun getRefundableDetailsByRefundableId(
+        @Query("refundable_id") refundableId: Int?,
+    ): Response<RefundableDetailsResponse?>
+
+    @POST("api/refundable_products/{id}") // {{base}}/api/refundable_products/20
+    suspend fun updateStatusRefundableProduct(
+        @Path("id") refundableId: Int?,
+        @Query("status") status: String, // [ 'approval', 'rejected']
+        @Query("note") note: String?,
+    ): Response<MessageResponse?>
+
+    @GET("/api/hajaty/store/list_stories")
+    suspend fun getNewListStories(
+        @Query("store_id") storeId: Int,
+        @Query("locale") locale: String = "ar"
+    ): Response<ListStoriesResponse?>
+
+    @GET("/api/common/settings")
+    suspend fun getPinStoriesMarketing(
+        @Query("code") code: String,
+        @Query("lang") lang: String
+    ): Response<PinStoriesMarketingResponse>
+
+    @POST("api/hajaty/marketing_requests")
+    suspend fun createMarketingRequests(
+        @Query("type") type: String,
+        @Query("story") story: List<String>, // ["870","869"]
+        @Query("number_of_shopping_days") numberOfShoppingDays: Int,
+        @Query("price") price: Double
+    ): Response<MessageResponse>
+
+    @GET("/api/hajaty/store/show")
+    suspend fun getStoreProductsList(
+        @Query("store_id") storeId: Int,
+        @Query("locale") locale: String,
+        @Query("page") page: Int,
+        @Query("limit") limit: Int
+    ): Response<ListProductsResponse>
+
+    /*
+    @POST("api/hajaty/marketing_requests")
+    suspend fun createMarketingRequests(
+        @Body requestBody: CreateMarketingRequest,
+        @Part("products[]") products: ArrayList<Int>,
+    ): Response<Void>*/
+
+    @GET("/api/stores/transactions")
+    suspend fun getWalletTransactions(
+        @Query("limit") limit: Int?,
+        @Query("page") page: Int?,
+        @Query("store_id") storeId: Int
+    ): Response<WalletTransactionsResponse?>
 }

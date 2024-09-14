@@ -34,7 +34,6 @@ public class ImagePicker {
 
     public static int minWidthQuality = DEFAULT_MIN_WIDTH_QUALITY;
 
-
     public static Intent getPickImageIntent(Context context) {
         Intent chooserIntent = null;
 
@@ -44,7 +43,7 @@ public class ImagePicker {
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePhotoIntent.putExtra("turn-data", true);
-        Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider",getTempFile(context));
+        Uri uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", getTempFile(context));
         takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
         intentList = addIntentsToList(context, intentList, pickIntent);
         intentList = addIntentsToList(context, intentList, takePhotoIntent);
@@ -70,16 +69,14 @@ public class ImagePicker {
         return list;
     }
 
-
-    public static Bitmap getImageFromResult(Context context, int resultCode,
-                                            Intent imageReturnedIntent) {
+    public static Bitmap getImageFromResult(Context context, int resultCode, Intent imageReturnedIntent) {
         Log.d(TAG, "getImageFromResult, resultCode: " + resultCode);
         Bitmap bm = null;
         File imageFile = getTempFile(context);
         if (resultCode == Activity.RESULT_OK) {
             Uri selectedImage;
             boolean isCamera = (imageReturnedIntent == null ||
-                    imageReturnedIntent.getData() == null  ||
+                    imageReturnedIntent.getData() == null ||
                     imageReturnedIntent.getData().toString().contains(imageFile.toString()));
             if (isCamera) {     /** CAMERA **/
                 selectedImage = Uri.fromFile(imageFile);
@@ -94,7 +91,6 @@ public class ImagePicker {
         }
         return bm;
     }
-
 
     private static File getTempFile(Context context) {
         File imageFile = new File(context.getExternalCacheDir(), TEMP_IMAGE_NAME);
@@ -134,11 +130,10 @@ public class ImagePicker {
             Log.d(TAG, "resizer: new bitmap width = " + bm.getWidth());
             i++;
         } while (bm.getWidth() < minWidthQuality && i < sampleSizes.length);
-         bm = Bitmap.createScaledBitmap(bm, 200, 200, true);
+        bm = Bitmap.createScaledBitmap(bm, 200, 200, true);
 
         return bm;
     }
-
 
     private static int getRotation(Context context, Uri imageUri, boolean isCamera) {
         int rotation;
@@ -197,7 +192,6 @@ public class ImagePicker {
         }//End of try-catch block
         return result;
     }
-
 
     private static Bitmap rotate(Bitmap bm, int rotation) {
         if (rotation != 0) {

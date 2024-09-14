@@ -21,10 +21,12 @@ class StoreCodeViewModel  : BaseViewModel() {
         requestCall<PhoneNumberResponse?>({ withContext(Dispatchers.IO) { return@withContext getApiRepo().
         getPhoneNumber(type , PrefMethods.getLanguage()) } })
         { res ->
-            when (res!!.isSuccess) {
+            when (res?.isSuccess) {
                 true -> {
                     txt = res.phoneNumber.toString()
                 }
+
+                else -> {}
             }
         }
     }

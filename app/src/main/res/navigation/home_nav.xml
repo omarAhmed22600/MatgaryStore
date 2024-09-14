@@ -1,9 +1,5 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<navigation
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
@@ -13,21 +9,26 @@
         android:id="@+id/nav_home"
         android:name="com.brandsin.store.ui.main.home.HomeFragment"
         android:label="@string/home"
-        tools:layout="@layout/home_fragment_home" >
+        tools:layout="@layout/home_fragment_home">
 
-        <action android:id="@+id/home_to_profile"
-            app:destination="@+id/nav_profile"/>
+        <action
+            android:id="@+id/home_to_profile"
+            app:destination="@+id/nav_profile" />
 
-        <action android:id="@+id/home_to_order_details"
-            app:destination="@+id/nav_order_details"/>
+        <action
+            android:id="@+id/home_to_order_details"
+            app:destination="@+id/nav_order_details" />
 
-        <action android:id="@+id/home_to_notifications"
-            app:destination="@+id/nav_notifications"/>
+        <action
+            android:id="@+id/home_to_notifications"
+            app:destination="@+id/nav_notifications" />
 
-        <action android:id="@+id/home_to_add_story"
+        <action
+            android:id="@+id/home_to_add_story"
             app:destination="@+id/nav_add_story" />
 
-        <action android:id="@+id/home_to_accept_connecting_main"
+        <action
+            android:id="@+id/home_to_accept_connecting_main"
             app:destination="@+id/nav_accept_connecting_main" />
 
     </fragment>
@@ -35,30 +36,32 @@
     <fragment
         android:id="@+id/nav_completed_orders"
         android:name="com.brandsin.store.ui.main.home.completedorders.CompletedOrdersFragment"
-        tools:layout="@layout/home_fragment_completed_orders" >
+        tools:layout="@layout/home_fragment_completed_orders">
 
-        <action android:id="@+id/completed_orders_to_order_details"
-            app:destination="@+id/nav_order_details"/>
+        <action
+            android:id="@+id/completed_orders_to_order_details"
+            app:destination="@+id/nav_order_details" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_new_orders"
         android:name="com.brandsin.store.ui.main.home.neworders.NewOrdersFragment"
-        tools:layout="@layout/home_fragment_new_orders" >
+        tools:layout="@layout/home_fragment_new_orders">
 
-        <action android:id="@+id/new_orders_to_order_details"
-            app:destination="@+id/nav_order_details"/>
+        <action
+            android:id="@+id/new_orders_to_order_details"
+            app:destination="@+id/nav_order_details" />
 
     </fragment>
 
     <fragment
         android:id="@+id/nav_order_details"
         android:name="com.brandsin.store.ui.main.orderdetails.OrderDetailsFragment"
-        tools:layout="@layout/home_fragment_order_details" >
+        tools:layout="@layout/home_fragment_order_details">
 
-        <argument
+        <!--<argument
             android:name="order_id"
-            app:argType="integer" />
+            app:argType="integer" />-->
     </fragment>
 
     <fragment
@@ -77,9 +80,10 @@
         android:id="@+id/nav_notifications"
         android:name="com.brandsin.store.ui.menu.notifications.NotificationFragment"
         android:label="@string/notifications"
-        tools:layout="@layout/home_fragment_notifications" >
-    <action android:id="@+id/notification_to_order_details"
-        app:destination="@id/nav_order_details"/>
+        tools:layout="@layout/home_fragment_notifications">
+        <action
+            android:id="@+id/notification_to_order_details"
+            app:destination="@id/nav_order_details" />
     </fragment>
 
 
@@ -88,18 +92,18 @@
         android:id="@+id/nav_help"
         android:name="com.brandsin.store.ui.menu.help.helpques.HelpFragment"
         android:label="@string/help"
-        tools:layout="@layout/menu_fragment_help" >
+        tools:layout="@layout/menu_fragment_help">
 
         <action
             android:id="@+id/help_to_answers"
-            app:destination="@+id/nav_help_answer"/>
+            app:destination="@+id/nav_help_answer" />
 
     </fragment>
 
     <fragment
         android:id="@+id/nav_help_answer"
         android:name="com.brandsin.store.ui.menu.help.helpanswer.HelpAnswerFragment"
-        tools:layout="@layout/menu_fragment_help_answer" >
+        tools:layout="@layout/menu_fragment_help_answer">
         <argument
             android:name="help_ques"
             app:argType="com.brandsin.user.model.menu.help.HelpQuesItem" />
@@ -115,13 +119,15 @@
         android:id="@+id/nav_about"
         android:name="com.brandsin.store.ui.menu.about.AboutFragment"
         android:label="@string/about"
-        tools:layout="@layout/menu_fragment_about" >
+        tools:layout="@layout/menu_fragment_about">
 
-        <action android:id="@+id/about_to_common_questions"
-            app:destination="@+id/nav_common_questions"/>
+        <action
+            android:id="@+id/about_to_common_questions"
+            app:destination="@+id/nav_common_questions" />
 
-        <action android:id="@+id/about_to_rate_app"
-            app:destination="@+id/nav_rate_app"/>
+        <action
+            android:id="@+id/about_to_rate_app"
+            app:destination="@+id/nav_rate_app" />
 
     </fragment>
 
@@ -130,20 +136,18 @@
         android:id="@+id/nav_store_code"
         android:name="com.brandsin.store.ui.menu.storecode.StoreCodeFragment"
         android:label="@string/store_codes"
-        tools:layout="@layout/menu_fragment_store_code" >
-    </fragment>
+        tools:layout="@layout/menu_fragment_store_code"></fragment>
 
     <fragment
         android:id="@+id/nav_connecting_main"
         android:name="com.brandsin.store.ui.menu.connectingmain.ConnectingMainFragment"
         android:label="@string/connecting_to_the_main_headquarters"
-        tools:layout="@layout/menu_fragment_connecting_main" >
-    </fragment>
+        tools:layout="@layout/menu_fragment_connecting_main"></fragment>
 
     <fragment
         android:id="@+id/nav_accept_connecting_main"
         android:name="com.brandsin.store.ui.main.home.acceptconnectingmain.AcceptConnectingMainFragment"
-        tools:layout="@layout/home_fragment_accept_connecting_main" >
+        tools:layout="@layout/home_fragment_accept_connecting_main">
 
         <argument
             android:name="request_id"
@@ -172,25 +176,31 @@
         tools:layout="@layout/menu_fragment_contact" />
 
 
-
     <!-- /////////////////////////////////////////////  -->
     <!-- NAVIGATION PROFILE  -->
     <fragment
         android:id="@+id/nav_profile"
         android:name="com.brandsin.store.ui.profile.ProfileFragment"
-        tools:layout="@layout/profile_fragment" >
+        tools:layout="@layout/profile_fragment">
 
-        <action android:id="@+id/profile_to_update"
-            app:destination="@id/nav_update_profile"/>
+        <action
+            android:id="@+id/profile_to_update"
+            app:destination="@id/nav_update_profile" />
 
-        <action android:id="@+id/profile_to_store_info"
-            app:destination="@+id/nav_store_info"/>
+        <action
+            android:id="@+id/profile_to_store_info"
+            app:destination="@+id/nav_store_info" />
 
-        <action android:id="@+id/profile_to_change_pass"
-            app:destination="@+id/nav_change_pass"/>
+        <action
+            android:id="@+id/profile_to_change_pass"
+            app:destination="@+id/nav_change_pass" />
 
-        <action android:id="@+id/profile_to_add_stories"
-            app:destination="@+id/nav_add_stories"/>
+        <action
+            android:id="@+id/profile_to_add_stories"
+            app:destination="@+id/nav_add_stories" />
+        <action
+            android:id="@+id/profile_to_updateBankAccountInfo"
+            app:destination="@id/updateBankAccountInfoFragment" />
 
     </fragment>
 
@@ -198,7 +208,6 @@
         android:id="@+id/nav_store_info"
         android:name="com.brandsin.store.ui.profile.store.StoreInfoFragment"
         tools:layout="@layout/profile_fragment_store_info" />
-
 
     <fragment
         android:id="@+id/nav_change_pass"
@@ -213,21 +222,24 @@
     <fragment
         android:id="@+id/nav_add_stories"
         android:name="com.brandsin.store.ui.profile.addedstories.AddedStoriesFragment"
-        tools:layout="@layout/profile_fragment_added_stories" >
+        tools:layout="@layout/profile_fragment_added_stories">
 
-        <action android:id="@+id/add_stories_to_show_story"
+        <action
+            android:id="@+id/add_stories_to_show_story"
             app:destination="@+id/nav_show_story" />
 
-        <action android:id="@+id/add_stories_to_add_story"
+        <action
+            android:id="@+id/add_stories_to_add_story"
             app:destination="@+id/nav_add_story" />
     </fragment>
 
     <fragment
         android:id="@+id/nav_show_story"
         android:name="com.brandsin.store.ui.profile.addedstories.showstory.ShowStoryFragment"
-        tools:layout="@layout/profile_fragment_show_story" >
+        tools:layout="@layout/profile_fragment_show_story">
 
-        <action android:id="@+id/show_story_to_add_stories"
+        <action
+            android:id="@+id/show_story_to_add_stories"
             app:destination="@+id/nav_add_stories" />
 
     </fragment>
@@ -239,16 +251,17 @@
     <fragment
         android:id="@+id/nav_my_products"
         android:name="com.brandsin.store.ui.main.products.MyProductsFragment"
-        tools:layout="@layout/home_fragment_my_products" >
+        tools:layout="@layout/home_fragment_my_products">
 
     </fragment>
 
     <fragment
         android:id="@+id/nav_add_product"
         android:name="com.brandsin.store.ui.main.addproduct.AddProductFragment"
-        tools:layout="@layout/home_fragment_add_product" >
+        tools:layout="@layout/home_fragment_add_product">
 
-        <action android:id="@+id/add_products_to_products"
+        <action
+            android:id="@+id/add_products_to_products"
             app:destination="@+id/nav_my_products" />
 
     </fragment>
@@ -256,12 +269,14 @@
     <fragment
         android:id="@+id/nav_add_story"
         android:name="com.brandsin.store.ui.main.home.addstory.AddStoryFragment"
-        tools:layout="@layout/home_fragment_add_story" >
+        tools:layout="@layout/home_fragment_add_story">
 
-        <action android:id="@+id/add_story_to_add_story_txt"
+        <action
+            android:id="@+id/add_story_to_add_story_txt"
             app:destination="@+id/nav_add_story_txt" />
 
-        <action android:id="@+id/add_story_to_add_stories"
+        <action
+            android:id="@+id/add_story_to_add_stories"
             app:destination="@+id/nav_add_stories" />
 
     </fragment>
@@ -269,10 +284,131 @@
     <fragment
         android:id="@+id/nav_add_story_txt"
         android:name="com.brandsin.store.ui.main.home.addstory.addstorytxt.AddStoryTxtFragment"
-        tools:layout="@layout/home_fragment_add_story_txt" >
+        tools:layout="@layout/home_fragment_add_story_txt">
 
-        <action android:id="@+id/add_story_txt_to_add_stories"
-            app:destination="@+id/nav_add_stories"/>
+        <action
+            android:id="@+id/add_story_txt_to_add_stories"
+            app:destination="@+id/nav_add_stories" />
+
+        <action
+            android:id="@+id/action_nav_add_story_txt_to_nav_add_story"
+            app:destination="@id/nav_add_story"
+            app:popUpTo="@id/nav_home" />
 
     </fragment>
+
+    <fragment
+        android:id="@+id/nav_categories"
+        android:name="com.brandsin.store.ui.main.categories.view.CategoriesFragment"
+        android:label="Categories"
+        tools:layout="@layout/fragment_categories" />
+
+    <fragment
+        android:id="@+id/nav_offers_and_features"
+        android:name="com.brandsin.store.ui.main.offersAndFeatures.OffersAndFeaturesFragment"
+        android:label="Offers and features"
+        tools:layout="@layout/fragment_offers_and_features" />
+
+    <fragment
+        android:id="@+id/offersAndFeaturesDetailsFragment"
+        android:name="com.brandsin.store.ui.main.offersAndFeatures.OffersAndFeaturesDetailsFragment"
+        android:label="Offers and features"
+        tools:layout="@layout/fragment_offers_and_features_details" />
+
+    <fragment
+        android:id="@+id/updateBankAccountInfoFragment"
+        android:name="com.brandsin.store.ui.profile.updateBankAccountInfo.UpdateBankAccountInfoFragment"
+        android:label="UpdateBankAccountInfoFragment" />
+
+    <fragment
+        android:id="@+id/nav_subscriptions"
+        android:name="com.brandsin.store.ui.main.subscriptions.SubscriptionsFragment"
+        android:label="Subscriptions"
+        tools:layout="@layout/fragment_subscriptions" />
+
+    <fragment
+        android:id="@+id/nav_discountCoupons"
+        android:name="com.brandsin.store.ui.main.discountCoupon.DiscountCouponsFragment"
+        android:label="Discount coupons"
+        tools:layout="@layout/fragment_discount_coupons" />
+
+    <fragment
+        android:id="@+id/addAndUpdateDiscountCouponFragment"
+        android:name="com.brandsin.store.ui.main.discountCoupon.AddAndUpdateDiscountCouponFragment"
+        android:label="Add_and_update_discount_coupon"
+        tools:layout="@layout/fragment_add_and_update_discount_coupon" />
+
+    <fragment
+        android:id="@+id/nav_refundableProducts"
+        android:name="com.brandsin.store.ui.main.refundableProduct.RefundableProductsFragment"
+        android:label="Refundable Products"
+        tools:layout="@layout/fragment_refundable_products" />
+    <fragment
+        android:id="@+id/refundableProductDetailsFragment"
+        android:name="com.brandsin.store.ui.main.refundableProduct.RefundableProductDetailsFragment"
+        android:label="fragment_refundable_product_details"
+        tools:layout="@layout/fragment_refundable_product_details" />
+
+    <fragment
+        android:id="@+id/nav_marketingRequest"
+        android:name="com.brandsin.store.ui.main.marketingRequest.MarketingRequestFragment"
+        android:label="fragment_marketing_request"
+        tools:layout="@layout/fragment_marketing_request" />
+    <fragment
+        android:id="@+id/chooseStoriesMarketingRequestFragment"
+        android:name="com.brandsin.store.ui.main.marketingRequest.ChooseStoriesMarketingRequestFragment"
+        android:label="fragment_choose_stories_marketing_request"
+        tools:layout="@layout/fragment_choose_stories_marketing_request" />
+    <fragment
+        android:id="@+id/reviewChosenStoriesMarketingFragment"
+        android:name="com.brandsin.store.ui.main.marketingRequest.ReviewChosenStoriesMarketingFragment"
+        android:label="fragment_review_chosen_stories_marketing"
+        tools:layout="@layout/fragment_review_chosen_stories_marketing" />
+
+    <fragment
+        android:id="@+id/uploadStoryProductFragment"
+        android:name="com.brandsin.store.ui.main.home.addstory.uploadStoryProoduct.UploadStoryProductFragment"
+        android:label="Upload story product"
+        tools:layout="@layout/fragment_upload_story_product" >
+        <action
+            android:id="@+id/action_uploadStoryProduct_to_nav_add_story"
+            app:destination="@id/nav_add_story"
+            app:popUpTo="@id/nav_home"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/imagePreviewFragment"
+        android:name="com.brandsin.store.ui.main.refundableProduct.ImagePreviewFragment"
+        android:label="Image preview"
+        tools:layout="@layout/fragment_image_preview" />
+
+    <fragment
+        android:id="@+id/previewUploadStoryPhotoAndVideoFragment"
+        android:name="com.brandsin.store.ui.main.home.addstory.PreviewUploadStoryPhotoAndVideoFragment"
+        android:label="fragment_preview_upload_story_photo_and_video"
+        tools:layout="@layout/fragment_preview_upload_story_photo_and_video" >
+        <action
+            android:id="@+id/action_previewUploadStoryPhotoAndVideo_to_nav_add_story"
+            app:destination="@id/nav_add_story"
+            app:popUpTo="@id/nav_home"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_chat"
+        android:name="com.brandsin.store.ui.chat.views.InboxFragment"
+        android:label="fragment_inbox"
+        tools:layout="@layout/fragment_inbox" />
+
+    <fragment
+        android:id="@+id/messageFragment"
+        android:name="com.brandsin.store.ui.chat.views.MessageFragment"
+        android:label="fragment_message"
+        tools:layout="@layout/fragment_message" />
+
+    <fragment
+        android:id="@+id/messageImagePreviewFragment"
+        android:name="com.brandsin.store.ui.chat.views.MessageImagePreviewFragment"
+        android:label=""
+        tools:layout="@layout/fragment_message_image_preview" />
+
 </navigation>

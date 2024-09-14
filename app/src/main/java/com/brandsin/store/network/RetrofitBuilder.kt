@@ -2,6 +2,7 @@ package com.brandsin.store.network
 
 import com.brandsin.store.BuildConfig
 import com.brandsin.store.database.ApiInterface
+import com.brandsin.store.model.constants.Params
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -15,8 +16,11 @@ import java.util.concurrent.TimeUnit
  * Created by MouazSalah on 28/12/2020.
  */
 
-//private const val BASE_URL = "https://hagaty-app.com/"
-private const val BASE_URL = "https://brandsin.net"
+// private const val BASE_URL = "https://hagaty-app.com/"
+// private const val BASE_URL = "https://brandsin.net"
+// private const val BASE_URL = "https://backend.brandsin.net/"
+// private const val BASE_URL = "https://dev.brandsin.net/"
+
 /*
 *add this if you want a static header in all requests
 **/
@@ -33,24 +37,26 @@ fun getHeaderInterceptor(): Interceptor {
 
 private fun createOkHttpClient(): OkHttpClient {
     return OkHttpClient.Builder()
-            .apply {
-                if(BuildConfig.DEBUG){
-                    this.addInterceptor(HttpLoggingInterceptor()
-                            .setLevel(Level.BODY))
-                }
+        .apply {
+            if (BuildConfig.DEBUG) {
+                this.addInterceptor(
+                    HttpLoggingInterceptor()
+                        .setLevel(Level.BODY)
+                )
             }
-            .readTimeout(100, TimeUnit.SECONDS)
-            .connectTimeout(100, TimeUnit.SECONDS)
-            .writeTimeout(100, TimeUnit.SECONDS)
-            .build()
+        }
+        .readTimeout(100, TimeUnit.SECONDS)
+        .connectTimeout(100, TimeUnit.SECONDS)
+        .writeTimeout(100, TimeUnit.SECONDS)
+        .build()
 }
 
 private val retrofitBuilder = Retrofit.Builder()
-        .addConverterFactory(GsonConverterFactory.create())
-        // .addCallAdapterFactory(CoroutineCallAdapterFactory())
-        .baseUrl(BASE_URL)
-        .client(createOkHttpClient())
-        .build()
+    .addConverterFactory(GsonConverterFactory.create())
+    // .addCallAdapterFactory(CoroutineCallAdapterFactory())
+    .baseUrl(Params.BASE_URL)
+    .client(createOkHttpClient())
+    .build()
 
 object RetrofitBuilder {
     val API_SERVICE: ApiInterface by lazy {

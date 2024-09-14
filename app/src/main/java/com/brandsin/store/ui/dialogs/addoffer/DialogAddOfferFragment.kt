@@ -8,16 +8,16 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.brandsin.store.databinding.DialogAddOfferBinding
 import com.brandsin.store.model.constants.Codes
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 
-class DialogAddOfferFragment  : DialogFragment()
-{
-    lateinit  var  binding: DialogAddOfferBinding
-    var message : String = ""
-    var requestCode : Int = -1
+class DialogAddOfferFragment : DialogFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    private lateinit var binding: DialogAddOfferBinding
+
+    var message: String = ""
+    var requestCode: Int = -1
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         when {
             arguments != null -> {
@@ -31,8 +31,11 @@ class DialogAddOfferFragment  : DialogFragment()
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DialogAddOfferBinding.inflate(inflater, container, false)
 
         binding.tvMessage.text = message

@@ -87,15 +87,13 @@ class OrderTimeWheelView : RecyclerWheelView {
         this.stringItemList.clear()
         this.stringItemList.addAll(stringList)
         if (null == adapter) {
-            initAdapterAndScroller()
+            //initAdapterAndScroller()
         } else {
             updateDataAndNotify()
         }
     }
 
-    @Deprecated(
-        "do not set adapter in StringRecyclerWheelView, just use setStringItemList instead"
-    )
+    @Deprecated("do not set adapter in StringRecyclerWheelView, just use setStringItemList instead")
     override fun setRecyclerWheelViewAdapter(recyclerWheelViewAdapter: RecyclerWheelViewAdapter) {
         super.setRecyclerWheelViewAdapter(recyclerWheelViewAdapter)
     }
@@ -103,7 +101,7 @@ class OrderTimeWheelView : RecyclerWheelView {
     /**
      * init attributes and set adapter
      */
-    private fun initAdapterAndScroller() {
+    /*private fun initAdapterAndScroller() {
         logInfo("initAdapterAndScroller")
         val stringRecyclerWheelViewAdapter = OrderTimeWheelAdapter(stringItemList, recyclerWheelViewItemInfo)
         layoutManager = LinearLayoutManager(context, VERTICAL, false)
@@ -113,7 +111,7 @@ class OrderTimeWheelView : RecyclerWheelView {
         pointY = 0
         stringRecyclerWheelViewAdapter.notifyScroll(0)
         addScrollListener()
-    }
+    }*/
 
     /**
      * selected string callback

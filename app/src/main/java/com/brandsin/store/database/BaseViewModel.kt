@@ -6,18 +6,17 @@ import androidx.databinding.ObservableBoolean
 import androidx.databinding.ObservableField
 import androidx.databinding.PropertyChangeRegistry
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.brandsin.store.network.ApiRepo
 import com.brandsin.store.network.ApiResponse
+import com.brandsin.store.network.BaseApiResponse
 import com.brandsin.store.network.RetrofitBuilder
 import com.brandsin.store.utils.MyApp
 import com.brandsin.store.utils.SingleLiveEvent
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-open class BaseViewModel : ViewModel(), Observable
-{
+open class BaseViewModel : BaseApiResponse(), Observable {
     fun getApiRepo(): ApiRepo = ApiRepo(RetrofitBuilder.API_SERVICE)
 
     val obsSize = ObservableField<Int>()
@@ -32,10 +31,10 @@ open class BaseViewModel : ViewModel(), Observable
     var obsHideRecycler = ObservableField<Boolean>()
     var obsIsProductsEmpty = ObservableField<Boolean>()
 
-    //for network
+    // For network
     val apiResponseLiveData = MutableLiveData<ApiResponse<Any?>>()
 
-    val clickableLiveData = SingleLiveEvent<Boolean>().apply { postValue(true)}
+    val clickableLiveData = SingleLiveEvent<Boolean>().apply { postValue(true) }
     var obsIsClickable = ObservableBoolean(true)
 
     val mutableLiveData = SingleLiveEvent<Any?>()
@@ -47,73 +46,63 @@ open class BaseViewModel : ViewModel(), Observable
     var isShown = ObservableBoolean()
     var isConfirmShown = ObservableBoolean()
 
-    fun setValue(item: Any?)
-    {
+    fun setValue(item: Any?) {
         mutableLiveData.value = item
         mutableLiveData.value = null
     }
 
-    fun postValue(item: Any?)
-    {
+    fun postValue(item: Any?) {
         mutableLiveData.postValue(item)
         mutableLiveData.postValue(null)
     }
 
-    fun onEyeOldClicked()
-    {
-        if (isShownOld.get())
-        {
+    fun onEyeOldClicked() {
+        if (isShownOld.get()) {
             isShownOld.set(false)
-        }
-        else
-        {
+        } else {
             isShownOld.set(true)
         }
     }
 
-    fun onEyeClicked()
-    {
+    fun onEyeClicked() {
         when {
             isShown.get() -> {
                 isShown.set(false)
             }
+
             else -> {
                 isShown.set(true)
             }
         }
     }
 
-    fun onConfirmEyeClicked()
-    {
+    fun onConfirmEyeClicked() {
         when {
             isConfirmShown.get() -> {
                 isConfirmShown.set(false)
             }
+
             else -> {
                 isConfirmShown.set(true)
             }
         }
     }
 
-    protected open fun getDouble(value: String?): Double
-    {
+    protected open fun getDouble(value: String?): Double {
         return value?.toDouble() ?: 0.0
     }
 
-    fun setShowProgress(item: Boolean)
-    {
+    fun setShowProgress(item: Boolean) {
         showProgress!!.value = item
     }
 
-    fun showProgress(): SingleLiveEvent<Boolean>
-    {
+    fun showProgress(): SingleLiveEvent<Boolean> {
         return if (showProgress == null) SingleLiveEvent<Boolean>().also {
             showProgress = it
         } else showProgress!!
     }
 
-    fun getMessage(): String?
-    {
+    fun getMessage(): String? {
         return message.get()
     }
 
@@ -153,8 +142,7 @@ open class BaseViewModel : ViewModel(), Observable
         mCallBacks.notifyChange(this, propertyId)
     }
 
-    fun setClickable()
-    {
+    fun setClickable() {
         obsIsClickable.set(false)
         viewModelScope.launch {
             delay(2000)
@@ -166,10 +154,11 @@ open class BaseViewModel : ViewModel(), Observable
         showProgress = SingleLiveEvent()
     }
 
-    fun setResult(o: ApiResponse<Any?>?) {
+    fun setResult(o: ApiResponse<Any?>) {
         apiResponseLiveData.value = o
     }
-    fun postResult(o: ApiResponse<Any?>?) {
+
+    fun postResult(o: ApiResponse<Any?>) {
         apiResponseLiveData.postValue(o)
     }
 }

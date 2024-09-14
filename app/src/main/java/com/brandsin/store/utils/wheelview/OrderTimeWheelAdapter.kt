@@ -1,3 +1,4 @@
+/*
 package com.brandsin.store.utils.wheelview
 
 import android.view.LayoutInflater
@@ -83,4 +84,4 @@ class OrderTimeWheelAdapter : RecyclerWheelViewAdapter {
         }
     }
 
-}
+}*/

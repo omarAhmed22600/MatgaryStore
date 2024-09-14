@@ -10,7 +10,7 @@ import com.brandsin.store.databinding.DialogConfirmBinding
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.main.offers.listoffer.OffersItemDetails
 import com.brandsin.store.model.main.products.list.ProductsItem
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 
 class DialogConfirmFragment  : DialogFragment()
 {

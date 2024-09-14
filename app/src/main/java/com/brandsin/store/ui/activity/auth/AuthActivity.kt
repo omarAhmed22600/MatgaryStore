@@ -1,18 +1,18 @@
 package com.brandsin.store.ui.activity.auth
 
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
 import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import com.androidstudy.networkmanager.Tovuti
 import com.brandsin.store.R
 import com.brandsin.store.databinding.ActivityAuthBinding
 import com.brandsin.store.model.constants.Const
@@ -23,49 +23,44 @@ import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class AuthActivity : ParentActivity()
-{
-    lateinit var binding : ActivityAuthBinding
+class AuthActivity : ParentActivity() {
+
+    private lateinit var binding: ActivityAuthBinding
     var viewModel: AuthViewModel? = null
     private lateinit var navController: NavController
 
-    var orderId =-1
+    private var orderId = -1
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         LocalUtil.changeLanguage(this)
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_auth)
-        //init view model
+
+        // Init view model
         initViewModel()
         binding.viewModel = viewModel
+
         navController = findNavController(R.id.nav_auth_host_fragment)
 
-        Tovuti.from(this).monitor { connectionType, isConnected, isFast ->
-            if (isConnected) {
-                binding.noWifi.visibility = View.GONE
-            } else {
-                binding.noWifi.visibility = View.VISIBLE
-            }
-        }
+        initConnectivityManager()
 
-        //data from NotificationOpenedHandler
-        if (intent.getStringExtra("order_id")!=null) {
-            orderId = intent.getIntExtra("order_id",-1)
+        // Data from NotificationOpenedHandler
+        if (intent.getStringExtra("order_id") != null) {
+            orderId = intent.getIntExtra("order_id", -1)
         }
 
         binding.ibBack.setOnClickListener {
             navController.navigateUp()
         }
 
-        viewModel!!.clickableLiveData.observe(this, {
+        viewModel!!.clickableLiveData.observe(this) {
             viewModel!!.obsIsClickable.set(false)
             lifecycleScope.launch {
                 delay(2000)
                 viewModel!!.clickableLiveData.value = false
                 viewModel!!.obsIsClickable.set(true)
             }
-        })
+        }
 
         when {
             intent.hasExtra(Const.ACCESS_LOGIN) -> {
@@ -97,15 +92,16 @@ class AuthActivity : ParentActivity()
                     //customBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                     viewModel?.obsShowToolbar!!.set(false)
                 }
+
                 else -> {
                     viewModel?.obsShowToolbar!!.set(true)
                     //customBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark))
                 }
             }
         }
-   }
+    }
 
-    private fun customBarColor(color : Int) {
+    private fun customBarColor(color: Int) {
         binding.toolbar.setBackgroundColor(color)
 
         when {
@@ -131,5 +127,27 @@ class AuthActivity : ParentActivity()
                 finish()
             }
         }
+    }
+
+    private lateinit var networkConnectionManager: ConnectivityManager
+    private lateinit var networkConnectionCallback: ConnectivityManager.NetworkCallback
+
+    private fun initConnectivityManager() {
+        networkConnectionManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {
+            override fun onAvailable(network: Network) {
+                // there is internet
+                binding.noWifi.visibility = View.GONE
+            }
+
+            override fun onLost(network: Network) {
+                // there is no internet
+                lifecycleScope.launchWhenResumed {
+                    delay(1000)
+                    binding.noWifi.visibility = View.VISIBLE
+                }
+            }
+        }
+        networkConnectionManager.registerDefaultNetworkCallback(networkConnectionCallback)
     }
 }

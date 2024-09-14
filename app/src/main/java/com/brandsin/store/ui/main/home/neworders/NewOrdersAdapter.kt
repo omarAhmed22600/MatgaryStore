@@ -8,23 +8,22 @@ import com.brandsin.store.R
 import com.brandsin.store.databinding.RawNewOrderBinding
 import com.brandsin.store.model.main.homepage.StoreOrderItem
 import com.brandsin.store.utils.SingleLiveEvent
-import java.util.*
 
-class NewOrdersAdapter : RecyclerView.Adapter<NewOrdersAdapter.NewOrdersHolder>()
-{
+class NewOrdersAdapter : RecyclerView.Adapter<NewOrdersAdapter.NewOrdersHolder>() {
+
     var itemsList: List<StoreOrderItem> = ArrayList()
+
     var newOrderItemLiveData = SingleLiveEvent<StoreOrderItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewOrdersHolder
-    {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewOrdersHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawNewOrderBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_new_order, parent, false)
+        val binding: RawNewOrderBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_new_order, parent, false)
         return NewOrdersHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: NewOrdersHolder, position: Int) 
-    {
+    override fun onBindViewHolder(holder: NewOrdersHolder, position: Int) {
         val itemViewModel = ItemNewOrderViewModel(itemsList[position])
         holder.binding.viewModel = itemViewModel
 
@@ -42,5 +41,6 @@ class NewOrdersAdapter : RecyclerView.Adapter<NewOrdersAdapter.NewOrdersHolder>(
         notifyDataSetChanged()
     }
 
-    inner class NewOrdersHolder(val binding: RawNewOrderBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class NewOrdersHolder(val binding: RawNewOrderBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

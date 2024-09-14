@@ -9,7 +9,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import com.brandsin.store.R
 import com.brandsin.store.databinding.DialogToastBinding
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

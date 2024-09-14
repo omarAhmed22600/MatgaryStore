@@ -1,6 +1,7 @@
 package com.brandsin.store.utils
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.ContextWrapper
@@ -17,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
 import androidx.lifecycle.Observer
+import com.brandsin.store.R
 import com.brandsin.store.ui.activity.ParentActivity
 import com.brandsin.store.ui.activity.home.HomeActivity
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -28,6 +30,12 @@ import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+
+fun View.gone() = run { visibility = View.GONE }
+
+fun View.visible() = run { visibility = View.VISIBLE }
+
+fun View.invisible() = run { visibility = View.INVISIBLE }
 
 fun Context.shortToast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
@@ -123,6 +131,7 @@ fun File.toMultiPart(key: String): MultipartBody.Part {
         reqFile
     )
 }
+
 fun File.toMultiPartV(key: String): MultipartBody.Part {
     val reqFile = asRequestBody("*/*".toMediaTypeOrNull())
     return MultipartBody.Part.createFormData(
@@ -131,13 +140,14 @@ fun File.toMultiPartV(key: String): MultipartBody.Part {
         reqFile
     )
 }
+
 fun <T : Any> T.toRequestBodyParam(): RequestBody =
     this.toString().toRequestBody("text/plain".toMediaTypeOrNull())
 
 inline fun <reified T : Any?, L : LiveData<T>> LifecycleOwner.observe(liveData: L, noinline body: (T) -> Unit) {
-    liveData.observe(this, Observer {
+    liveData.observe(this) {
         if (lifecycle.currentState == Lifecycle.State.RESUMED) body(it)
-    })
+    }
 }
 
 /*
@@ -211,8 +221,37 @@ fun Activity.restartApp() {
 //    }?:return null
 //}
 
+// Extension function for Context to show AlertDialog
+fun Fragment.showAlertDialog(
+    title: String? = null,
+    message: String,
+    positiveButtonText: String = getString(R.string.confirm),
+    positiveButtonAction: () -> Unit = {},
+    negativeButtonText: String = getString(R.string.cancel),
+    negativeButtonAction: () -> Unit = {}
+) {
+    val builder = AlertDialog.Builder(requireContext())
 
+    // Set the dialog title and message
+    builder.setTitle(title)
+        .setMessage(message)
 
+    // Add positive button and its click listener
+    builder.setPositiveButton(positiveButtonText) { dialog, _ ->
+        positiveButtonAction.invoke()
+        dialog.dismiss()
+    }
 
+    // Add negative button and its click listener if provided
+    negativeButtonText.let {
+        builder.setNegativeButton(it) { dialog, _ ->
+            negativeButtonAction.invoke()
+            dialog.dismiss()
+        }
+    }
 
+    // Create and show the AlertDialog
+    val alertDialog: AlertDialog = builder.create()
+    alertDialog.show()
+}
 

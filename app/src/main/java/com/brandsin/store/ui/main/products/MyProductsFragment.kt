@@ -19,7 +19,7 @@ import com.brandsin.store.ui.main.updateproduct.UpdateProductActivity
 import com.brandsin.store.utils.MyApp
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 import timber.log.Timber
 
 class MyProductsFragment : BaseHomeFragment(), Observer<Any?>

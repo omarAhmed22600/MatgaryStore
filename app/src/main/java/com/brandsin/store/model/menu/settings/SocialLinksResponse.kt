@@ -29,5 +29,5 @@ data class SocialLinks(
 	val instagram: String? = null,
 
 	@field:SerializedName("Tik Tok")
-     val TikTok: String? = null
+     val tikTok: String? = null
 )

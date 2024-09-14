@@ -2,85 +2,149 @@ package com.brandsin.store.ui.dialogs.monthstime
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
-import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.archit.calendardaterangepicker.customviews.DateRangeCalendarView
 import com.brandsin.store.databinding.DialogReportsMonthlyDateBinding
-import com.brandsin.store.model.constants.Codes
-import com.brandsin.user.model.constants.Params
-import java.util.*
+import java.util.Calendar
+import java.util.Date
 
-class DialogReportTimeMonthlyFragment (val date: Date = Date())  : DialogFragment(), Observer<Any?>
-{
-    lateinit  var  binding: DialogReportsMonthlyDateBinding
-    lateinit var viewModel : DateViewModel
+class DialogReportTimeMonthlyFragment(
+    private val btnMonthlyTimeCallback: (from: String, to: String) -> Unit,
+    val date: Date = Date()
+) : DialogFragment() {
+
+    private lateinit var binding: DialogReportsMonthlyDateBinding
+
+    lateinit var viewModel: DateViewModel
+
     private var calendar: DateRangeCalendarView? = null
-    var month = ""
-    var year = ""
+
+    private var month = ""
+    private var year = ""
     var from = ""
     var to = ""
 
     companion object {
         private const val MAX_YEAR = 2099
     }
+
     private var listener: DatePickerDialog.OnDateSetListener? = null
 
     fun setListener(listener: DatePickerDialog.OnDateSetListener?) {
         this.listener = listener
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View
-    {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DialogReportsMonthlyDateBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this).get(DateViewModel::class.java)
+
+        viewModel = ViewModelProvider(this)[DateViewModel::class.java]
         binding.viewModel = viewModel
 
-        viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
+        // Set the window background to transparent
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+        // Set the window attributes for match_parent
+        val params = dialog?.window?.attributes
+        params?.width = WindowManager.LayoutParams.MATCH_PARENT
+        params?.height = WindowManager.LayoutParams.WRAP_CONTENT
+        dialog?.window?.attributes = params
 
         val cal: Calendar = Calendar.getInstance().apply { time = date }
+
+        binding.pickerMonth.isClickable = false
 
         binding.pickerMonth.run {
             minValue = 1
             maxValue = 12
             value = cal.get(Calendar.MONTH)
-            displayedValues = arrayOf("Jan","Feb","Mar","Apr","May","June","July", "Aug","Sep","Oct","Nov","Dec") }
+            displayedValues = arrayOf(
+                "Jan",
+                "Feb",
+                "Mar",
+                "Apr",
+                "May",
+                "June",
+                "July",
+                "Aug",
+                "Sep",
+                "Oct",
+                "Nov",
+                "Dec"
+            )
+        }
 
         binding.pickerYear.run {
             val year = cal.get(Calendar.YEAR)
-            minValue = year
+            minValue = year-10
             maxValue = MAX_YEAR
             value = year
         }
 
         AlertDialog.Builder(requireContext())
-                .setView(binding.root)
-                .create()
+            .setView(binding.root)
+            .create()
+
+        setBtnListener()
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        it.let {
-            if (it is Int)
-            {
+    private fun setBtnListener() {
+        binding.btnSearch.setOnClickListener {
+            listener?.onDateSet(
+                null,
+                binding.pickerYear.value,
+                binding.pickerMonth.value,
+                1
+            )
+            year = binding.pickerYear.value.toString()
+            month = binding.pickerMonth.value.toString()
+            if (month.length == 1) {
+                month = "0$month"
+            }
+            from = "$year-$month-01"
+            to = "$year-$month-31"
+            /*val intent = Intent()
+            intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
+            intent.putExtra("from", from)
+            intent.putExtra("to", to)
+            requireActivity().setResult(Codes.DIALOG_ORDER_TIME, intent)
+            requireActivity().finish()*/
+            btnMonthlyTimeCallback.invoke(from, to)
+            dismissNow()
+        }
+    }
+
+    /*override fun onChanged(value: Any?) {
+        if (value == null) return
+        value.let {
+            if (it is Int) {
                 when (it) {
                     Codes.CONFIRM_CLICKED -> {
-                        listener?.onDateSet(null, binding.pickerYear.value, binding.pickerMonth.value, 1)
+                        listener?.onDateSet(
+                            null,
+                            binding.pickerYear.value,
+                            binding.pickerMonth.value,
+                            1
+                        )
                         year = binding.pickerYear.value.toString()
                         month = binding.pickerMonth.value.toString()
-                        if (month.length ==1){
+                        if (month.length == 1) {
                             month = "0$month"
                         }
                         from = "$year-$month-01"
@@ -95,5 +159,5 @@ class DialogReportTimeMonthlyFragment (val date: Date = Date())  : DialogFragmen
                 }
             }
         }
-    }
+    }*/
 }

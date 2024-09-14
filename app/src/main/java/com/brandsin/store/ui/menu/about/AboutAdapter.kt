@@ -8,18 +8,16 @@ import com.brandsin.store.R
 import com.brandsin.store.databinding.RawHomeAboutBinding
 import com.brandsin.store.model.menu.about.AboutItem
 import com.brandsin.store.utils.SingleLiveEvent
-import java.util.*
 
-class AboutAdapter : RecyclerView.Adapter<AboutAdapter.AboutHolder>()
-{
-    var aboutList: ArrayList<AboutItem> = ArrayList()
+class AboutAdapter : RecyclerView.Adapter<AboutAdapter.AboutHolder>() {
+
+    private var aboutList: ArrayList<AboutItem> = ArrayList()
     var aboutLiveData = SingleLiveEvent<AboutItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutHolder
-    {
-        val context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        val binding: RawHomeAboutBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_about, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AboutHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: RawHomeAboutBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_home_about, parent, false)
         return AboutHolder(binding)
     }
 
@@ -41,8 +39,6 @@ class AboutAdapter : RecyclerView.Adapter<AboutAdapter.AboutHolder>()
         notifyDataSetChanged()
     }
 
-    inner class AboutHolder(val binding: RawHomeAboutBinding) : RecyclerView.ViewHolder(binding.root)
-    {
-
-    }
+    inner class AboutHolder(val binding: RawHomeAboutBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

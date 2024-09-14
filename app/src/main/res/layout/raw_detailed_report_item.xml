@@ -1,34 +1,32 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.main.reports.detailed.ItemDetailedReportViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/raw_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/raw_layout"
         android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/about_item_bg">
 
+        <!-- android:text="@{viewModel.item.date}" -->
         <TextView
             android:id="@+id/tv_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/about_bg"
             android:duplicateParentState="false"
             android:fontFamily="@font/cairoregular"
-            android:background="@drawable/about_bg"
             android:padding="@dimen/_8sdp"
-            android:text="October, 2020"
+            android:text="@{viewModel.item.date}"
             android:textAlignment="viewStart"
             android:textColor="@color/black"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,12 +39,11 @@
             android:layout_height="wrap_content"
             android:layout_marginEnd="@dimen/_16sdp"
             android:src="@drawable/ic_expand_arrow"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="@+id/tv_title"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tv_title"
-            android:tint="@color/color_primary"
+            app:tint="@color/color_primary"
             tools:ignore="ContentDescription" />
-
 
         <LinearLayout
             android:id="@+id/lin"
@@ -55,60 +52,63 @@
             android:orientation="horizontal"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title" >
+            app:layout_constraintTop_toBottomOf="@+id/tv_title">
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="3"
-                android:layout_height="wrap_content"
                 android:id="@+id/tv_name"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:layout_marginBottom="@dimen/_4sdp"
                 android:fontFamily="@font/cairoregular"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
                 android:id="@+id/tv_ordersCount"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:fontFamily="@font/cairoregular"
-                android:text="@string/number_of_orders"
                 android:gravity="center"
+                android:text="@string/number_of_orders"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8ssp" />
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:layout_width="0dp"
-                android:layout_weight="2"
-                android:layout_height="wrap_content"
                 android:id="@+id/tv_ordersCost"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
                 android:fontFamily="@font/cairoregular"
-                android:text="@string/value_of_the_orders"
                 android:gravity="center"
+                android:text="@string/total"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_8ssp" />
+                android:textSize="@dimen/_8ssp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
         </LinearLayout>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_items"
+            adapter="@{viewModel.detailesAdapter}"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/rv_items"
+            android:orientation="vertical"
             android:paddingStart="@dimen/_16sdp"
             android:paddingEnd="@dimen/_16sdp"
-            adapter="@{viewModel.detailesAdapter}"
             android:paddingBottom="@dimen/_8sdp"
-            android:orientation="vertical"
-            tools:listitem="@layout/raw_detailed_report_details"
-            tools:itemCount="5"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintTop_toBottomOf="@+id/lin" />
+            app:layout_constraintTop_toBottomOf="@+id/lin"
+            tools:itemCount="5"
+            tools:listitem="@layout/raw_detailed_report_details" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.brandsin.store.databinding.DialogAddProductBinding
 import com.brandsin.store.model.constants.Codes
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 
 class DialogAddProductFragment : DialogFragment()
 {

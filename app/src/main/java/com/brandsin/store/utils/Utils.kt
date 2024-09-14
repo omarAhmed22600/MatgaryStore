@@ -16,11 +16,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import com.brandsin.store.R
 import com.brandsin.store.ui.activity.DialogActivity
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 import timber.log.Timber
 
-object Utils
-{
+object Utils {
+
+    var couponText: String? = null
+    var result = 0
+
     fun startDialogActivity(
         frag: Activity,
         fragmentName: String?,
@@ -36,9 +39,9 @@ object Utils
     fun replaceFragment(context: Context, fragment: Fragment?, backStackText: String) {
         try {
             val fragmentManager =
-                    (context as FragmentActivity).supportFragmentManager
+                (context as FragmentActivity).supportFragmentManager
             val fragmentTransaction =
-                    fragmentManager.beginTransaction().replace(R.id.auth_fragment, fragment!!)
+                fragmentManager.beginTransaction().replace(R.id.auth_fragment, fragment!!)
             if (backStackText != "") {
                 fragmentTransaction.addToBackStack(backStackText)
             }
@@ -48,41 +51,45 @@ object Utils
         }
     }
 
-
-/*    fun replaceFragment(
-        context: Context,
-        fragment: Fragment?,
-        containerResId: Int,
-        backStackText: String
-    ) {
-        try {
-            val fragmentManager = (context as FragmentActivity).supportFragmentManager
-            val fragmentTransaction = fragmentManager.beginTransaction().replace(
-                containerResId,
-                fragment!!
-            )
-            if (backStackText != "") {
-                fragmentTransaction.addToBackStack(backStackText)
+    /* fun replaceFragment(
+            context: Context,
+            fragment: Fragment?,
+            containerResId: Int,
+            backStackText: String
+        ) {
+            try {
+                val fragmentManager = (context as FragmentActivity).supportFragmentManager
+                val fragmentTransaction = fragmentManager.beginTransaction().replace(
+                    containerResId,
+                    fragment!!
+                )
+                if (backStackText != "") {
+                    fragmentTransaction.addToBackStack(backStackText)
+                }
+                fragmentTransaction.commit()
+            } catch (e: java.lang.Exception) {
+                e.printStackTrace()
             }
-            fragmentTransaction.commit()
-        } catch (e: java.lang.Exception) {
-            e.printStackTrace()
-        }
-    }*/
+        }*/
 
-
-    var couponText: String? = null
-    var result = 0
     fun isEmpty(o: Any?): Boolean {
         return if (o == null) true else {
-            if (o is String) {
-                o.isEmpty()
-            } else if (o is Int) {
-                o == 0
-            } else if (o is Float) {
-                o == 0f
-            } else { //Double
-                o as Double == 0.0
+            when (o) {
+                is String -> {
+                    o.isEmpty()
+                }
+
+                is Int -> {
+                    o == 0
+                }
+
+                is Float -> {
+                    o == 0f
+                }
+
+                else -> { //Double
+                    o as Double == 0.0
+                }
             }
         }
     }
@@ -91,14 +98,14 @@ object Utils
         v.alpha = 1.0f
         // Prepare the View for the animation
         v.animate()
-                .setDuration(800)
-                .setListener(object : AnimatorListenerAdapter() {
-                    override fun onAnimationEnd(animation: Animator) {
-                        animListener?.onFinish()
-                        super.onAnimationEnd(animation)
-                    }
-                })
-                .alpha(0.0f)
+            .setDuration(800)
+            .setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator) {
+                    animListener?.onFinish()
+                    super.onAnimationEnd(animation)
+                }
+            })
+            .alpha(0.0f)
     }
 
     fun openMail(context: Activity, mailTo: String) {
@@ -110,6 +117,7 @@ object Utils
             Timber.e(e)
         }
     }
+
     fun openTwitter(context: Activity, link: String?) {
         if (link == null) return
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(link.trim { it <= ' ' }))
@@ -141,7 +149,7 @@ object Utils
             try {
                 activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             } catch (es: Exception) {
-                Timber.e("link isnt valid%s", es.message)
+                Timber.e("link insta valid%s", es.message)
             }
         }
     }
@@ -154,7 +162,8 @@ object Utils
                 activity,
                 Manifest.permission.CALL_PHONE
             )
-                != PackageManager.PERMISSION_GRANTED) {
+            != PackageManager.PERMISSION_GRANTED
+        ) {
             ActivityCompat.requestPermissions(
                 activity, arrayOf(Manifest.permission.CALL_PHONE),
                 65
@@ -172,7 +181,8 @@ object Utils
             }
         }
     }
-     fun openFacebook(activity: Activity, link: String?) {
+
+    fun openFacebook(activity: Activity, link: String?) {
         val context: Context = MyApp.getInstance()
         //the correct link:
         //i.e. https://www.facebook.com/YourPageName or www.facebook.com/YourPageName
@@ -181,9 +191,9 @@ object Utils
             return
         }
         val url: String?
-        val FACEBOOK_PAGE_ID: String
-        FACEBOOK_PAGE_ID = try {
-            if (link.contains("http")) link.split("/".toRegex()).toTypedArray()[3] //i.e. YourPageName
+        val FACEBOOK_PAGE_ID: String = try {
+            if (link.contains("http")) link.split("/".toRegex())
+                .toTypedArray()[3] //i.e. YourPageName
             else link.split("/".toRegex()).toTypedArray()[1] //i.e. YourPageName
         } catch (e: ArrayIndexOutOfBoundsException) {
             //Timber.e("link isn't correct");
@@ -211,11 +221,11 @@ object Utils
         }
     }
 
-    fun openLink(activity: Activity, url1: String?){
+    fun openLink(activity: Activity, url1: String?) {
         if (url1 == null) return
-        var url=""
-        if (!url1.contains("http")){
-            url="https://"+url1
+        var url = ""
+        if (!url1.contains("http")) {
+            url = "https://$url1"
         }
         try {
             val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -225,7 +235,7 @@ object Utils
             try {
                 activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             } catch (es: Exception) {
-                Timber.e("link isnt valid%s", es.message)
+                Timber.e("link insta valid%s", es.message)
             }
         }
     }
@@ -247,7 +257,7 @@ object Utils
                     result.set(strDate);
                 },
                 year, month, day);
-//        mDatePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis());
+        // mDatePickerDialog.getDatePicker().setMinDate(mCalendar.getTimeInMillis());
         mDatePickerDialog.show();
         mDatePickerDialog.getButton(mDatePickerDialog.BUTTON_POSITIVE).setTextColor(getColorFromRes(R.color.colorAccent));
         mDatePickerDialog.getButton(mDatePickerDialog.BUTTON_NEGATIVE).setTextColor(getColorFromRes(R.color.colorAccent));

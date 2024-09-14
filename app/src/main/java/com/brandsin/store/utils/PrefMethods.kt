@@ -2,14 +2,14 @@ package com.brandsin.store.utils
 
 import android.content.Context
 import android.content.SharedPreferences
-
 import androidx.core.content.edit
-import com.google.gson.Gson
 import com.brandsin.store.model.UserLocation
 import com.brandsin.store.model.auth.register.StoreModel
 import com.brandsin.store.model.auth.register.UserModel
-import java.util.*
-object Const{
+import com.google.gson.Gson
+import java.util.Locale
+
+object Const {
     //"en" or "ar" or any as u want
     var DEFAULT_LANG: String = Locale.getDefault().language
     const val PREF_FILE_NAME = "HAGATY_USER_PREF"
@@ -28,7 +28,8 @@ object Const{
     const val PREF_IS_ASKED_TO_LOGIN = "PREF_IS_ASKED_TO_LOGIN"
     const val PREF_Welcome = "PREF_Welcome"
 }
- object PrefMethods {
+
+object PrefMethods {
 
     private var PRIVATE_MODE = 0
 
@@ -43,32 +44,32 @@ object Const{
 
     fun getLanguage(context: Context? = null): String {
         context?.let {
-            return getSharedPreference(it).getString(Const.PREF_LANG,Const.DEFAULT_LANG)!!
+            return getSharedPreference(it).getString(Const.PREF_LANG, Const.DEFAULT_LANG)!!
         } ?: return getString(Const.PREF_LANG, Locale.getDefault().language)!!
     }
 
-    fun setLanguage( value: String, context: Context?=null) {
+    fun setLanguage(value: String, context: Context? = null) {
         context?.let {
             getSharedPreference(it).edit {
                 putString(Const.PREF_LANG, value)
             }
-        }?: setString(Const.PREF_LANG, value)
+        } ?: setString(Const.PREF_LANG, value)
     }
 
 
     /* THIS GETTER AND SETTER TO CHECK USER LOGIN STATE */
     fun getIsLogin(context: Context? = null): Boolean {
         context?.let {
-            return getSharedPreference(it).getBoolean(Const.PREF_IS_LOGIN,false)
+            return getSharedPreference(it).getBoolean(Const.PREF_IS_LOGIN, false)
         } ?: return getBoolean(Const.PREF_IS_LOGIN, false)!!
     }
 
-    fun setIsLogin( value: Boolean, context: Context? = null) {
+    fun setIsLogin(value: Boolean, context: Context? = null) {
         context?.let {
             getSharedPreference(it).edit {
                 putBoolean(Const.PREF_IS_LOGIN, value)
             }
-        }?: setBoolean(Const.PREF_IS_LOGIN, value)
+        } ?: setBoolean(Const.PREF_IS_LOGIN, value)
     }
 
     fun saveUserData(data: UserModel?) {
@@ -101,31 +102,31 @@ object Const{
 
     fun getLoginState(context: Context? = null): Boolean {
         context?.let {
-            return getSharedPreference(it).getBoolean(Const.PREF_LOGIN_STATE,false)
+            return getSharedPreference(it).getBoolean(Const.PREF_LOGIN_STATE, false)
         } ?: return getBoolean(Const.PREF_LOGIN_STATE, false)!!
     }
 
-    fun saveLoginState( value: Boolean, context: Context? = null) {
+    fun saveLoginState(value: Boolean, context: Context? = null) {
         context?.let {
             getSharedPreference(it).edit {
                 putBoolean(Const.PREF_LOGIN_STATE, value)
             }
-        }?: setBoolean(Const.PREF_LOGIN_STATE, value)
+        } ?: setBoolean(Const.PREF_LOGIN_STATE, value)
     }
 
-     fun getIsNotificationsEnabled(context: Context? = null): Boolean? {
-         context?.let {
-             return getSharedPreference(it).getBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED,true)
-         } ?: return getBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED, true)
-     }
+    fun getIsNotificationsEnabled(context: Context? = null): Boolean? {
+        context?.let {
+            return getSharedPreference(it).getBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED, true)
+        } ?: return getBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED, true)
+    }
 
-     fun setIsNotificationsEnabled( value: Boolean,context: Context? = null) {
-         context?.let {
-             getSharedPreference(it).edit {
-                 putBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED, value)
-             }
-         }?: setBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED, value)
-     }
+    fun setIsNotificationsEnabled(value: Boolean, context: Context? = null) {
+        context?.let {
+            getSharedPreference(it).edit {
+                putBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED, value)
+            }
+        } ?: setBoolean(Const.PREF_IS_NOTIFICATIONS_ENABLED, value)
+    }
 
 
     /* ------ Deleting Cash --------  */
@@ -154,32 +155,35 @@ object Const{
         getSharedPreference().edit { putBoolean(key, value) }
     }
 
-    fun saveIsPermissionDeniedForEver( value: Boolean, context: Context? = null) {
+    fun saveIsPermissionDeniedForEver(value: Boolean, context: Context? = null) {
         context?.let {
             getSharedPreference(it).edit {
                 putBoolean(Const.PREF_IS_PERMISSION_DENIED_FOR_EVER, value)
             }
-        }?: setBoolean(Const.PREF_IS_PERMISSION_DENIED_FOR_EVER, value)
+        } ?: setBoolean(Const.PREF_IS_PERMISSION_DENIED_FOR_EVER, value)
     }
 
     fun getIsPermissionDeniedForEver(context: Context? = null): Boolean {
         context?.let {
-            return getSharedPreference(it).getBoolean(Const.PREF_IS_PERMISSION_DENIED_FOR_EVER,false)
+            return getSharedPreference(it).getBoolean(
+                Const.PREF_IS_PERMISSION_DENIED_FOR_EVER,
+                false
+            )
         } ?: return getBoolean(Const.PREF_IS_PERMISSION_DENIED_FOR_EVER, false)!!
     }
 
     fun getIsAskedToLogin(context: Context? = null): Boolean {
         context?.let {
-            return getSharedPreference(it).getBoolean(Const.PREF_IS_ASKED_TO_LOGIN,false)
+            return getSharedPreference(it).getBoolean(Const.PREF_IS_ASKED_TO_LOGIN, false)
         } ?: return getBoolean(Const.PREF_IS_ASKED_TO_LOGIN, false)!!
     }
 
-    fun saveIsAskedToLogin( value: Boolean, context: Context? = null) {
+    fun saveIsAskedToLogin(value: Boolean, context: Context? = null) {
         context?.let {
             getSharedPreference(it).edit {
                 putBoolean(Const.PREF_IS_ASKED_TO_LOGIN, value)
             }
-        }?: setBoolean(Const.PREF_IS_ASKED_TO_LOGIN, value)
+        } ?: setBoolean(Const.PREF_IS_ASKED_TO_LOGIN, value)
     }
 
     fun saveUserLocation(data: UserLocation?) {
@@ -196,17 +200,17 @@ object Const{
         } ?: return null
     }
 
-     fun getWelcome(context: Context? = null): Boolean {
-         context?.let {
-             return getSharedPreference(it).getBoolean(Const.PREF_Welcome,false)
-         } ?: return getBoolean(Const.PREF_Welcome, false)!!
-     }
+    fun getWelcome(context: Context? = null): Boolean {
+        context?.let {
+            return getSharedPreference(it).getBoolean(Const.PREF_Welcome, false)
+        } ?: return getBoolean(Const.PREF_Welcome, false)!!
+    }
 
-     fun saveWelcome( value: Boolean, context: Context? = null) {
-         context?.let {
-             getSharedPreference(it).edit {
-                 putBoolean(Const.PREF_Welcome, value)
-             }
-         }?: setBoolean(Const.PREF_Welcome, value)
-     }
+    fun saveWelcome(value: Boolean, context: Context? = null) {
+        context?.let {
+            getSharedPreference(it).edit {
+                putBoolean(Const.PREF_Welcome, value)
+            }
+        } ?: setBoolean(Const.PREF_Welcome, value)
+    }
 }

@@ -18,25 +18,29 @@ import com.brandsin.store.model.main.homepage.StoreOrderItem
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.activity.home.HomeActivity
 
-class NewOrdersFragment : BaseHomeFragment(), Observer<Any?>
-{
+class NewOrdersFragment : BaseHomeFragment(), Observer<Any?> {
+
+    private lateinit var binding: HomeFragmentNewOrdersBinding
+
     private lateinit var newOrdersViewModel: NewOrdersViewModel
-    private lateinit var binding : HomeFragmentNewOrdersBinding
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
-        binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_new_orders, container, false)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.home_fragment_new_orders, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        newOrdersViewModel = ViewModelProvider(this).get(NewOrdersViewModel::class.java)
+
+        newOrdersViewModel = ViewModelProvider(this)[NewOrdersViewModel::class.java]
         binding.viewModel = newOrdersViewModel
 
-        (requireActivity() as HomeActivity).customizeToolbar("" , false)
+        (requireActivity() as HomeActivity).customizeToolbar("", false)
 
         binding.swipeLayout.setOnRefreshListener {
             binding.swipeLayout.isRefreshing = false
@@ -44,10 +48,11 @@ class NewOrdersFragment : BaseHomeFragment(), Observer<Any?>
         }
 
         newOrdersViewModel.mutableLiveData.observe(viewLifecycleOwner, this)
-        newOrdersViewModel.newOrdersAdapter.newOrderItemLiveData.observe(viewLifecycleOwner, Observer {
+
+        newOrdersViewModel.newOrdersAdapter.newOrderItemLiveData.observe(viewLifecycleOwner) {
             (requireActivity() as HomeActivity).orderClickLiveData.value = it
             (requireActivity() as HomeActivity).orderClickLiveData.value = null
-        })
+        }
 
         binding.rvNewOrders.addOnItemTouchListener(object : RecyclerView.OnItemTouchListener {
             var lastX = 0
@@ -56,8 +61,7 @@ class NewOrdersFragment : BaseHomeFragment(), Observer<Any?>
                     MotionEvent.ACTION_DOWN -> lastX = e.x.toInt()
                     MotionEvent.ACTION_MOVE -> {
                         val isScrollingRight = e.x < lastX
-                        if (isScrollingRight && (binding.rvNewOrders.layoutManager as LinearLayoutManager).
-                            findLastCompletelyVisibleItemPosition() == binding.rvNewOrders.adapter!!.itemCount - 1 ||
+                        if (isScrollingRight && (binding.rvNewOrders.layoutManager as LinearLayoutManager).findLastCompletelyVisibleItemPosition() == binding.rvNewOrders.adapter!!.itemCount - 1 ||
                             !isScrollingRight && (binding.rvNewOrders.layoutManager as LinearLayoutManager).findFirstCompletelyVisibleItemPosition() == 0
                         ) {
                             //  binding.p.setUserInputEnabled(true)
@@ -65,6 +69,7 @@ class NewOrdersFragment : BaseHomeFragment(), Observer<Any?>
                             //  viewPager.setUserInputEnabled(false)
                         }
                     }
+
                     MotionEvent.ACTION_UP -> {
                         lastX = 0
                         // viewPager.setUserInputEnabled(true)
@@ -79,19 +84,15 @@ class NewOrdersFragment : BaseHomeFragment(), Observer<Any?>
 
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        it.let {
-            if (it is StoreOrderItem)
-            {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        value.let {
+            if (it is StoreOrderItem) {
                 findNavController().navigate(R.id.new_orders_to_order_details)
             }
-            if (it is Int)
-            {
+            if (it is Int) {
                 when (it) {
-                    Codes.RATING_SUCCESS ->
-                    {
+                    Codes.RATING_SUCCESS -> {
                         // do what you want
                     }
                 }

@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.main.refundableProduct.RefundableProductDetailsFragment">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cvRefundableItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_10sdp"
+        android:elevation="@dimen/_2sdp"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/_2sdp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgProduct"
+                android:layout_width="@dimen/_60sdp"
+                android:layout_height="@dimen/_70sdp"
+                android:layout_margin="@dimen/_8sdp"
+                android:scaleType="fitXY"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/RoundedImageView"
+                tools:src="@drawable/app_logo" />
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:fontFamily="@font/cairo_bold"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_11ssp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgProduct"
+                app:layout_constraintTop_toTopOf="@id/imgProduct"
+                tools:text="Product name" />
+
+            <TextView
+                android:id="@+id/orderNumber"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:fontFamily="@font/cairoregular"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_10ssp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/imgProduct"
+                app:layout_constraintTop_toBottomOf="@id/productName"
+                tools:text="Order number" />
+
+            <TextView
+                android:id="@+id/orderDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:fontFamily="@font/cairoregular"
+                android:textColor="@color/grey"
+                android:textSize="@dimen/_9ssp"
+                android:textStyle="normal"
+                app:layout_constraintEnd_toStartOf="@id/statusOrder"
+                app:layout_constraintStart_toEndOf="@id/imgProduct"
+                app:layout_constraintTop_toBottomOf="@id/orderNumber"
+                tools:text="Order date" />
+
+            <TextView
+                android:id="@+id/statusOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:gravity="center_vertical"
+                android:visibility="gone"
+                android:text="@string/return_product"
+                android:textColor="@color/color_primary"
+                android:textSize="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="@id/orderDate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/orderDate"
+                app:layout_constraintTop_toTopOf="@id/orderDate"
+                tools:text="Product name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/txtFiles"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:gravity="center_vertical"
+        android:text="@string/attached_files"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="@+id/cvRefundableItem"
+        app:layout_constraintStart_toStartOf="@+id/cvRefundableItem"
+        app:layout_constraintTop_toBottomOf="@+id/cvRefundableItem" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgRefundableProduct"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_margin="@dimen/_4sdp"
+        android:scaleType="fitXY"
+        app:layout_constraintEnd_toEndOf="@id/cvRefundableItem"
+        app:layout_constraintStart_toStartOf="@id/cvRefundableItem"
+        app:layout_constraintTop_toBottomOf="@id/txtFiles"
+        app:shapeAppearanceOverlay="@style/RoundedImageView"
+        tools:src="@drawable/app_logo" />
+
+    <TextView
+        android:id="@+id/txtRefundableReason"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:gravity="center_vertical"
+        android:text="@string/refundable_reason"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="@+id/cvRefundableItem"
+        app:layout_constraintStart_toStartOf="@+id/cvRefundableItem"
+        app:layout_constraintTop_toBottomOf="@+id/imgRefundableProduct" />
+
+    <TextView
+        android:id="@+id/refundableReason"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:gravity="center_vertical"
+        android:text="@string/return_product"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="@+id/cvRefundableItem"
+        app:layout_constraintStart_toStartOf="@+id/cvRefundableItem"
+        app:layout_constraintTop_toBottomOf="@+id/txtRefundableReason" />
+
+    <TextView
+        android:id="@+id/txtNotes"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_10sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:gravity="center_vertical"
+        android:text="@string/notes"
+        android:textColor="@color/grey"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintEnd_toEndOf="@+id/cvRefundableItem"
+        app:layout_constraintStart_toStartOf="@+id/cvRefundableItem"
+        app:layout_constraintTop_toBottomOf="@+id/refundableReason" />
+
+    <TextView
+        android:id="@+id/notes"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="@dimen/_6sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_12sdp"
+        app:layout_constraintBottom_toTopOf="@id/btnAccept"
+        app:layout_constraintEnd_toEndOf="@+id/cvRefundableItem"
+        app:layout_constraintStart_toStartOf="@+id/cvRefundableItem"
+        app:layout_constraintTop_toBottomOf="@+id/txtNotes"
+        tools:text="notes notes notes notes notes notes  notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes notes " />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnReject"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="@dimen/_100sdp"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_marginVertical="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/reject"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:cornerRadius="@dimen/_6sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btnAccept"
+        app:layout_constraintStart_toStartOf="@id/cvRefundableItem" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btnAccept"
+        style="@style/Widget.MaterialComponents.Button"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_marginVertical="@dimen/_16sdp"
+        android:fontFamily="@font/cairo_semibold"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
+        android:text="@string/accept"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_14ssp"
+        app:cornerRadius="@dimen/_6sdp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cvRefundableItem"
+        app:layout_constraintStart_toEndOf="@id/btnReject" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -27,6 +27,7 @@ data class AddonsItem(
 		@field:SerializedName("id")
 		val id: Int? = null
 ): Serializable
+
 data class SkusItem(
 
 	@field:SerializedName("allowed_quantity")
@@ -112,7 +113,7 @@ data class Data(
 	val covers: List<Any?>? = null,
 
 	@field:SerializedName("products")
-	val products: List<ProductsItem?>? = null
+	val products: ArrayList<ProductsItem?>? = null
 ): Serializable
 
 data class ProductCategoriesData (
@@ -168,6 +169,7 @@ data class ProductsItem(
 
 	@field:SerializedName("name_en")
 	var nameEn: String? = null,
+
 	@field:SerializedName("description_en")
 	var descriptionEn: String? = null,
 
@@ -316,5 +318,7 @@ data class ProductsItem(
 	val status: String? = null,
 
 	@field:SerializedName("city_id")
-	val cityId: Any? = null
+	val cityId: Any? = null,
+
+	var isSelected: Boolean = false
 ): Serializable

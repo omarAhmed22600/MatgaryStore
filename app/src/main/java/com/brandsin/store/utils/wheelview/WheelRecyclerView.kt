@@ -1,10 +1,8 @@
 package com.brandsin.user.utils.wheelview
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.brandsin.store.R
 import com.brandsin.store.utils.wheelview.logDebug
 import com.brandsin.store.utils.wheelview.logError
 import com.brandsin.store.utils.wheelview.logInfo
@@ -15,7 +13,7 @@ private const val typeItem = 1
 abstract class TimeWheelRecyclerView : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     private var selectedItem = 1
-    protected var itemHeight = 0
+    private var itemHeight = 0
 
     /**
      * the index of start and end are padding item's index, not included in valid item
@@ -29,12 +27,12 @@ abstract class TimeWheelRecyclerView : RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     final override fun onCreateViewHolder(
-            parent: ViewGroup,
-            viewType: Int
+        parent: ViewGroup,
+        viewType: Int
     ): RecyclerView.ViewHolder {
         logInfo("onCreateViewHolder viewType = $viewType")
         if (viewType == typePadding) {
-            return onCreatePaddingItemViewHolder(parent)
+            // return onCreatePaddingItemViewHolder(parent)
         }
         return onCreateItemViewHolder(parent)
     }
@@ -45,7 +43,7 @@ abstract class TimeWheelRecyclerView : RecyclerView.Adapter<RecyclerView.ViewHol
     fun notifyScroll(scrolledY: Int) {
         logInfo("notifyScroll scrolledY = $scrolledY")
         val newSelectedItem =
-                scrolledY / itemHeight + 1
+            scrolledY / itemHeight + 1
         val oldSelectedItem = selectedItem
         logInfo("oldSelectedItem = $oldSelectedItem, newSelectedItem = $newSelectedItem")
         if (newSelectedItem != oldSelectedItem) {
@@ -71,7 +69,7 @@ abstract class TimeWheelRecyclerView : RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
 
-    private fun onCreatePaddingItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+    /*private fun onCreatePaddingItemViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
         logDebug("onCreatePaddingItemViewHolder")
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.view_padding_recycler_wheel_view, parent, false)
@@ -81,7 +79,7 @@ abstract class TimeWheelRecyclerView : RecyclerView.Adapter<RecyclerView.ViewHol
         view.layoutParams = layoutParams
         return object : RecyclerView.ViewHolder(view) {
         }
-    }
+    }*/
 
     /**
      * create a Normal ViewHolder by your customized layout, you can change its property in onBindSelectedViewHolder and onBindNotSelectedViewHolder

@@ -23,6 +23,7 @@ data class UpdateOfferRequest(
 
     @field:SerializedName("name_en")
     var nameEn: String? = null,
+
     @field:SerializedName("description_en")
     var descriptionEn: String? = null,
 
@@ -40,6 +41,9 @@ data class UpdateOfferRequest(
 
     @SerializedName("active")
     var active: Int? = null,
+
+    @SerializedName("type")
+    var type: String? = null,
 
     @SerializedName("products")
     var productsIds: ArrayList<Int>? = null,

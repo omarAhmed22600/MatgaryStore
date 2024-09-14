@@ -4,14 +4,15 @@ import androidx.databinding.ObservableField
 import com.brandsin.store.database.BaseViewModel
 import com.brandsin.store.ui.dialogs.offertime.OfferDateItem
 
-class ItemOrderDateViewModel(var item: OfferDateItem) : BaseViewModel()
-{
+class ItemOrderDateViewModel(var item: OfferDateItem) : BaseViewModel() {
+
     var obsDay = ObservableField("")
+
     var obsDate = ObservableField("")
 
     init {
-       item.day.let {
-           obsDay.set(it!!.take(3))
+        item.day.let {
+            obsDay.set(it!!.take(3))
         }
 
         item.date.let {

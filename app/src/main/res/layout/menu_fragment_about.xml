@@ -1,13 +1,10 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.menu.about.AboutViewModel" />
@@ -17,104 +14,199 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:paddingStart="@dimen/_16sdp"
-                android:paddingEnd="@dimen/_16sdp">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rv_categories"
-                    adapter="@{viewModel.aboutAdapter}"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginTop="@dimen/_24sdp"
-                    android:orientation="vertical"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:itemCount="5"
-                    tools:listitem="@layout/raw_home_about" />
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:paddingStart="@dimen/_16sdp"
+                    android:paddingEnd="@dimen/_16sdp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rv_categories"
+                        adapter="@{viewModel.aboutAdapter}"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:orientation="vertical"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:itemCount="5"
+                        tools:listitem="@layout/raw_home_about" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_16sdp">
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/qrCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_200sdp"
+                    android:layout_margin="@dimen/_16sdp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/qr_saudi_business" />
 
                 <TextView
-                    android:id="@+id/tv_followUs"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/_8sdp"
-                    android:fontFamily="@font/cairoregular"
-                    android:text="@string/follow_us_via"
-                    android:textSize="@dimen/_12ssp"
+                    android:layout_marginHorizontal="@dimen/_18sdp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center"
+                    android:text="@string/this_application_is_certified_and_certified_by_the_saudi_economic_center"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    android:textStyle="bold"
                     app:layout_constraintBottom_toTopOf="@+id/iv_insta"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <ImageView
-                    android:id="@+id/iv_twitter"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:onClick="@{() -> viewModel.onTwitterClicked()}"
-                    android:src="@drawable/ic_twitter"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_version"
-                    app:layout_constraintEnd_toStartOf="@+id/iv_insta"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/iv_insta"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:onClick="@{() -> viewModel.onInstaClicked()}"
-                    android:src="@drawable/ic_insta"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_version"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:ignore="ContentDescription" />
-
-                <ImageView
-                    android:id="@+id/iv_face"
-                    android:layout_width="@dimen/_30sdp"
-                    android:layout_height="@dimen/_30sdp"
-                    android:layout_marginStart="@dimen/_8sdp"
-                    android:layout_marginEnd="@dimen/_8sdp"
-                    android:layout_marginBottom="@dimen/_4sdp"
-                    android:onClick="@{() -> viewModel.onFaceClicked()}"
-                    android:src="@drawable/facebook_icon"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_version"
-                    app:layout_constraintStart_toEndOf="@+id/iv_insta"
-                    tools:ignore="ContentDescription" />
-
-                <TextView
-                    android:id="@+id/tv_version"
-                    android:layout_width="wrap_content"
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:text="@{viewModel.obsVersion}"
-                    android:textColor="@color/black"
-                    android:textSize="@dimen/_12ssp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    tools:text="@string/version_number" />
+                    android:layout_margin="@dimen/_18sdp"
+                    android:background="@color/raw_home_about_bg_color"
+                    android:src="@drawable/saudi_business_center" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_16sdp">
 
-        </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_followUs"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@string/follow_us_via"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toTopOf="@+id/lin"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <LinearLayout
+                        android:id="@+id/lin"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_48sdp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        android:orientation="horizontal"
+                        android:padding="@dimen/_8sdp"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_version"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent">
+
+                        <ImageView
+                            android:id="@+id/iv_twitter"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.onTwitterClicked()}"
+                            android:src="@drawable/ic_twitter"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/iv_whats"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.onInstaClicked()}"
+                            android:src="@drawable/ic_insta"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/iv_facebook"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.onFaceClicked()}"
+                            android:src="@drawable/facebook_icon"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/iv_whatsApp"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.onWhatsClicked()}"
+                            android:src="@drawable/whats_icon"
+                            tools:ignore="ContentDescription" />
+
+                        <ImageView
+                            android:id="@+id/iv_tiktok"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:onClick="@{() -> viewModel.onTikTokClicked()}"
+                            android:src="@drawable/tiktok"
+                            tools:ignore="ContentDescription" />
+
+                    </LinearLayout>
+
+                    <!--<ImageView
+                        android:id="@+id/iv_twitter"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:onClick="@{() -> viewModel.onTwitterClicked()}"
+                        android:src="@drawable/ic_twitter"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_version"
+                        app:layout_constraintEnd_toStartOf="@+id/iv_insta"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/iv_insta"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:onClick="@{() -> viewModel.onInstaClicked()}"
+                        android:src="@drawable/ic_insta"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_version"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:ignore="ContentDescription" />
+
+                    <ImageView
+                        android:id="@+id/iv_face"
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:layout_marginBottom="@dimen/_4sdp"
+                        android:onClick="@{() -> viewModel.onFaceClicked()}"
+                        android:src="@drawable/facebook_icon"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_version"
+                        app:layout_constraintStart_toEndOf="@+id/iv_insta"
+                        tools:ignore="ContentDescription" />-->
+
+                    <TextView
+                        android:id="@+id/tv_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@{viewModel.obsVersion}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="@string/version_number" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </layout>

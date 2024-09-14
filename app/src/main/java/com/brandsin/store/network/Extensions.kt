@@ -76,6 +76,14 @@ inline fun <reified T : AppCompatActivity> Fragment.castActivity(
     }
 }
 
+fun <T> LiveData<T>.toSingleEvent(): LiveData<T> {
+    val result = LiveEvent<T>()
+    result.addSource(this) {
+        result.value = it
+    }
+    return result
+}
+
 inline fun <reified T : ViewModel> ViewModelStoreOwner.initViewModel(
     factory: ViewModelProvider.Factory,
     body: T.() -> Unit

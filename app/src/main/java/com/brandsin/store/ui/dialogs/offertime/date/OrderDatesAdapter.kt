@@ -11,18 +11,20 @@ import com.brandsin.store.ui.dialogs.offertime.OfferDateItem
 import com.brandsin.store.utils.MyApp
 import com.brandsin.store.utils.SingleLiveEvent
 
-class OrderDatesAdapter : RecyclerView.Adapter<OrderDatesAdapter.OrderDateHolder>()
-{
-    var datesList: List<OfferDateItem> = ArrayList()
+class OrderDatesAdapter : RecyclerView.Adapter<OrderDatesAdapter.OrderDateHolder>() {
+
+    private var datesList: List<OfferDateItem> = ArrayList()
+
     var dateLiveData = SingleLiveEvent<OfferDateItem>()
     var selectedPosition = -1
 
-    var selectedDate = ""
+    private var selectedDate = ""
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderDateHolder {
         val context = parent.context
         val layoutInflater = LayoutInflater.from(context)
-        val binding: RawOrderDateBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_date, parent, false)
+        val binding: RawOrderDateBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_order_date, parent, false)
         return OrderDateHolder(binding)
     }
 
@@ -32,11 +34,11 @@ class OrderDatesAdapter : RecyclerView.Adapter<OrderDatesAdapter.OrderDateHolder
 
         if (selectedDate.isEmpty()) {
             selectedPosition = 0
-            if (selectedPosition== position) {
+            if (selectedPosition == position) {
                 dateLiveData.value = itemViewModel.item
             }
-        }else{
-            if (itemViewModel.item.date == selectedDate){
+        } else {
+            if (itemViewModel.item.date == selectedDate) {
                 selectedPosition = position
                 dateLiveData.value = itemViewModel.item
             }
@@ -61,16 +63,30 @@ class OrderDatesAdapter : RecyclerView.Adapter<OrderDatesAdapter.OrderDateHolder
         notifyDataSetChanged()
     }
 
-    inner class OrderDateHolder(val binding: RawOrderDateBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class OrderDateHolder(val binding: RawOrderDateBinding) :
+        RecyclerView.ViewHolder(binding.root) {
         fun setSelected() {
             when (selectedPosition) {
                 adapterPosition -> {
-                    binding.tvDate.setTextColor(ContextCompat.getColor(MyApp.getInstance(), R.color.white))
-                    binding.tvDate.background = (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.date_bg))
-                    binding.rawItem.background = (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.day_bg))
+                    binding.tvDate.setTextColor(
+                        ContextCompat.getColor(
+                            MyApp.getInstance(),
+                            R.color.white
+                        )
+                    )
+                    binding.tvDate.background =
+                        (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.date_bg))
+                    binding.rawItem.background =
+                        (ContextCompat.getDrawable(MyApp.getInstance(), R.drawable.day_bg))
                 }
+
                 else -> {
-                    binding.tvDate.setTextColor(ContextCompat.getColor(MyApp.getInstance(), R.color.hint_color))
+                    binding.tvDate.setTextColor(
+                        ContextCompat.getColor(
+                            MyApp.getInstance(),
+                            R.color.hint_color
+                        )
+                    )
                     binding.tvDate.background = null
                     binding.rawItem.background = null
                 }

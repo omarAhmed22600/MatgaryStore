@@ -16,35 +16,38 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-open class HomeViewModel : BaseViewModel()
-{
+open class HomeViewModel : BaseViewModel() {
+
     var deviceTokenRequest = DeviceTokenRequest()
-    var obsOrdersSize = ObservableField<String>()
+
+    private var obsOrdersSize = ObservableField<String>()
+
     var storeName = ""
     var requestId = -1
-
-    fun onNotificationsClicked()
-    {
-        setValue(Codes.NOTIFICATION_CLICK)
-    }
 
     init {
         getListConnectingMain()
         getNewOrders()
     }
 
-    fun getListConnectingMain(){
+    fun onNotificationsClicked() {
+        setValue(Codes.NOTIFICATION_CLICK)
+    }
 
+    private fun getListConnectingMain() {
         val baeRepo = BaseRepository()
         val responseCall: Call<ListConnectingMainResponse?> = baeRepo.apiInterface
-            .getListConnectingMain(PrefMethods.getStoreData()!!.id!!.toInt())
+            .getListConnectingMain(PrefMethods.getStoreData()?.id ?: 0)
         responseCall.enqueue(object : Callback<ListConnectingMainResponse?> {
-            override fun onResponse(call: Call<ListConnectingMainResponse?>, response: Response<ListConnectingMainResponse?>) {
+            override fun onResponse(
+                call: Call<ListConnectingMainResponse?>,
+                response: Response<ListConnectingMainResponse?>
+            ) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success!!) {
                         if (response.body()!!.data!!.isNotEmpty()) {
-                            for (item in response.body()!!.data!!){
-                                if (item!!.accept ==null || item.accept==0){
+                            for (item in response.body()!!.data!!) {
+                                if (item!!.accept == null || item.accept == 0) {
                                     storeName = item.store!!.name.toString()
                                     requestId = item.id!!.toInt()
                                     setValue(Codes.SHOW_Link)
@@ -57,18 +60,25 @@ open class HomeViewModel : BaseViewModel()
                     setValue(response.message())
                 }
             }
+
             override fun onFailure(call: Call<ListConnectingMainResponse?>, t: Throwable) {
                 setValue(t.message!!)
                 setShowProgress(false)
             }
         })
     }
+
     /* Calling this api for getting new orders count */
     private fun getNewOrders() {
-
         requestCall<OldOrdersResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getStoreOrders(PrefMethods.getLanguage() , PrefMethods.getStoreData()!!.id!!.toInt()  , 20, "new" , 1)
+                return@withContext getApiRepo().getStoreOrders(
+                    PrefMethods.getLanguage(),
+                    PrefMethods.getStoreData()?.id ?: 0,
+                    limit = null, // 30
+                    "new",
+                    page = null
+                )
             }
         })
         { res ->
@@ -78,14 +88,14 @@ open class HomeViewModel : BaseViewModel()
                         when {
                             it.ordersList!!.isNotEmpty() -> {
                                 when (it.ordersList.size) {
-                                    0 -> {
+                                    0 -> {}
 
-                                    }
                                     else -> {
                                         obsOrdersSize.set(it.ordersList.size.toString())
                                     }
                                 }
                             }
+
                             else -> {
                                 obsIsEmpty.set(true)
                                 obsIsFull.set(false)
@@ -93,6 +103,7 @@ open class HomeViewModel : BaseViewModel()
                         }
                     }
                 }
+
                 else -> {
                     obsIsEmpty.set(true)
                     obsIsFull.set(false)
@@ -100,15 +111,19 @@ open class HomeViewModel : BaseViewModel()
             }
         }
     }
-    fun deviceToken(){
 
+    fun deviceToken() {
         deviceTokenRequest.user_id = PrefMethods.getUserData()!!.id.toString()
         deviceTokenRequest.type = "android_token"
 
         val baeRepo = BaseRepository()
-        val responseCall: Call<DeviceTokenResponse?> = baeRepo.apiInterface.deviceToken(deviceTokenRequest)
+        val responseCall: Call<DeviceTokenResponse?> =
+            baeRepo.apiInterface.deviceToken(deviceTokenRequest)
         responseCall.enqueue(object : Callback<DeviceTokenResponse?> {
-            override fun onResponse(call: Call<DeviceTokenResponse?>, response: Response<DeviceTokenResponse?>) {
+            override fun onResponse(
+                call: Call<DeviceTokenResponse?>,
+                response: Response<DeviceTokenResponse?>
+            ) {
                 if (response.isSuccessful) {
                     if (response.body()!!.success!!) {
 
@@ -117,6 +132,7 @@ open class HomeViewModel : BaseViewModel()
                     setValue(response.message())
                 }
             }
+
             override fun onFailure(call: Call<DeviceTokenResponse?>, t: Throwable) {
                 setValue(t.message!!)
                 setShowProgress(false)

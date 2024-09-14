@@ -1,53 +1,49 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.main.offers.ItemOffersViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/raw_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_16sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
         android:layout_marginEnd="@dimen/_16sdp"
-        android:background="?selectableItemBackground"
-        android:id="@+id/raw_layout"
-        app:cardCornerRadius="@dimen/_8sdp">
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@color/white"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_8sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/_8sdp"
-            android:background="?selectableItemBackground">
+            android:background="@color/white"
+            android:paddingBottom="@dimen/_8sdp">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/offer_img_layout"
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
-                android:id="@+id/offer_img_layout"
-                android:layout_marginTop="@dimen/_16sdp"
-                android:layout_marginBottom="@dimen/_8sdp"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_margin="@dimen/_12sdp"
                 android:elevation="0dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
+                <!-- setImage="@{viewModel.item.image}" -->
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/iv_offers"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/coffer_img"
-                    setImage="@{viewModel.item.image}"
-                    tools:ignore="ContentDescription" />
+                    android:scaleType="fitXY"
+                    android:src="@drawable/coffer_img" />
 
             </androidx.cardview.widget.CardView>
 
@@ -55,7 +51,7 @@
                 android:id="@+id/tv_title"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_13sdp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:fontFamily="@font/cairo_semibold"
                 android:text="@{viewModel.item.name}"
                 android:textColor="@color/black"
@@ -66,58 +62,76 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_offerContents"
+                adapter="@{viewModel.adapter}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                adapter="@{viewModel.adapter}"
+                android:layout_marginStart="@dimen/_13sdp"
                 android:layout_marginTop="@dimen/_2sdp"
-                android:layout_marginStart="@dimen/_16sdp"
+                android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title"
                 app:layout_constraintStart_toEndOf="@+id/offer_img_layout"
+                app:layout_constraintTop_toBottomOf="@+id/tv_title"
                 tools:itemCount="3"
                 tools:listitem="@layout/raw_offer_content" />
 
             <TextView
+                android:id="@+id/tv_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_16sdp"
-                android:id="@+id/tv_price"
-                android:fontFamily="@font/cairoregular"
-                android:text="@{viewModel.item.price + ` ` + @string/currency}"
-                android:textSize="@dimen/_12ssp"
+                android:layout_marginStart="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@{viewModel.item.price  +@string/currency}"
                 android:textColor="@color/price_color"
-                app:layout_constraintTop_toBottomOf="@+id/rv_offerContents"
+                android:textSize="@dimen/_11ssp"
                 app:layout_constraintStart_toEndOf="@+id/offer_img_layout"
+                app:layout_constraintTop_toBottomOf="@+id/rv_offerContents"
                 tools:text="200 ر.س" />
 
             <TextView
+                android:id="@+id/tvPriceTo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/cairoregular"
-                android:textSize="@dimen/_12ssp"
-                android:id="@+id/tv_delete"
-                android:textColor="@color/order_rejected_color"
-                android:layout_marginEnd="@dimen/_12sdp"
-                app:layout_constraintTop_toTopOf="@+id/tv_price"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:text="@string/delete" />
+                android:layout_marginStart="@dimen/_6sdp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@{`- ` + viewModel.item.priceTo + ` ` +@string/currency}"
+                android:textColor="@color/price_color"
+                android:textSize="@dimen/_11ssp"
+                app:layout_constraintStart_toEndOf="@+id/tv_price"
+                app:layout_constraintTop_toBottomOf="@+id/rv_offerContents"
+                tools:text="200 ر.س" />
 
             <TextView
+                android:id="@+id/tv_delete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_10sdp"
                 android:fontFamily="@font/cairoregular"
+                android:text="@string/delete"
+                android:textColor="@color/order_rejected_color"
                 android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tv_price" />
+
+            <TextView
                 android:id="@+id/tv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_6sdp"
+                android:fontFamily="@font/cairoregular"
+                android:gravity="center"
+                android:paddingHorizontal="@dimen/_8sdp"
+                android:text="@string/edit"
                 android:textColor="@color/edit_color"
-                app:layout_constraintTop_toTopOf="@+id/tv_price"
-                android:layout_marginEnd="@dimen/_12sdp"
+                android:textSize="@dimen/_12ssp"
                 app:layout_constraintEnd_toStartOf="@+id/tv_delete"
-                android:text="@string/edit" />
+                app:layout_constraintTop_toTopOf="@+id/tv_price" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </layout>
 

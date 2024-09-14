@@ -27,8 +27,8 @@ data class User(
 	@field:SerializedName("id")
 	val id: Int? = null,
 
-	@field:SerializedName("media")
-	val media: List<Any?>? = null,
+	/*@field:SerializedName("media")
+	val media: List<Any?>? = null,*/
 
 	@field:SerializedName("email")
 	val email: String? = null,
@@ -57,6 +57,9 @@ data class Store(
 
 data class StoreOrderItem(
 
+	@field:SerializedName("id")
+	val id: Int? = null,
+
 	@field:SerializedName("store_id")
 	val storeId: Int? = null,
 
@@ -74,9 +77,6 @@ data class StoreOrderItem(
 
 	@field:SerializedName("created_at")
 	val createdAt: String? = null,
-
-	@field:SerializedName("id")
-	val id: Int? = null,
 
 	@field:SerializedName("delivery_time")
 	val deliveryTime: String? = null,

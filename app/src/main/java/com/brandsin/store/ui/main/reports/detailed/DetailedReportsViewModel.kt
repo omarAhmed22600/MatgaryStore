@@ -8,26 +8,31 @@ import com.brandsin.store.network.requestCall
 import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-class DetailedReportsViewModel : BaseViewModel()
-{
-    var reportsAdapter  = DetailedReportsAdapter()
-    var reportsList= ArrayList<DetailsItem>()
+class DetailedReportsViewModel : BaseViewModel() {
+
+    var reportsAdapter = DetailedReportsAdapter()
+
+    private var reportsList = ArrayList<DetailsItem>()
+
     var type = "daily" // monthly
     var from = ""
     var to = ""
 
-    fun getReports()
-    {
+    fun getReports() {
         setShowProgress(true)
         obsIsFull.set(false)
         obsIsEmpty.set(false)
-        requestCall<ReportsDetailsResponse?>({ withContext(Dispatchers.IO) {
-            return@withContext getApiRepo()
-                    .getReportsDetails(PrefMethods.getStoreData()!!.id!!,50,0,type,from, to) }
+        requestCall<ReportsDetailsResponse?>({
+            withContext(Dispatchers.IO) {
+                return@withContext getApiRepo()
+                    .getReportsDetails(PrefMethods.getStoreData()!!.id!!, 50, 0, type, from, to)
+            }
         })
         { res ->
-            when  {
+            when {
                 res!!.data!!.isNotEmpty() -> {
                     obsIsFull.set(true)
                     obsIsEmpty.set(false)
@@ -38,6 +43,7 @@ class DetailedReportsViewModel : BaseViewModel()
                     reportsAdapter.notifyDataSetChanged()
 
                 }
+
                 else -> {
                     obsIsFull.set(false)
                     obsIsEmpty.set(true)
@@ -45,17 +51,9 @@ class DetailedReportsViewModel : BaseViewModel()
                 }
             }
         }
-
-
     }
 
-    init {
-        getReports()
-    }
-
-    fun onCalendarClicked()
-    {
+    fun onCalendarClicked() {
         setValue(Codes.SHOW_CALENDAR_DIALOG)
     }
-
 }

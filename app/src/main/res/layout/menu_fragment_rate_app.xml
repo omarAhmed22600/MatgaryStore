@@ -1,13 +1,10 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.menu.rateapp.RateAppViewModel" />
@@ -62,55 +59,55 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_36sdp"
-                    tools:rating="3.5"
                     android:progressBackgroundTint="@color/color_primary"
-                    app:mrb_secondaryProgressTint="@color/color_primary"
-                    app:mrb_progressBackgroundTint="@color/color_primary"
-                    app:mrb_progressTint="@color/color_primary"
                     android:progressTint="@color/color_primary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_rateTitle" />
+                    app:layout_constraintTop_toBottomOf="@+id/tv_rateTitle"
+                    app:mrb_progressBackgroundTint="@color/color_primary"
+                    app:mrb_progressTint="@color/color_primary"
+                    app:mrb_secondaryProgressTint="@color/color_primary"
+                    tools:rating="3.5" />
 
                 <TextView
                     android:id="@+id/tv_writeComment"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/write_comment"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:textSize="@dimen/_14ssp"
-                    android:textColor="@color/black"
                     android:layout_marginTop="@dimen/_36sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:text="@string/write_comment"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/phone_layout"/>
+                    app:layout_constraintTop_toBottomOf="@+id/phone_layout" />
 
                 <TextView
                     android:id="@+id/tv_rateDesc"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/rate_app_desc"
-                    android:fontFamily="@font/cairoregular"
-                    android:textSize="@dimen/_12ssp"
-                    android:textColor="@color/black"
                     android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@string/rate_app_desc"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/tv_writeComment"/>
+                    app:layout_constraintTop_toBottomOf="@+id/tv_writeComment" />
 
                 <EditText
                     android:id="@+id/et_rateMsg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="@dimen/_60sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
                     android:layout_marginBottom="@dimen/_16sdp"
                     android:background="@drawable/about_item_bg"
                     android:fontFamily="@font/cairoregular"
                     android:gravity="start"
-                    android:text="@={viewModel.obsMsg}"
-                    android:layout_marginTop="@dimen/_12sdp"
                     android:hint="@string/write_here"
                     android:lineSpacingExtra="-12dp"
+                    android:minHeight="@dimen/_60sdp"
                     android:padding="@dimen/_8sdp"
+                    android:text="@={viewModel.obsMsg}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -121,11 +118,11 @@
                     style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_42sdp"
-                    android:onClick="@{() -> viewModel.onRateClicked()}"
                     android:layout_marginTop="@dimen/_24sdp"
                     android:fontFamily="@font/cairo_semibold"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
+                    android:onClick="@{() -> viewModel.onRateClicked()}"
                     android:text="@string/send_your_rate"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -135,6 +132,9 @@
                     app:layout_constraintTop_toBottomOf="@+id/et_rateMsg" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.core.widget.NestedScrollView>
+
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </layout>

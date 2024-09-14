@@ -23,7 +23,8 @@ import com.brandsin.store.ui.dialogs.productcategories.DialogProductCategoriesFr
 import com.brandsin.store.ui.dialogs.productunit.DialogProductUnitFragment
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
+import com.fxn.pix.Options
 import timber.log.Timber
 import java.io.File
 
@@ -106,16 +107,16 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?>
             else -> it.let {
                 when (it) {
                     Codes.SELECT_PHOTO1 -> {
-                        pickImage(Codes.SELECT_PHOTO1)
+                        pickImage(Codes.SELECT_PHOTO1, Options.Mode.All)
                     }
                     Codes.SELECT_PHOTO2 -> {
-                        pickImage(Codes.SELECT_PHOTO2)
+                        pickImage(Codes.SELECT_PHOTO2, Options.Mode.All)
                     }
                     Codes.SELECT_PHOTO3 -> {
-                        pickImage(Codes.SELECT_PHOTO3)
+                        pickImage(Codes.SELECT_PHOTO3, Options.Mode.All)
                     }
                     Codes.SELECT_PHOTO4 -> {
-                        pickImage(Codes.SELECT_PHOTO4)
+                        pickImage(Codes.SELECT_PHOTO4, Options.Mode.All)
                     }
                     Codes.PRODUCT_CATEGORIES_CLICKED -> {
                         val bundle = Bundle()

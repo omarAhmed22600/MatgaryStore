@@ -11,13 +11,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import com.google.firebase.messaging.FirebaseMessagingService;
-import com.google.firebase.messaging.RemoteMessage;
 import com.brandsin.store.R;
 import com.brandsin.store.ui.activity.auth.AuthActivity;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
 import java.io.IOException;
 import java.net.URL;
@@ -25,18 +26,17 @@ import java.util.Map;
 
 public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
 
-    boolean showNotifcation;
+    boolean showNotification;
     Intent intent;
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
+        showNotification = PrefMethods.INSTANCE.getIsNotificationsEnabled(this);
 
-        showNotifcation = PrefMethods.INSTANCE.getIsNotificationsEnabled(this);
-
-        //Check if Notn are Enabled?
-        if (showNotifcation) {
+        // Check if Notification are Enabled?
+        if (showNotification) {
             //Show Notification
             RemoteMessage.Notification notification = remoteMessage.getNotification();
             Map<String, String> data = remoteMessage.getData();
@@ -44,9 +44,11 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
             sendNotification(notification, data);
         }
     }
+
     private void sendNotification(RemoteMessage.Notification notification, Map<String, String> data) {
 
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        // Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.app_logo3);
 
         if (intent == null) {
             intent = new Intent();
@@ -64,7 +66,9 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
         }
 
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
+                intent, PendingIntent.FLAG_UPDATE_CURRENT
+        );
 
         if (notification != null) {
             NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, "channel_id")
@@ -75,10 +79,10 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                     .setContentIntent(pendingIntent)
                     .setContentInfo(notification.getTitle())
                     .setLargeIcon(icon)
-                    .setColor(getResources().getColor(R.color.color_primary))
+                    .setSmallIcon(R.drawable.app_logo3) // .setSmallIcon(R.mipmap.ic_launcher)
+                    // .setColor(getResources().getColor(R.color.color_primary))
                     .setLights(Color.RED, 1000, 300)
-                    .setDefaults(Notification.DEFAULT_VIBRATE)
-                    .setSmallIcon(R.mipmap.ic_launcher);
+                    .setDefaults(Notification.DEFAULT_VIBRATE);
 
             try {
                 String picture_url = data.get("picture_url");
@@ -92,7 +96,6 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
 
             NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 

@@ -1,37 +1,34 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.menu.help.helpques.HelpViewModel" />
     </data>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/swipe_layout">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                isFull="@{viewModel.obsIsFull}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:visibility="visible"
                 android:paddingStart="@dimen/_16sdp"
-                isFull="@{viewModel.obsIsFull}"
                 android:paddingEnd="@dimen/_16sdp"
                 android:paddingBottom="@dimen/_16sdp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
                     android:id="@+id/tv_helpTitle"
@@ -52,10 +49,10 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/tv_helpTitle"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     tools:itemCount="5"
                     tools:listitem="@layout/raw_help_ques" />
 
@@ -63,13 +60,13 @@
 
             <com.facebook.shimmer.ShimmerFrameLayout
                 android:id="@+id/shimmerFrameLayout"
+                isLoading="@{viewModel.obsIsLoading}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
-                android:orientation="vertical"
-                isLoading="@{viewModel.obsIsLoading}"
-                android:visibility="gone"
                 android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -80,18 +77,29 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
-                    <include layout="@layout/shimmer_help"/>
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
+
+                    <include layout="@layout/shimmer_help" />
 
                 </LinearLayout>
             </com.facebook.shimmer.ShimmerFrameLayout>

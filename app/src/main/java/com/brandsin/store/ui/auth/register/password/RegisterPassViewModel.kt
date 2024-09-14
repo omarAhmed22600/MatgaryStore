@@ -4,26 +4,29 @@ import androidx.databinding.ObservableField
 import com.brandsin.store.database.BaseViewModel
 import com.brandsin.store.model.constants.Codes
 
-class RegisterPassViewModel : BaseViewModel()
-{
+class RegisterPassViewModel : BaseViewModel() {
+
     var obsPassword = ObservableField<String>()
     var obsConfirmPassword = ObservableField<String>()
 
-    fun onSaveClicked()
-    {
+    fun onSaveClicked() {
         when {
             obsPassword.get() == null -> {
                 setValue(Codes.PASSWORD_EMPTY)
             }
+
             obsPassword.get()!!.length < 6 -> {
                 setValue(Codes.PASSWORD_SHORT)
             }
+
             obsConfirmPassword.get() == null -> {
                 setValue(Codes.PASSWORD_EMPTY)
             }
+
             obsPassword.get() != obsConfirmPassword.get() -> {
                 setValue(Codes.PASSWORD_NOT_MATCH)
             }
+
             else -> {
                 setValue(Codes.SUCCESS)
             }

@@ -26,7 +26,7 @@ import com.brandsin.store.ui.dialogs.productunit.DialogProductUnitFragment
 import com.brandsin.store.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 import com.brandsin.user.utils.map.PermissionUtil
 import timber.log.Timber
 import java.io.File
@@ -399,6 +399,8 @@ class UpdateProductActivity : AppCompatActivity(), Observer<Any?>
                             this,
                             options
                     )
+
+                    else -> {}
                 }
             }
         }

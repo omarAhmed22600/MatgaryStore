@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:bind="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    tools:context=".ui.chat.views.MessageFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:background="@color/offers_bg_color"
+        bind:layout_constraintTop_toTopOf="parent">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imgBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:padding="@dimen/_10sdp"
+            android:src="@drawable/ic_left_arrow"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintStart_toStartOf="parent"
+            bind:layout_constraintTop_toTopOf="parent"
+            bind:tint="@color/black" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toEndOf="@+id/imgBack"
+            bind:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/_4sdp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="@dimen/_32sdp"
+                    android:layout_height="@dimen/_32sdp"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="@dimen/_4sdp"
+                    android:src="@drawable/ic_add" />
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center"
+                    android:layout_marginStart="@dimen/_10sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:lines="1"
+                    android:textAllCaps="false"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_14ssp"
+                    android:textStyle="bold"
+                    tools:text="Username" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!--<androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/emptyView"
+        android:layout_width="wrap_content"
+        android:layout_height="400dp"
+        android:layout_centerInParent="true"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_12sdp"
+        android:gravity="center"
+        android:src="@drawable/empty_view"
+        bind:layout_constraintTop_toBottomOf="@+id/appBar" />-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvMessages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        bind:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        android:layout_marginVertical="@dimen/_4sdp"
+        bind:layout_constraintBottom_toTopOf="@+id/msgData"
+        bind:layout_constraintTop_toBottomOf="@+id/appBar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/msgData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="@dimen/_4sdp"
+        bind:layout_constraintTop_toBottomOf="@+id/rvMessages"
+        bind:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/edtMessage"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/_6sdp"
+            android:background="@drawable/bg_send_message"
+            android:hint="@string/send_message"
+            android:inputType="textMultiLine"
+            android:maxLines="5"
+            android:padding="@dimen/_12sdp"
+            android:scrollbars="vertical"
+            android:textSize="@dimen/_10ssp"
+            bind:layout_constraintBottom_toBottomOf="parent"
+            bind:layout_constraintEnd_toStartOf="@id/btnSendImage"
+            bind:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnSendImage"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:padding="@dimen/_8sdp"
+            android:tint="@color/grey"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:src="@drawable/ic_attechment"
+            bind:layout_constraintTop_toTopOf="@id/edtMessage"
+            bind:layout_constraintBottom_toBottomOf="@id/edtMessage"
+            bind:layout_constraintEnd_toStartOf="@+id/btnSend"
+            bind:layout_constraintStart_toEndOf="@id/edtMessage" />
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/btnSend"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:src="@drawable/ic_send"
+            android:padding="@dimen/_8sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            android:tint="@color/grey"
+            bind:layout_constraintTop_toTopOf="@id/edtMessage"
+            bind:layout_constraintBottom_toBottomOf="@id/edtMessage"
+            bind:layout_constraintEnd_toEndOf="parent"
+            bind:layout_constraintStart_toEndOf="@id/btnSendImage" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/_136sdp"
+        android:background="#8EECEEEF"
+        android:visibility="gone"
+        bind:layout_constraintStart_toStartOf="parent"
+        bind:layout_constraintTop_toTopOf="parent"
+        bind:layout_constraintBottom_toBottomOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

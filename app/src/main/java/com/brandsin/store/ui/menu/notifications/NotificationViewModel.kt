@@ -78,6 +78,8 @@ class NotificationViewModel : BaseViewModel()
             when (res!!.isSuccess) {
                 true -> {
                 }
+
+                else -> {}
             }
         }
     }

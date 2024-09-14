@@ -1,5 +1,4 @@
-<resources
-    xmlns:tools="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -12,11 +11,17 @@
         <item name="colorSecondaryVariant">@color/color_primary</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
         <!-- Customize your theme here. -->
     </style>
 
-
+    <style name="SearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <item name="searchIcon">@drawable/ic_search_24px</item>
+        <item name="queryHint">@string/search</item>
+        <item name="fontFamily">@font/cairo_semibold</item>
+        <item name="queryBackground">@null</item>
+        <item name="searchHintIcon">@drawable/ic_search_24px</item>
+    </style>
 
     <style name="DialogActivityTheme" parent="AppTheme">
         <item name="android:windowIsTranslucent">true</item>
@@ -26,16 +31,14 @@
         <!--<item name="android:windowIsFloating">true</item> &lt;!&ndash;act like dialog&ndash;&gt;-->
         <item name="android:backgroundDimEnabled">true</item>
         <item name="windowActionBar">false</item>
-        <item name="android:statusBarColor" >@color/colorPrimaryDark</item>
+        <item name="android:statusBarColor">@color/colorPrimaryDark</item>
     </style>
 
-    <style name="BottomNavStyle"
-        parent="Widget.MaterialComponents.BottomNavigationView">
+    <style name="BottomNavStyle" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="fontFamily">@font/cairo_bold</item>
-        <item name="android:textSize"> @dimen/_20ssp </item>
-        <item name="android:textColor"> @color/black </item>
+        <item name="android:textSize">@dimen/_20ssp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
-
 
     <style name="MyRatingBarStyle.Indicator.Small" parent="Widget.MaterialRatingBar.RatingBar.Indicator.Small">
         <item name="android:indeterminate">false</item>
@@ -44,8 +47,8 @@
         <item name="mrb_fillBackgroundStars">false</item>
         <item name="mrb_progressTint">#FFC500</item>
         <item name="colorControlNormal">@color/color_primary</item>
-        <item name="mrb_secondaryProgressTint"> @color/color_primary </item>
-        <item name="mrb_progressBackgroundTint">@color/color_primary </item>
+        <item name="mrb_secondaryProgressTint">@color/color_primary</item>
+        <item name="mrb_progressBackgroundTint">@color/color_primary</item>
     </style>
 
     <style name="MyRatingBarStyle.Indicator" parent="Widget.MaterialRatingBar.RatingBar.Indicator">
@@ -94,7 +97,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 
     <!-- Styles of Text Input layout -->
     <style name="TextInputLayoutNoBorder" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
@@ -155,32 +157,45 @@
     </style>
 
     <style name="NumberPickerStyle" parent="android:Widget.Material.Light.TimePicker">
-        <item name="android:textSize"> @dimen/_16ssp </item>
-        <item name="fontFamily"> @font/cairo_semibold</item>
-        <item name="android:textColor"> @color/color_primary</item>
+        <item name="android:textSize">@dimen/_16ssp</item>
+        <item name="fontFamily">@font/cairo_semibold</item>
+        <item name="android:textColor">@color/color_primary</item>
     </style>
 
     <style name="NavigationDrawerStyle">
-        <item name="android:textSize"> @dimen/_14ssp </item><!-- text size in menu-->
-        <item name="fontFamily"> @font/cairo_semibold</item>
+        <item name="android:textSize">@dimen/_14ssp</item><!-- text size in menu-->
+        <item name="fontFamily">@font/cairo_semibold</item>
     </style>
 
-    <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout.Colored" >
+    <style name="CustomTabLayout" parent="Widget.MaterialComponents.TabLayout.Colored">
         <item name="android:background">?attr/colorPrimary</item>
         <item name="tabIconTint">@color/mtrl_tabs_icon_color_selector_colored</item>
         <item name="tabIndicatorColor">?attr/colorOnPrimary</item>
         <item name="tabTextColor">@color/mtrl_tabs_icon_color_selector_colored</item>
         <item name="tabRippleColor">@color/mtrl_tabs_colored_ripple_color</item>
-        <item name="fontFamily"> @font/cairo_semibold</item>
-        <item name="android:textSize"> @dimen/_18ssp</item>
-        <item name="android:fontFamily">@font/cairo_semibold </item>
+        <item name="fontFamily">@font/cairo_semibold</item>
+        <item name="android:textSize">@dimen/_18ssp</item>
+        <item name="android:fontFamily">@font/cairo_semibold</item>
     </style>
 
-    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar" >
+    <style name="AppTheme.Picker" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:textColorPrimary">@color/color_primary</item>
         <item name="android:textSize">@dimen/_16ssp</item>
         <item name="android:fontFamily">@font/cairo_bold</item>
+        <item name="android:clickable">false</item>
+        <item name="android:focusable">false</item>
         <item name="android:colorControlNormal">@color/color_primary</item>
+    </style>
+
+    <style name="RoundedImageView" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/_6sdp</item>
+    </style>
+
+    <!-- Base application theme. -->
+    <style name="Base.AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
 </resources>

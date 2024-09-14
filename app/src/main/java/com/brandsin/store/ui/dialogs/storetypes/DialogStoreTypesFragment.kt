@@ -14,7 +14,7 @@ import com.brandsin.store.model.auth.StoreTypeResponse
 import com.brandsin.store.model.auth.register.StoreRegister
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.profile.updatestore.UpdateStoreRequest
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 
 class DialogStoreTypesFragment  : DialogFragment(), Observer<Any?>
 {

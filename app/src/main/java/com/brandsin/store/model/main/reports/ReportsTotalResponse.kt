@@ -16,6 +16,9 @@ data class DataItem(
 	@field:SerializedName("total")
 	val total: String? = null,
 
+	@field:SerializedName("completed_total")
+	val completedTotal: String? = null,
+
 	@field:SerializedName("comments")
 	val comments: List<Any?>? = null,
 
@@ -23,5 +26,9 @@ data class DataItem(
 	val isRated: Boolean? = null,
 
 	@field:SerializedName("count")
-	val count: String? = null
+	val count: String? = null,
+
+	@field:SerializedName("completed_count")
+	val completedCount: String? = null,
+
 )

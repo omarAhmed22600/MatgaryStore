@@ -1,9 +1,5 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,20 +10,20 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardElevation="@dimen/_8sdp"
             android:layout_marginStart="@dimen/_24sdp"
             android:layout_marginEnd="@dimen/_24sdp"
             app:cardCornerRadius="@dimen/_8sdp"
+            app:cardElevation="@dimen/_8sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:paddingBottom="@dimen/_16sdp"
                 android:backgroundTint="#F2F2F2"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="@dimen/_16sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
@@ -37,22 +33,22 @@
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_80sdp"
-                    android:src="@drawable/ic_added_successfully"
-                    android:layout_marginTop="@dimen/_16sdp" />
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:src="@drawable/ic_added_successfully" />
 
                 <TextView
                     android:id="@+id/tv_message"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
+                    android:fontFamily="@font/cairoregular"
+                    android:gravity="center"
+                    android:lineSpacingExtra="-7dp"
                     android:paddingStart="@dimen/_10sdp"
                     android:paddingEnd="@dimen/_10sdp"
                     android:text="@string/offfer_added_successfully"
-                    android:textSize="@dimen/_14ssp"
-                    android:gravity="center"
-                    android:lineSpacingExtra="-7dp"
                     android:textColor="@color/black"
-                    android:fontFamily="@font/cairoregular"
+                    android:textSize="@dimen/_14ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -61,54 +57,54 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_36sdp"
-                    android:layout_marginStart="@dimen/_24sdp"
-                    android:layout_marginEnd="@dimen/_24sdp"
-                    android:orientation="horizontal"
                     android:layout_gravity="bottom"
+                    android:layout_marginStart="@dimen/_24sdp"
                     android:layout_marginTop="@dimen/_24sdp"
+                    android:layout_marginEnd="@dimen/_24sdp"
                     android:backgroundTint="@color/color_primary"
+                    android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="@+id/textView49">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_offers"
+                        style="@style/Widget.MaterialComponents.Button"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
+                        android:layout_marginEnd="@dimen/_8sdp"
                         android:layout_weight="1"
                         android:backgroundTint="@color/color_primary"
-                        android:textColor="@color/white"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:textSize="@dimen/_12ssp"
                         android:fontFamily="@font/cairo_semibold"
-                        android:textStyle="normal"
-                        style="@style/Widget.MaterialComponents.Button"
-                        app:cornerRadius="@dimen/_8sdp"
-                        android:insetRight="0dp"
                         android:insetLeft="0dp"
-                        android:layout_marginEnd="@dimen/_8sdp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
                         android:text="@string/offers"
-                        app:rippleColor="@color/white"
-                        android:textAllCaps="false" />
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="normal"
+                        app:cornerRadius="@dimen/_8sdp"
+                        app:rippleColor="@color/white" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_orders"
+                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:insetTop="0dp"
-                        android:insetBottom="0dp"
-                        android:insetRight="0dp"
-                        app:strokeColor="@color/color_primary"
-                        app:cornerRadius="@dimen/_8sdp"
-                        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                        android:insetLeft="0dp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:id="@+id/btn_orders"
-                        android:textColor="@color/black"
+                        android:layout_weight="1"
                         android:fontFamily="@font/cairo_semibold"
-                        android:textSize="@dimen/_12ssp"
+                        android:insetLeft="0dp"
+                        android:insetTop="0dp"
+                        android:insetRight="0dp"
+                        android:insetBottom="0dp"
                         android:text="@string/orders"
+                        android:textAllCaps="false"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:cornerRadius="@dimen/_8sdp"
                         app:rippleColor="@color/white"
-                        android:textAllCaps="false" />
+                        app:strokeColor="@color/color_primary" />
 
 
                 </LinearLayout>

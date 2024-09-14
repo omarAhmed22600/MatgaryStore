@@ -9,26 +9,28 @@ import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class TotalReportsViewModel : BaseViewModel()
-{
-    var reportsAdapter  = ReportsAdapter()
-    var reportsList= ArrayList<DataItem>()
+class TotalReportsViewModel : BaseViewModel() {
+
+    var reportsAdapter = ReportsAdapter()
+    private var reportsList = ArrayList<DataItem>()
+
     var type = "daily" // monthly
     var from = ""
     var to = ""
 
-    fun getReports()
-    {
+    fun getReports() {
         setShowProgress(true)
         obsIsFull.set(false)
         obsIsEmpty.set(false)
 
-        requestCall<ReportsTotalResponse?>({ withContext(Dispatchers.IO) {
-            return@withContext getApiRepo()
-                    .getReportsTotal(PrefMethods.getStoreData()!!.id!!,50,0,type,from, to) }
+        requestCall<ReportsTotalResponse?>({
+            withContext(Dispatchers.IO) {
+                return@withContext getApiRepo()
+                    .getReportsTotal(PrefMethods.getStoreData()!!.id!!, 50, 0, type, from, to)
+            }
         })
         { res ->
-            when  {
+            when {
                 res!!.data!!.isNotEmpty() -> {
                     obsIsFull.set(true)
                     obsIsEmpty.set(false)
@@ -37,8 +39,8 @@ class TotalReportsViewModel : BaseViewModel()
                     reportsList = res.data as ArrayList<DataItem>
                     reportsAdapter.updateList(reportsList)
                     reportsAdapter.notifyDataSetChanged()
-
                 }
+
                 else -> {
                     obsIsFull.set(false)
                     obsIsEmpty.set(true)
@@ -48,13 +50,7 @@ class TotalReportsViewModel : BaseViewModel()
         }
     }
 
-    init {
-        getReports()
-    }
-
-    fun onCalendarClicked()
-    {
+    fun onCalendarClicked() {
         setValue(Codes.SHOW_CALENDAR_DIALOG)
     }
-
 }

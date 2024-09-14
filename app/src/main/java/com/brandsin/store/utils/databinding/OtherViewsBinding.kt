@@ -114,21 +114,21 @@ class OtherViewsBinding {
         fun setStatus(view: TextView, status: String?) {
             when (status) {
                 "pending" -> {
-                    view.setTextColor(ContextCompat.getColor(view.context, R.color.order_prepared_color))
+                    view.setTextColor(ContextCompat.getColor(view.context, R.color.color_primary))
                     view.text = view.context.getString(R.string.pending)
                 }
                 "accepted" -> {
-                    view.setTextColor(ContextCompat.getColor(view.context, R.color.order_prepared_color))
+                    view.setTextColor(ContextCompat.getColor(view.context, R.color.order_accepted_color))
                     view.text = view.context.getString(R.string.accepted)
                 }
-                "accepted_by_delivery" -> {
-                    view.setTextColor(ContextCompat.getColor(view.context, R.color.order_prepared_color))
+                "accepted_by_delivery", "accepted_with_delivery" -> {
+                    view.setTextColor(ContextCompat.getColor(view.context, R.color.order_accepted_color))
                     view.text = view.context.getString(R.string.accepted)
                 }
-                "accepted_with_delivery" -> {
-                    view.setTextColor(ContextCompat.getColor(view.context, R.color.order_prepared_color))
+                /*"accepted_with_delivery" -> {
+                    view.setTextColor(ContextCompat.getColor(view.context, R.color.order_accepted_color))
                     view.text = view.context.getString(R.string.accepted)
-                }
+                }*/
                 "shipping" -> {
                     view.setTextColor(ContextCompat.getColor(view.context, R.color.order_accepted_color))
                     view.text = view.context.getString(R.string.on_way)

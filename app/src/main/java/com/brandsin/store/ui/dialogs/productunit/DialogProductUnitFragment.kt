@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.brandsin.store.databinding.DialogProductUnitBinding
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.main.products.DataItem
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 
 class DialogProductUnitFragment : DialogFragment(), Observer<Any?>
 {

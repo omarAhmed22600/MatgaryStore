@@ -1,27 +1,24 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.dialogs.storetags.ItemStoreTagViewModel" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/raw_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_12sdp"
-        android:layout_marginEnd="@dimen/_12sdp"
         android:layout_marginTop="@dimen/_8sdp"
-        android:id="@+id/raw_layout"
+        android:layout_marginEnd="@dimen/_12sdp"
         android:elevation="0dp"
+        app:cardCornerRadius="@dimen/_8sdp"
         app:cardElevation="0dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,34 +26,36 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/iv_selected"
                 android:layout_width="@dimen/_16sdp"
                 android:layout_height="@dimen/_16sdp"
-                android:id="@+id/iv_selected"
-                android:src="@drawable/ic_check_box_outline_blank_24px"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:layout_marginTop="@dimen/_6sdp"
+                android:layout_marginVertical="@dimen/_6sdp"
                 android:duplicateParentState="false"
-                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/ic_check_box_outline_blank_24px"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:ignore="ContentDescription" />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/_10ssp"
-                android:textColor="@color/black"
-                tools:text="Mou3aaaaaaaaaaaaaaaaz"
-                android:text="@{viewModel.item.name}"
                 android:layout_marginStart="@dimen/_8sdp"
-                android:textAlignment="viewStart"
-                app:layout_constraintStart_toEndOf="@+id/iv_selected"
-                app:layout_constraintTop_toTopOf="@+id/iv_selected"
-                app:layout_constraintBottom_toBottomOf="@+id/iv_selected"
+                android:fontFamily="@font/cairo_semibold"
                 android:paddingStart="@dimen/_3sdp"
                 android:paddingEnd="@dimen/_3sdp"
-                android:fontFamily="@font/cairo_semibold" />
+                android:text="@{viewModel.item.name}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/iv_selected"
+                app:layout_constraintStart_toEndOf="@+id/iv_selected"
+                app:layout_constraintTop_toTopOf="@+id/iv_selected"
+                tools:text="Mohamed Mohamed Mohamed " />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
     </com.google.android.material.card.MaterialCardView>
+
 </layout>

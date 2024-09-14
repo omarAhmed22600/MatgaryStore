@@ -16,46 +16,47 @@ import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import es.dmoral.toasty.Toasty
 
-class RateAppFragment : BaseHomeFragment(), Observer<Any?>
-{
-    private lateinit var binding : MenuFragmentRateAppBinding
+class RateAppFragment : BaseHomeFragment(), Observer<Any?> {
+
+    private lateinit var binding: MenuFragmentRateAppBinding
+
     private lateinit var rateAppViewModel: RateAppViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View?
-    {
-        binding = DataBindingUtil.inflate(inflater, R.layout.menu_fragment_rate_app, container, false)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.menu_fragment_rate_app, container, false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?)
-    {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rateAppViewModel = ViewModelProvider(this).get(RateAppViewModel::class.java)
-        binding.viewModel = rateAppViewModel
-
         setBarName(getString(R.string.rate_app_title))
+
+        rateAppViewModel = ViewModelProvider(this)[RateAppViewModel::class.java]
+        binding.viewModel = rateAppViewModel
 
         rateAppViewModel.mutableLiveData.observe(viewLifecycleOwner, this)
     }
 
-    override fun onChanged(it: Any?)
-    {
-        if(it == null) return
-        when (it) {
-            Codes.RATING_SUCCESS ->
-            {
+    override fun onChanged(value: Any?) {
+        if (value == null) return
+        when (value) {
+            Codes.RATING_SUCCESS -> {
                 val packageName = "com.brandsin.store"
                 val uri = Uri.parse("market://details?id=$packageName")
                 val myAppLinkToMarket = Intent(Intent.ACTION_VIEW, uri)
-                try
-                {
+                try {
                     startActivity(myAppLinkToMarket)
-                }
-                catch (e: ActivityNotFoundException)
-                {
-                    Toasty.warning(requireActivity(), "Impossible to find an application for the market").show()
+                } catch (e: ActivityNotFoundException) {
+                    Toasty.warning(
+                        requireActivity(),
+                        "Impossible to find an application for the market"
+                    ).show()
                 }
             }
         }

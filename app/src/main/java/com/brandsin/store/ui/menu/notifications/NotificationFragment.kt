@@ -59,8 +59,8 @@ class NotificationFragment : BaseHomeFragment(), Observer<Any?>
                     viewModel.makeReadNotification(it)
                     when {
                         it.orderId != null -> {
-                            val action = NotificationFragmentDirections.notificationToOrderDetails(it.orderId)
-                            findNavController().navigate(action)
+                            /*val action = NotificationFragmentDirections.notificationToOrderDetails(it.orderId)
+                            findNavController().navigate(action)*/
                         }
                     }
                 }

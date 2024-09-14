@@ -13,9 +13,6 @@ import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.bumptech.glide.Glide
-import com.fxn.pix.Options
-import com.fxn.pix.Pix
 import com.brandsin.store.R
 import com.brandsin.store.databinding.ActivityAddOfferBinding
 import com.brandsin.store.model.constants.Codes
@@ -26,60 +23,92 @@ import com.brandsin.store.model.main.offers.listoffer.OffersItemDetails
 import com.brandsin.store.model.main.offers.update.UpdateOfferResponse
 import com.brandsin.store.network.Status
 import com.brandsin.store.ui.activity.home.HomeActivity
-import com.brandsin.store.ui.dialogs.addoffer.DialogAddOfferFragment
 import com.brandsin.store.ui.dialogs.offertime.DialogOfferTimeFragment
 import com.brandsin.store.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.store.utils.MyApp
 import com.brandsin.store.utils.Utils
+import com.brandsin.store.utils.gone
 import com.brandsin.store.utils.observe
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.utils.visible
+import com.brandsin.store.model.constants.Params
 import com.brandsin.user.utils.map.PermissionUtil
+import com.bumptech.glide.Glide
+import com.fxn.pix.Options
+import com.fxn.pix.Pix
 import timber.log.Timber
 import java.io.File
 
-class AddOfferActivity : AppCompatActivity(), Observer<Any?>
-{
-    lateinit var binding : ActivityAddOfferBinding
-    lateinit var viewModel : AddOfferViewModel
-    var productsNamesList = ArrayList<String>()
+class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    private lateinit var binding: ActivityAddOfferBinding
+
+    lateinit var viewModel: AddOfferViewModel
+
+    private var productsNamesList = ArrayList<String>()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         binding = DataBindingUtil.setContentView(this, R.layout.activity_add_offer)
-        viewModel = ViewModelProvider(this).get(AddOfferViewModel::class.java)
+
+        viewModel = ViewModelProvider(this)[AddOfferViewModel::class.java]
         binding.viewModel = viewModel
 
         viewModel.mutableLiveData.observe(this, this)
 
-        binding.ibBack.setOnClickListener {
-            finish()
-        }
+        initView()
 
         when {
             intent.hasExtra(Params.OFFER_ITEM) -> {
                 when {
                     intent.getSerializableExtra(Params.OFFER_ITEM) != null -> {
-                        val offerData: OffersItemDetails = intent.extras!!.getSerializable(Params.OFFER_ITEM) as OffersItemDetails
+                        val offerData: OffersItemDetails =
+                            intent.extras!!.getSerializable(Params.OFFER_ITEM) as OffersItemDetails
+
                         viewModel.setOfferData(2, offerData)
+
                         binding.notOfferImg.visibility = View.GONE
                         binding.ivPhoto.visibility = View.VISIBLE
-                        Glide.with(this).load(offerData.image).error(R.drawable.app_logo).into(binding.ivOfferImg)
+
+                        Glide.with(this)
+                            .load(offerData.image)
+                            .error(R.drawable.app_logo)
+                            .into(binding.ivOfferImg)
                         viewModel.obsToolBarTitle.set(getString(R.string.update_offer))
+
+                        if (offerData.type == "product") {
+                            binding.radioBtnProduct.isChecked = true
+                            binding.radioBtnGift.isChecked = false
+                        } else {
+                            binding.radioBtnGift.isChecked = true
+                            binding.radioBtnProduct.isChecked = false
+                            binding.tvAutoComplete.gone()
+                            binding.seperator.gone()
+                        }
+
+                        viewModel.offerType = offerData.type
                     }
+
                     else -> {
                         viewModel.setOfferData(1)
                         binding.notOfferImg.visibility = View.VISIBLE
                         binding.ivPhoto.visibility = View.GONE
                         viewModel.obsToolBarTitle.set(getString(R.string.add_offer))
+
+                        binding.radioBtnProduct.isChecked = true
+                        binding.radioBtnGift.isChecked = false
                     }
-                 }
-             }
+                }
+            }
+
             else -> {
                 viewModel.setOfferData(1)
                 binding.notOfferImg.visibility = View.VISIBLE
                 binding.ivPhoto.visibility = View.GONE
                 viewModel.obsToolBarTitle.set(getString(R.string.add_offer))
+
+                binding.radioBtnProduct.isChecked = true
+                binding.radioBtnGift.isChecked = false
             }
         }
 
@@ -88,31 +117,39 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                 Status.ERROR_MESSAGE -> {
                     showToast(it.message.toString(), 1)
                 }
+
                 Status.SUCCESS_MESSAGE -> {
                     showToast(it.message.toString(), 2)
                 }
+
                 Status.SUCCESS -> {
                     when (it.data) {
                         is OfferAddProductResponse -> {
-                            if (it.data.data!!.isNotEmpty()) {
+                            if (it.data.data?.isNotEmpty() == true) {
                                 setAutocomplete(it.data.data)
-                            }else{
-//                                showToast(getString(R.string.no_results_search) , 1)
+                            } else {
+                                // showToast(getString(R.string.no_results_search) , 1)
                             }
                         }
+
                         is CreateOfferResponse -> {
-                            val bundle = Bundle()
+                            showToast(it.data.message.toString(), 2)
+                            finish()
+                            /*val bundle = Bundle()
                             bundle.putString(Params.DIALOG_CONFIRM_MESSAGE, it.data.message)
                             bundle.putInt(Params.REQUEST_CODE, Codes.ADD_OFFER)
                             Utils.startDialogActivity(
-                                    this,
-                                    DialogAddOfferFragment::class.java.name,
-                                    Codes.DIALOG_OFFER_REQUEST,
-                                    bundle
-                            )
+                                this,
+                                DialogAddOfferFragment::class.java.name,
+                                Codes.DIALOG_OFFER_REQUEST,
+                                bundle
+                            )*/
                         }
+
                         is UpdateOfferResponse -> {
-                            val bundle = Bundle()
+                            showToast(it.data.message.toString(), 2)
+                            finish()
+                            /*val bundle = Bundle()
                             bundle.putString(Params.DIALOG_CONFIRM_MESSAGE, it.data.message)
                             bundle.putInt(Params.REQUEST_CODE, Codes.UPDATE_OFFER)
                             Utils.startDialogActivity(
@@ -120,28 +157,27 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                                 DialogAddOfferFragment::class.java.name,
                                 Codes.DIALOG_OFFER_REQUEST,
                                 bundle
-                            )
+                            )*/
                         }
                     }
                 }
+
                 else -> {
                     Timber.e(it.message)
                 }
             }
         }
 
-        viewModel.productsAdapter.deleteLiveData.observe(this, {
-
-            viewModel.addOfferRequest.productsIds!!.remove(it!!.id!!.toInt())
+        viewModel.productsAdapter.deleteLiveData.observe(this) {
+            viewModel.addOfferRequest.productsIds?.remove(it?.id!!.toInt())
             viewModel.productsList.remove(it)
             viewModel.productsAdapter.updateList(viewModel.productsList)
-        })
+        }
 
-        viewModel.productsUpdateAdapter.deleteLiveData.observe(this, {
-
+        viewModel.productsUpdateAdapter.deleteLiveData.observe(this) {
             viewModel.prevOfferProducts.remove(it)
             viewModel.productsUpdateAdapter.updateList(viewModel.prevOfferProducts)
-        })
+        }
 
         binding.tvAutoComplete.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
@@ -158,11 +194,41 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
             override fun afterTextChanged(s: Editable) {}
         })
 
+        setBtnListener()
+    }
+
+    private fun initView() {
+        binding.radioBtnProduct.isChecked = true
+    }
+
+    private fun setBtnListener() {
+        binding.ibBack.setOnClickListener {
+            finish()
+        }
+
+        binding.radioGroupOfferType.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioBtnProduct -> {
+                    viewModel.offerType = "product"
+                    binding.tvAutoComplete.visible()
+                    binding.seperator.visible()
+                    binding.rvProducts.visible()
+                    binding.rvProductsUpdate.visible()
+                }
+
+                R.id.radioBtnGift -> {
+                    viewModel.offerType = "gift"
+                    binding.tvAutoComplete.gone()
+                    binding.seperator.gone()
+                    binding.rvProducts.gone()
+                    binding.rvProductsUpdate.gone()
+                }
+            }
+        }
     }
 
     private fun setAutocomplete(data: List<DataItem?>) {
-
-        productsNamesList = ArrayList<String>()
+        productsNamesList = ArrayList()
 
         data.forEach { productItem ->
             if (productItem != null) {
@@ -177,28 +243,28 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
         binding.tvAutoComplete.threshold = 1
         binding.tvAutoComplete.setAdapter(adapter)
 
-        binding.tvAutoComplete.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            data.forEach { productItem ->
-                if (productItem != null) {
-                    if (productItem.name == binding.tvAutoComplete.text.toString()){
-                        if (viewModel.addOfferRequest.productsIds ==null){
-                            viewModel.addOfferRequest.productsIds = ArrayList<Int>()
-                        }
-                        if (!viewModel.addOfferRequest.productsIds!!.contains(productItem.id!!.toInt())) {
-                            viewModel.addOfferRequest.productsIds!!.add(productItem.id.toInt())
-                            viewModel.productsList.add(productItem)
-                            viewModel.productsAdapter.updateList(viewModel.productsList)
-                        }else{
-                            showToast(getString(R.string.product_added_before) , 1)
+        binding.tvAutoComplete.onItemClickListener =
+            AdapterView.OnItemClickListener { _, _, _, _ -> // parent, view, position, id
+                data.forEach { productItem ->
+                    if (productItem != null) {
+                        if (productItem.name == binding.tvAutoComplete.text.toString()) {
+                            if (viewModel.addOfferRequest.productsIds == null) {
+                                viewModel.addOfferRequest.productsIds = ArrayList()
+                            }
+                            if (!viewModel.addOfferRequest.productsIds!!.contains(productItem.id!!.toInt())) {
+                                viewModel.addOfferRequest.productsIds!!.add(productItem.id.toInt())
+                                viewModel.productsList.add(productItem)
+                                viewModel.productsAdapter.updateList(viewModel.productsList)
+                            } else {
+                                showToast(getString(R.string.product_added_before), 1)
+                            }
                         }
                     }
                 }
             }
-        }
-
     }
-    private fun showToast(msg: String, type: Int)
-    {
+
+    private fun showToast(msg: String, type: Int) {
         val bundle = Bundle()
         bundle.putString(Params.DIALOG_TOAST_MESSAGE, msg)
         bundle.putInt(Params.DIALOG_TOAST_TYPE, type)
@@ -210,50 +276,67 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
         )
     }
 
-    override fun onChanged(it: Any?) {
-        when (it) {
+    override fun onChanged(value: Any?) {
+        when (value) {
             null -> return
-            else -> it.let {
+            else -> value.let {
                 when (it) {
                     Codes.SELECT_IMAGES -> {
                         pickImage(Codes.OFFER_IMG_REQUEST_CODE)
                     }
+
                     Codes.CHANGE_IMAGES -> {
                         pickImage(Codes.OFFER_IMG_UPDATE_REQUEST_CODE)
                     }
+
                     Codes.EMPTY_IMAGE -> {
                         showToast(getString(R.string.please_select_offer_image), 1)
                     }
+
                     Codes.EMPTY_OFFER_NAME -> {
                         showToast(getString(R.string.please_select_offer_name_ar), 1)
                     }
+
                     Codes.EMPTY_OFFER_NAME_EN -> {
                         showToast(getString(R.string.please_select_offer_name_en), 1)
                     }
+
                     Codes.EMPTY_OFFER_DESCRIPTION -> {
                         showToast(getString(R.string.please_select_offer_description_ar), 1)
                     }
+
                     Codes.EMPTY_OFFER_DESCRIPTION_EN -> {
                         showToast(getString(R.string.please_select_offer_description_en), 1)
                     }
+
                     Codes.EMPTY_OFFER_PRICE -> {
                         showToast(getString(R.string.please_select_offer_price), 1)
                     }
+
+                    Codes.OFFER_PRICE_LESS_OFFER_PRICE_TO -> {
+                        showToast(getString(R.string.please_select_offer_price), 1)
+                    }
+
                     Codes.SELECT_START_DATE -> {
                         showToast(getString(R.string.select_start_date), 1)
                     }
+
                     Codes.SELECT_END_DATE -> {
                         showToast(getString(R.string.select_end_date), 1)
                     }
+
                     Codes.EMPTY_PRODUCTS -> {
                         showToast(getString(R.string.please_select_offer_product), 1)
                     }
+
                     Codes.START_AFTER_END -> {
                         showToast(getString(R.string.start_after_end), 1)
                     }
+
                     Codes.START_EQUAL_END -> {
                         showToast(getString(R.string.start_equal_end), 1)
                     }
+
                     Codes.SHOW_START_DATE -> {
                         val bundle = Bundle()
                         bundle.putString("START_DATE", viewModel.obsStartDate.get())
@@ -265,9 +348,10 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                             bundle
                         )
                     }
+
                     Codes.SHOW_END_DATE -> {
                         val bundle = Bundle()
-                        bundle.putString("END_DATE",viewModel.obsEndDate.get())
+                        bundle.putString("END_DATE", viewModel.obsEndDate.get())
                         bundle.putInt(Params.DIALOG_DATE_REQUEST, Codes.SHOW_END_DATE)
                         Utils.startDialogActivity(
                             this,
@@ -280,6 +364,7 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
             }
         }
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Timber.e("$requestCode $resultCode $data")
@@ -293,10 +378,11 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                                 binding.notOfferImg.visibility = View.GONE
                                 binding.ivPhoto.visibility = View.VISIBLE
                                 binding.ivOfferImg.setImageURI(array[0].toUri())
-                                viewModel.addOfferRequest.offerImage  =  File(array[0])
+                                viewModel.addOfferRequest.offerImage = File(array[0])
                             }
                         }
                     }
+
                     Codes.OFFER_IMG_UPDATE_REQUEST_CODE -> {
                         data?.let {
                             val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
@@ -304,7 +390,7 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                                 binding.notOfferImg.visibility = View.GONE
                                 binding.ivPhoto.visibility = View.VISIBLE
                                 binding.ivOfferImg.setImageURI(array[0].toUri())
-                                viewModel.updateOfferRequest.offerImage  =  File(array[0])
+                                viewModel.updateOfferRequest.offerImage = File(array[0])
                             }
                         }
                     }
@@ -322,8 +408,10 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                                     data.getIntExtra(Params.DIALOG_DATE_REQUEST, 0) != 0 -> {
                                         when (Codes.SHOW_START_DATE) {
                                             data.getIntExtra(Params.DIALOG_DATE_REQUEST, 0) -> {
-                                                viewModel.obsStartDate.set(data.getStringExtra(Params.OFFER_TIME))
-                                                if (!viewModel.obsEndDate.get().isNullOrEmpty()){
+                                                viewModel.obsStartDate.set(
+                                                    data.getStringExtra(Params.OFFER_TIME)
+                                                )
+                                                if (!viewModel.obsEndDate.get().isNullOrEmpty()) {
                                                     viewModel.checkValidationDates()
                                                 }
                                             }
@@ -349,26 +437,30 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                     data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
                         when {
                             data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
-
-                                if (data.getIntExtra(Params.REQUEST_CODE, 0) ==  Codes.ADD_OFFER) {
+                                if (data.getIntExtra(Params.REQUEST_CODE, 0) == Codes.ADD_OFFER) {
                                     val intent = Intent()
                                     intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
                                     setResult(Codes.ADD_OFFER, intent)
                                     finish()
                                 }
-                                if (data.getIntExtra(Params.REQUEST_CODE, 0) ==  Codes.UPDATE_OFFER) {
+                                if (data.getIntExtra(Params.REQUEST_CODE, 0)
+                                    == Codes.UPDATE_OFFER
+                                ) {
                                     val intent = Intent()
                                     intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
                                     setResult(Codes.UPDATE_OFFER, intent)
                                     finish()
                                 }
                             }
+
                             data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 2 -> {
-                                if (data.getIntExtra(Params.REQUEST_CODE, 0) ==  Codes.ADD_OFFER) {
+                                if (data.getIntExtra(Params.REQUEST_CODE, 0) == Codes.ADD_OFFER) {
                                     startActivity(Intent(this, HomeActivity::class.java))
                                     finishAffinity()
                                 }
-                                if (data.getIntExtra(Params.REQUEST_CODE, 0) ==  Codes.UPDATE_OFFER) {
+                                if (data.getIntExtra(Params.REQUEST_CODE, 0)
+                                    == Codes.UPDATE_OFFER
+                                ) {
                                     startActivity(Intent(this, HomeActivity::class.java))
                                     finishAffinity()
                                 }
@@ -380,11 +472,12 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
         }
     }
 
-    fun pickImage(requestCode: Int) {
+    private fun pickImage(requestCode: Int) {
         val options = Options.init()
-                .setRequestCode(requestCode) //Request code for activity results
-                .setFrontfacing(false) //Front Facing camera on start
-                .setExcludeVideos(false) //Option to exclude videos
+            .setRequestCode(requestCode) //Request code for activity results
+            .setFrontfacing(false) //Front Facing camera on start
+            .setExcludeVideos(false) //Option to exclude videos
+            .setMode(Options.Mode.Picture)
         if (PermissionUtil.hasImagePermission(this)) {
             Pix.start(this, options)
         } else {
@@ -399,6 +492,8 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?>
                         this,
                         options
                     )
+
+                    else -> {}
                 }
             }
         }

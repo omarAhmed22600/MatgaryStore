@@ -7,25 +7,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
 import com.brandsin.store.databinding.RawTotalReportBinding
 import com.brandsin.store.model.main.reports.DataItem
-import java.util.*
 
-class ReportsAdapter : RecyclerView.Adapter<ReportsAdapter.OrderReportsHolder>()
-{
+class ReportsAdapter : RecyclerView.Adapter<ReportsAdapter.OrderReportsHolder>() {
+
     var itemsList = ArrayList<DataItem>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderReportsHolder
-    {
-        val context = parent.context
-        val layoutInflater = LayoutInflater.from(context)
-        val binding: RawTotalReportBinding = DataBindingUtil.inflate(layoutInflater, R.layout.raw_total_report, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderReportsHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding: RawTotalReportBinding =
+            DataBindingUtil.inflate(layoutInflater, R.layout.raw_total_report, parent, false)
         return OrderReportsHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: OrderReportsHolder, position: Int)
-    {
+    override fun onBindViewHolder(holder: OrderReportsHolder, position: Int) {
         val itemViewModel = ItemReportViewModel(itemsList[position])
         holder.binding.viewModel = itemViewModel
-
     }
 
     override fun getItemCount(): Int {
@@ -37,8 +33,6 @@ class ReportsAdapter : RecyclerView.Adapter<ReportsAdapter.OrderReportsHolder>()
         notifyDataSetChanged()
     }
 
-    inner class OrderReportsHolder(val binding: RawTotalReportBinding) : RecyclerView.ViewHolder(binding.root)
-    {
-
-    }
+    inner class OrderReportsHolder(val binding: RawTotalReportBinding) :
+        RecyclerView.ViewHolder(binding.root)
 }

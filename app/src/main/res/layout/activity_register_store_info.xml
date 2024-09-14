@@ -1,13 +1,10 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.auth.register.storeinfo.RegisterStoreInfoViewModel" />
@@ -15,31 +12,32 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:layout_height="?actionBarSize"
-            android:layout_width="match_parent"
             android:id="@+id/toolbar"
-            android:elevation="0dp"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
             android:background="@color/white"
+            android:elevation="0dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_height="match_parent"
-                android:layout_width="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <ImageButton
-                    android:background="?actionBarItemBackground"
                     android:id="@+id/ib_back"
+                    android:layout_width="@dimen/_30sdp"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginEnd="@dimen/_4sdp"
-                    android:layout_width="@dimen/_30sdp"
+                    android:background="?actionBarItemBackground"
+                    android:onClick="@{() -> viewModel.onBackClicked()}"
                     android:padding="@dimen/_7sdp"
                     android:scaleType="fitCenter"
-                    android:onClick="@{() -> viewModel.onBackClicked()}"
                     android:src="@drawable/ic_back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -47,11 +45,11 @@
                     tools:ignore="ContentDescription" />
 
                 <TextView
-                    android:fontFamily="@font/cairo_semibold"
                     android:id="@+id/tv_loginTitle"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="@dimen/_8sdp"
-                    android:layout_width="wrap_content"
+                    android:fontFamily="@font/cairo_semibold"
                     android:text="@string/store_info"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textColor="@color/black"
@@ -66,24 +64,24 @@
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
-            app:layout_constraintBottom_toBottomOf="parent">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/_36sdp"
-                android:paddingBottom="@dimen/_24sdp"
                 android:layout_marginStart="@dimen/_30sdp"
-                android:layout_marginEnd="@dimen/_30sdp">
+                android:layout_marginEnd="@dimen/_30sdp"
+                android:paddingTop="@dimen/_36sdp"
+                android:paddingBottom="@dimen/_24sdp">
 
                 <!-- LOGO -->
                 <ImageView
+                    android:id="@+id/login_logo"
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
-                    android:id="@+id/login_logo"
-                    android:src="@drawable/app_logo2"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/app_logo2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -92,16 +90,16 @@
 
                 <!-- TITLE -->
                 <TextView
+                    android:id="@+id/register_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_24sdp"
-                    android:src="@drawable/app_logo"
-                    android:scaleType="centerCrop"
-                    android:id="@+id/register_text"
                     android:fontFamily="@font/cairo_semibold"
-                    android:textSize="@dimen/_15ssp"
-                    android:textColor="@color/black"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/app_logo"
                     android:text="@string/enter_store_info"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_15ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -109,16 +107,16 @@
 
                 <!-- Store Category Type -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/type_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:onClick="@{() -> viewModel.onTypeClicked()}"
-                    android:id="@+id/type_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:onClick="@{() -> viewModel.onTypeClicked()}"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/register_text">
 
                     <ImageButton
@@ -126,23 +124,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_type"
                         android:scaleType="fitCenter"
-                        android:tint="@color/color_primary"
+                        android:src="@drawable/ic_store_type"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
+                        tools:ignore="ContentDescription"
+                        app:tint="@color/color_primary" />
 
                     <TextView
                         android:id="@+id/textView31"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/store_type"
-                        android:textSize="@dimen/_9ssp"
-                        android:textColor="@color/black"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/store_type"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/imageView21"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -150,15 +148,15 @@
                         android:id="@+id/et_storeType"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        android:hint="@string/choose_store_type"
-                        android:textAlignment="viewStart"
-                        android:textSize="@dimen/_10ssp"
-                        android:textColor="@color/black"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/cairoregular"
+                        android:hint="@string/choose_store_type"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView21"
                         app:layout_constraintTop_toBottomOf="@+id/textView31"
@@ -168,16 +166,16 @@
 
                 <!-- Store Category Tags -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/tags_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:onClick="@{() -> viewModel.onTagsClicked()}"
-                    android:id="@+id/tags_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:onClick="@{() -> viewModel.onTagsClicked()}"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/type_layout">
 
                     <ImageButton
@@ -185,8 +183,8 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_section"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_section"
                         android:tint="@color/color_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -196,12 +194,12 @@
                         android:id="@+id/textView312"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/section"
-                        android:textSize="@dimen/_9ssp"
-                        android:textColor="@color/black"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/section"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/imageView212"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -209,15 +207,15 @@
                         android:id="@+id/et_storeTags"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        android:hint="@string/choose_the_section_type"
-                        android:textAlignment="viewStart"
-                        android:textSize="@dimen/_10ssp"
-                        android:textColor="@color/black"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/cairoregular"
+                        android:hint="@string/choose_the_section_type"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_10ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView212"
                         app:layout_constraintTop_toBottomOf="@+id/textView312"
@@ -227,15 +225,15 @@
 
                 <!-- name layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/name_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingBottom="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/name_layout"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/tags_layout">
 
                     <ImageButton
@@ -243,23 +241,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_login"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_login"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        app:tint="@color/color_primary" />
 
                     <TextView
                         android:id="@+id/textView3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/public_name"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/public_name"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -267,17 +265,17 @@
                         android:id="@+id/et_storeName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_12sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        android:hint="@string/enter_your_store_name"
-                        android:inputType="text"
-                        android:text="@={viewModel.storeRequest.storeName}"
-                        android:maxLines="1"
-                        android:textSize="@dimen/_10ssp"
-                        android:textAlignment="viewStart"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/cairoregular"
+                        android:hint="@string/enter_your_store_name"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:text="@={viewModel.storeRequest.storeName}"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_10ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/imageView2"
                         app:layout_constraintTop_toBottomOf="@+id/textView3"
@@ -287,15 +285,15 @@
 
                 <!-- address layout-->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/address_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/address_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/name_layout">
 
                     <ImageButton
@@ -303,23 +301,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_place"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_place"
+                        android:tint="@color/color_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/text_address"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/address"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/address"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/iv_address"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -327,22 +325,22 @@
                         android:id="@+id/et_address"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@android:color/transparent"
+                        android:ellipsize="end"
+                        android:fontFamily="@font/cairoregular"
                         android:hint="@string/enter_store_address"
                         android:inputType="text"
+                        android:lineSpacingExtra="-8dp"
+                        android:lines="2"
                         android:text="@={viewModel.storeRequest.storeAddress}"
                         android:textAlignment="viewStart"
-                        android:lines="2"
-                        android:ellipsize="end"
-                        android:lineSpacingExtra="-8dp"
                         android:textSize="@dimen/_10ssp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/cairoregular"
-                        app:layout_constraintStart_toEndOf="@+id/iv_address"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/ib_storeAddress"
+                        app:layout_constraintStart_toEndOf="@+id/iv_address"
                         app:layout_constraintTop_toBottomOf="@+id/text_address"
                         tools:ignore="Autofill" />
 
@@ -351,27 +349,27 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_current_location"
-                        android:scaleType="fitCenter"
                         android:onClick="@{() -> viewModel.onLocationClicked()}"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/ic_current_location"
                         app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        app:tint="@color/color_primary" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- minimum layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/minimum_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/minimum_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/address_layout">
 
                     <ImageButton
@@ -379,23 +377,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_minimum"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_minimum"
+                        android:tint="@color/color_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/text_minimum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/minimum_order"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/minimum_order"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_minimum"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -403,18 +401,18 @@
                         android:id="@+id/et_store_minimum"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        android:hint="@string/enter_the_minimum_order"
-                        android:inputType="numberDecimal"
-                        android:textAlignment="viewStart"
-                        android:text="@={viewModel.storeRequest.storeMinOrderPrice}"
-                        android:textSize="@dimen/_10ssp"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/cairoregular"
-                        app:layout_constraintStart_toEndOf="@+id/iv_store_minimum"
+                        android:hint="@string/enter_the_minimum_order"
+                        android:inputType="numberDecimal"
+                        android:text="@={viewModel.storeRequest.storeMinOrderPrice}"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_10ssp"
                         app:layout_constraintEnd_toStartOf="@+id/txt1"
+                        app:layout_constraintStart_toEndOf="@+id/iv_store_minimum"
                         app:layout_constraintTop_toBottomOf="@+id/text_minimum"
                         tools:ignore="Autofill" />
 
@@ -422,29 +420,29 @@
                         android:id="@+id/txt1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@+id/et_store_minimum"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_minimum"
-                        android:text="@string/currency"
-                        android:fontFamily="@font/cairoregular"
-                        android:textSize="@dimen/_12ssp"
-                        android:textColor="@color/black"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginBottom="@dimen/_8sdp" />
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@string/currency"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/et_store_minimum"
+                        app:layout_constraintTop_toBottomOf="@+id/text_minimum" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- phone layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/phone_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/phone_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/minimum_layout">
 
                     <ImageButton
@@ -452,23 +450,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_phone"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_phone"
+                        android:tint="@color/color_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/text_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/phone_number"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/phone_number"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_phone"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -476,18 +474,18 @@
                         android:id="@+id/et_store_phone"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/cairoregular"
                         android:hint="@string/enter_phone_number"
                         android:inputType="numberDecimal"
                         android:maxLength="10"
-                        android:textAlignment="viewStart"
                         android:text="@={viewModel.storeRequest.storePhoneNumber}"
+                        android:textAlignment="viewStart"
                         android:textSize="@dimen/_10ssp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/cairoregular"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_phone"
                         app:layout_constraintTop_toBottomOf="@+id/text_phone"
                         tools:ignore="Autofill" />
@@ -496,15 +494,15 @@
 
                 <!-- whats layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/whats_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/whats_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/phone_layout">
 
                     <ImageButton
@@ -512,23 +510,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_whats"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_whats"
+                        android:tint="@color/color_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/text_whats"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/whatsapp_number"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/whatsapp_number"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_whats"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -536,50 +534,166 @@
                         android:id="@+id/et_store_whats"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/cairoregular"
                         android:hint="@string/enter_the_whatsapp_number"
                         android:inputType="numberDecimal"
                         android:maxLength="10"
-                        android:textAlignment="viewStart"
                         android:text="@={viewModel.storeRequest.storeWhatsApp}"
+                        android:textAlignment="viewStart"
                         android:textSize="@dimen/_10ssp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/cairoregular"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_whats"
                         app:layout_constraintTop_toBottomOf="@+id/text_whats"
                         tools:ignore="Autofill" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <!-- delivery layout -->
+                <!-- pick_up_from_store layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/pickUpFromStoreLayout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_30sdp"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:id="@+id/delivery_layout"
                     app:layout_constraintTop_toBottomOf="@+id/whats_layout">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
                         android:gravity="center"
-                        app:layout_constraintTop_toTopOf="parent"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent">
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:text="@string/do_you_have_pickup_from_store"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9ssp" />
+
+                        <RadioGroup
+                            android:id="@+id/rgPickUpFromStore"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/yesPickUpFromStore"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/yes"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp" />
+
+                            <RadioButton
+                                android:id="@+id/noPickUpFromStore"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/no"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- cash_on_delivery layout -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cashOnDeliveryLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/pickUpFromStoreLayout">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:text="@string/do_you_have_pay_on_delivery"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9ssp" />
+
+                        <RadioGroup
+                            android:id="@+id/rgCashOnDelivery"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/yesCashOnDelivery"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:checked="true"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/yes"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp" />
+
+                            <RadioButton
+                                android:id="@+id/noCashOnDelivery"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/no"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp" />
+                        </RadioGroup>
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <!-- delivery layout -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/delivery_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_30sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    app:layout_constraintTop_toBottomOf="@+id/cashOnDeliveryLayout">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
 
                         <TextView
                             android:id="@+id/textView"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/do_you_have_a_delivery"
-                            android:textSize="@dimen/_9ssp"
                             android:fontFamily="@font/cairo_semibold"
-                            android:textColor="@color/black"/>
+                            android:text="@string/do_you_have_a_delivery"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9ssp" />
 
                         <RadioGroup
                             android:id="@+id/rg_delivery"
@@ -593,21 +707,21 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/yes"
-                                android:textSize="@dimen/_9ssp"
+                                android:checked="true"
                                 android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/yes"
                                 android:textColor="@color/black"
-                                android:checked="true"/>
+                                android:textSize="@dimen/_9ssp" />
 
                             <RadioButton
                                 android:id="@+id/no"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@string/no"
-                                android:textSize="@dimen/_9ssp"
                                 android:fontFamily="@font/cairo_semibold"
-                                android:textColor="@color/black"/>
+                                android:text="@string/no"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_9ssp" />
                         </RadioGroup>
                     </LinearLayout>
 
@@ -615,15 +729,15 @@
 
                 <!-- price layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/price_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/price_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/delivery_layout">
 
                     <ImageButton
@@ -631,23 +745,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_price"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_price"
+                        android:tint="@color/color_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/text_price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/delivery_price"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/delivery_price"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/iv_storePrice"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -655,18 +769,18 @@
                         android:id="@+id/et_storePrice"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/cairoregular"
                         android:hint="@string/enter_the_delivery_price"
                         android:inputType="numberSigned"
                         android:text="@={viewModel.storeRequest.storeDeliveryPrice}"
                         android:textAlignment="viewStart"
                         android:textSize="@dimen/_10ssp"
-                        android:background="@android:color/transparent"
-                        android:fontFamily="@font/cairoregular"
-                        app:layout_constraintStart_toEndOf="@+id/iv_storePrice"
                         app:layout_constraintEnd_toStartOf="@+id/txt2"
+                        app:layout_constraintStart_toEndOf="@+id/iv_storePrice"
                         app:layout_constraintTop_toBottomOf="@+id/text_price"
                         tools:ignore="Autofill" />
 
@@ -674,29 +788,29 @@
                         android:id="@+id/txt2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@+id/et_storePrice"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_price"
-                        android:text="@string/currency"
-                        android:fontFamily="@font/cairoregular"
-                        android:textSize="@dimen/_12ssp"
-                        android:textColor="@color/black"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginBottom="@dimen/_8sdp" />
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@string/currency"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/et_storePrice"
+                        app:layout_constraintTop_toBottomOf="@+id/text_price" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- space layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/space_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/space_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/price_layout">
 
                     <ImageButton
@@ -704,23 +818,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_area"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_area"
+                        android:tint="@color/color_primary"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/text_space"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/delivery_space"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/delivery_space"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_space"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -728,18 +842,18 @@
                         android:id="@+id/et_store_space"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        android:hint="@string/enter_the_space_available_for_delivery_to_it"
-                        android:inputType="numberDecimal"
-                        android:textAlignment="viewStart"
-                        android:text="@={viewModel.storeRequest.storeDeliveryDistance}"
-                        android:textSize="@dimen/_10ssp"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/cairoregular"
-                        app:layout_constraintStart_toEndOf="@+id/iv_store_space"
+                        android:hint="@string/enter_the_space_available_for_delivery_to_it"
+                        android:inputType="numberDecimal"
+                        android:text="@={viewModel.storeRequest.storeDeliveryDistance}"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_10ssp"
                         app:layout_constraintEnd_toStartOf="@+id/txt3"
+                        app:layout_constraintStart_toEndOf="@+id/iv_store_space"
                         app:layout_constraintTop_toBottomOf="@+id/text_space"
                         tools:ignore="Autofill" />
 
@@ -747,29 +861,29 @@
                         android:id="@+id/txt3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:layout_constraintStart_toEndOf="@+id/et_store_space"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/text_space"
-                        android:text="@string/destance"
-                        android:fontFamily="@font/cairoregular"
-                        android:textSize="@dimen/_12ssp"
-                        android:textColor="@color/black"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginBottom="@dimen/_8sdp" />
+                        android:layout_marginBottom="@dimen/_8sdp"
+                        android:fontFamily="@font/cairoregular"
+                        android:text="@string/destance"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_12ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/et_store_space"
+                        app:layout_constraintTop_toBottomOf="@+id/text_space" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <!-- time layout -->
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/time_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:paddingTop="@dimen/_8sdp"
-                    android:paddingStart="@dimen/_12sdp"
-                    android:paddingEnd="@dimen/_12sdp"
-                    android:id="@+id/time_layout"
-                    android:paddingBottom="@dimen/_8sdp"
                     android:background="@drawable/login_field_bg"
+                    android:paddingStart="@dimen/_12sdp"
+                    android:paddingTop="@dimen/_8sdp"
+                    android:paddingEnd="@dimen/_12sdp"
+                    android:paddingBottom="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/space_layout">
 
                     <ImageButton
@@ -777,23 +891,23 @@
                         android:layout_width="@dimen/_16sdp"
                         android:layout_height="@dimen/_16sdp"
                         android:background="?actionBarItemBackground"
-                        android:src="@drawable/ic_store_time"
                         android:scaleType="fitCenter"
+                        android:src="@drawable/ic_store_time"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription"
-                        android:tint="@color/color_primary" />
+                        app:tint="@color/color_primary"
+                        tools:ignore="ContentDescription" />
 
                     <TextView
                         android:id="@+id/text_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:text="@string/average_delivery_time"
-                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/average_delivery_time"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_time"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -801,92 +915,111 @@
                         android:id="@+id/et_store_time"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_12sdp"
                         android:layout_marginTop="@dimen/_3sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:layout_marginStart="@dimen/_12sdp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        android:hint="@string/enter_the_average_delivery_time"
-                        android:inputType="numberDecimal"
-                        android:textAlignment="viewStart"
-                        android:text="@={viewModel.storeRequest.storeDeliveryTime}"
-                        android:textSize="@dimen/_10ssp"
                         android:background="@android:color/transparent"
                         android:fontFamily="@font/cairoregular"
+                        android:hint="@string/enter_the_average_delivery_time"
+                        android:inputType="numberDecimal"
+                        android:text="@={viewModel.storeRequest.storeDeliveryTime}"
+                        android:textAlignment="viewStart"
+                        android:textSize="@dimen/_10ssp"
+                        app:layout_constraintEnd_toStartOf="@id/deliveryType"
                         app:layout_constraintStart_toEndOf="@+id/iv_store_time"
                         app:layout_constraintTop_toBottomOf="@+id/text_time"
                         tools:ignore="Autofill" />
 
+                    <!--
+                    android:layout_marginStart="@dimen/_8sdp"
+                        android:layout_marginEnd="@dimen/_12sdp"
+                    -->
+                    <TextView
+                        android:id="@+id/deliveryType"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:paddingStart="@dimen/_8sdp"
+                        android:paddingEnd="@dimen/_8sdp"
+                        android:text="@={viewModel.obsType}"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/et_store_time"
+                        app:layout_constraintTop_toTopOf="@+id/et_store_time"
+                        tools:text="hour" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
+                    android:id="@+id/text_storePhoto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_storePhoto"
-                    android:textAlignment="viewStart"
-                    android:gravity="start"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/cairo_semibold"
+                    android:gravity="start"
+                    android:text="@string/logo_image"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp"
-                    android:text="@string/logo_image"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/time_layout" />
 
                 <TextView
+                    android:id="@+id/text_storeThumb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/text_storeThumb"
-                    android:textAlignment="viewStart"
-                    android:gravity="start"
                     android:layout_marginTop="@dimen/_8sdp"
                     android:fontFamily="@font/cairo_semibold"
+                    android:gravity="start"
+                    android:text="@string/store_thumb"
+                    android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_10ssp"
-                    android:text="@string/store_thumb"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/time_layout" />
 
                 <LinearLayout
+                    android:id="@+id/images_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_100sdp"
-                    android:orientation="horizontal"
-                    android:id="@+id/images_layout"
                     android:layout_marginTop="@dimen/_8sdp"
+                    android:orientation="horizontal"
                     app:layout_constraintTop_toBottomOf="@+id/text_storePhoto">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/store_photo_layout"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="@dimen/_80sdp"
                         android:layout_marginEnd="@dimen/_8sdp"
-                        android:id="@+id/store_photo_layout"
+                        android:layout_weight="1"
                         android:background="@drawable/ic_photo_border"
                         app:layout_constraintTop_toBottomOf="@+id/text_storePhoto">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/iv_store_photo"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/iv_store_photo"
                             android:onClick="@{() -> viewModel.onChangeStoreImageClicked()}"
                             android:visibility="gone"
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
+                                android:id="@+id/iv_store_img"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/iv_store_img"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:ignore="ContentDescription" />
 
                         </androidx.cardview.widget.CardView>
 
                         <LinearLayout
+                            android:id="@+id/not_store_Img"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:onClick="@{() -> viewModel.onStoreImageClicked()}"
-                            android:id="@+id/not_store_Img"
                             android:gravity="center_horizontal|center_vertical"
+                            android:onClick="@{() -> viewModel.onStoreImageClicked()}"
+                            android:orientation="vertical"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -895,9 +1028,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_add_a_photo_24px"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:ignore="ContentDescription" />
 
@@ -906,50 +1039,50 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_8sdp"
-                                android:text="@string/click_here_to_add_photo"
-                                android:textSize="@dimen/_9ssp"
                                 android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/click_here_to_add_photo"
                                 android:textColor="@color/black"
-                                app:layout_constraintTop_toBottomOf="@+id/iv_store_photo"
+                                android:textSize="@dimen/_9ssp"
+                                app:layout_constraintEnd_toEndOf="@id/iv_store_photo"
                                 app:layout_constraintStart_toStartOf="@id/iv_store_photo"
-                                app:layout_constraintEnd_toEndOf="@id/iv_store_photo"/>
+                                app:layout_constraintTop_toBottomOf="@+id/iv_store_photo" />
 
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
                     <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/store_thumb_layout"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="@dimen/_80sdp"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:id="@+id/store_thumb_layout"
+                        android:layout_weight="1"
                         android:background="@drawable/ic_photo_border"
                         app:layout_constraintTop_toBottomOf="@+id/text_storePhoto">
 
                         <androidx.cardview.widget.CardView
+                            android:id="@+id/iv_thumb"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:id="@+id/iv_thumb"
                             android:onClick="@{() -> viewModel.onChangeStoreThumbClicked()}"
                             android:visibility="gone"
                             app:layout_constraintTop_toTopOf="parent">
 
                             <ImageView
+                                android:id="@+id/iv_store_thumb"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:id="@+id/iv_store_thumb"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:ignore="ContentDescription" />
 
                         </androidx.cardview.widget.CardView>
 
                         <LinearLayout
+                            android:id="@+id/not_thumbImg"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:orientation="vertical"
-                            android:onClick="@{() -> viewModel.onStoreThumbClicked()}"
-                            android:id="@+id/not_thumbImg"
                             android:gravity="center_horizontal|center_vertical"
+                            android:onClick="@{() -> viewModel.onStoreThumbClicked()}"
+                            android:orientation="vertical"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintTop_toTopOf="parent">
 
@@ -958,9 +1091,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:src="@drawable/ic_add_a_photo_24px"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintEnd_toEndOf="parent"
                                 app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent"
                                 tools:ignore="ContentDescription" />
 
@@ -969,13 +1102,13 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/_8sdp"
-                                android:text="@string/click_here_to_add_photo"
-                                android:textSize="@dimen/_9ssp"
                                 android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/click_here_to_add_photo"
                                 android:textColor="@color/black"
-                                app:layout_constraintTop_toBottomOf="@+id/iv_thumb"
+                                android:textSize="@dimen/_9ssp"
+                                app:layout_constraintEnd_toEndOf="@id/iv_thumb"
                                 app:layout_constraintStart_toStartOf="@id/iv_thumb"
-                                app:layout_constraintEnd_toEndOf="@id/iv_thumb"/>
+                                app:layout_constraintTop_toBottomOf="@+id/iv_thumb" />
 
                         </LinearLayout>
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -992,27 +1125,28 @@
                         android:id="@+id/checkBox"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairoregular"
                         android:text="@string/do_you_agree_with_me"
-                        android:textSize="@dimen/_8ssp"
-                        android:fontFamily="@font/cairoregular" />
+                        android:textSize="@dimen/_8ssp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_conditions"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:insetTop="0dp"
-                        android:id="@+id/btn_conditions"
-                        android:insetBottom="0dp"
                         android:clickable="@{viewModel.obsIsClickable}"
+                        android:fontFamily="@font/cairoregular"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
                         android:onClick="@{() -> viewModel.onConditionsClicked()}"
-                        android:textColor="#1976D2"
                         android:text="@string/terms_and_conditions"
                         android:textAllCaps="false"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
-                        app:cornerRadius="@dimen/_6sdp"
-                        android:fontFamily="@font/cairoregular"
-                        android:textSize="@dimen/_9ssp" />
+                        android:textColor="#1976D2"
+                        android:textSize="@dimen/_9ssp"
+                        app:cornerRadius="@dimen/_6sdp" />
 
                 </LinearLayout>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_save"
                     style="@style/Widget.MaterialComponents.Button"

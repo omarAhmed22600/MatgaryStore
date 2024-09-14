@@ -1,9 +1,10 @@
-package com.brandsin.user.model.constants
+package com.brandsin.store.model.constants
 
-object Params
-{
-    //const val BASE_URL = "https://hagaty-app.com"
-    const val BASE_URL = "https://brandsin.net"
+object Params {
+    // const val BASE_URL = "https://hagaty-app.com"
+    // const val BASE_URL = "https://brandsin.net"
+    const val BASE_URL = "https://backend.brandsin.net"
+    // const val BASE_URL = "https://dev.brandsin.net"
 
 
     /* SHARED PREFERENCES NAME */
@@ -13,6 +14,7 @@ object Params
 
     const val INTENT_PAGE_DIALOG = "INTENT_PAGE_DIALOG"
     const val BUNDLE_DIALOG = "BUNDLE_DIALOG"
+    const val CALL_BACK_FUNCTION = "CALL_BACK_FUNCTION"
 
     const val DIALOG_CONFIRM_MESSAGE = "DIALOG_CONFIRM_MESSAGE"
     const val DIALOG_CONFIRM_POSITIVE = "DIALOG_CONFIRM_POSITIVE"
@@ -61,7 +63,7 @@ object Params
     const val STORE_CATEGORIES_DATA = "STORE_CATEGORIES_DATA"
     const val STORE_CATEGORIES_DATA_EDIT = "STORE_CATEGORIES_DATA_EDIT"
     const val PRODUCT_CATEGORIES = "PRODUCT_CATEGORIES"
-    const val PRODUCT_CATEGORIES_DATA  = "PRODUCT_CATEGORIES_DATA"
+    const val PRODUCT_CATEGORIES_DATA = "PRODUCT_CATEGORIES_DATA"
     const val PRODUCT_CATEGORIES_DATA_EDIT = "STORE_CATEGORIES_DATA_EDIT"
 
     const val STORE_TAGS = "STORE_TAGS"
@@ -69,6 +71,6 @@ object Params
     const val STORE_TAGS_DATA_EDIT = "STORE_TAGS_DATA_EDIT"
 
     const val PRODUCT_UNIT = "PRODUCT_UNIT"
-    const val PRODUCT_UNIT_DATA  = "PRODUCT_UNIT_DATA"
+    const val PRODUCT_UNIT_DATA = "PRODUCT_UNIT_DATA"
     const val PRODUCT_UNIT_DATA_EDIT = "STORE_UNIT_DATA_EDIT"
 }

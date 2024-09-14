@@ -1,13 +1,10 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.main.reports.detailed.ItemDetailedReportDetailesViewModel" />
@@ -19,46 +16,47 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="3"
-            android:layout_height="wrap_content"
             android:id="@+id/tv_name"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            android:fontFamily="@font/cairoregular"
-            tools:text="معاذ صلاح"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:fontFamily="@font/cairo_bold"
+            android:gravity="center"
             android:text="@{viewModel.item.userName}"
-            android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="@dimen/_12ssp" />
+            android:textSize="@dimen/_11ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="معاذ صلاح" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
             android:id="@+id/tv_ordersCount"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:fontFamily="@font/cairoregular"
-            tools:text="215"
-            android:text="@{viewModel.item.count}"
             android:gravity="center"
-            android:textColor="@color/price_color"
-            android:textSize="@dimen/_12ssp" />
+            android:text="@{viewModel.item.count}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="215" />
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content"
             android:id="@+id/tv_ordersCost"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
             android:fontFamily="@font/cairoregular"
-            tools:text="75"
-            android:text="@{viewModel.item.total}"
             android:gravity="center"
-            android:textColor="@color/price_color"
-            android:textSize="@dimen/_12ssp" />
+            android:text="@{viewModel.item.total}"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_12ssp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="75" />
 
     </LinearLayout>
+
 </layout>

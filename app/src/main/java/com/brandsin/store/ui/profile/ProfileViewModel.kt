@@ -3,32 +3,29 @@ package com.brandsin.store.ui.profile
 import com.brandsin.store.database.BaseViewModel
 import com.brandsin.store.model.constants.Codes
 
-class ProfileViewModel : BaseViewModel()
-{
+class ProfileViewModel : BaseViewModel() {
 
-
-    fun onLanguageClicked()
-    {
+    fun onLanguageClicked() {
         setValue(Codes.LANGUAGE_CLICKED)
     }
 
-    fun onProfileClicked()
-    {
+    fun onProfileClicked() {
         setValue(Codes.EDIT_CLICKED)
     }
 
-    fun onVehicleClicked()
-    {
+    fun onVehicleClicked() {
         setValue(Codes.VEHICLE_CLICKED)
     }
 
-    fun onChangePassClicked()
-    {
+    fun onBankAccountInfoClicked() {
+        setValue(Codes.EDIT_BANK_ACCOUNT_INFO_CLICKED)
+    }
+
+    fun onChangePassClicked() {
         setValue(Codes.CHANGE_PASS_CLICKED)
     }
 
-    fun onAddStoriesClicked()
-    {
+    fun onAddStoriesClicked() {
         setValue(Codes.ADD_STORIES)
     }
 }

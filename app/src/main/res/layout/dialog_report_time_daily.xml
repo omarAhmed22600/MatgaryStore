@@ -1,13 +1,10 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.dialogs.monthstime.DateViewModel" />
@@ -19,29 +16,27 @@
         android:background="@android:color/transparent">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/root_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
             app:cardCornerRadius="@dimen/_8sdp"
-            android:id="@+id/root_view"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_marginStart="@dimen/_24sdp"
-            android:layout_marginEnd="@dimen/_24sdp">
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:background="@drawable/radius_background"
-                android:padding="@dimen/_8sdp"
                 android:backgroundTint="#FFF"
                 android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -55,26 +50,30 @@
                     custom:range_color="@color/payment_color"
                     custom:selected_date_circle_color="@color/color_primary"
                     custom:title_color="@color/color_primary">
+
                 </com.archit.calendardaterangepicker.customviews.DateRangeCalendarView>
 
+                <!-- android:onClick="@{() -> viewModel.onConfirmClicked()}" -->
                 <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_search"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_42sdp"
-                    android:id="@+id/btn_search"
-                    app:layout_constraintTop_toBottomOf="@id/calendar"
-                    android:insetTop="0dp"
-                    android:onClick="@{() -> viewModel.onConfirmClicked()}"
-                    android:insetBottom="0dp"
                     android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/search"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
-                    android:text="@string/search"
-                    style="@style/Widget.MaterialComponents.Button"
+                    android:textSize="@dimen/_14ssp"
                     app:cornerRadius="@dimen/_6sdp"
-                    android:fontFamily="@font/cairo_semibold"
-                    android:textSize="@dimen/_14ssp" />
+                    app:layout_constraintTop_toBottomOf="@id/calendar" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

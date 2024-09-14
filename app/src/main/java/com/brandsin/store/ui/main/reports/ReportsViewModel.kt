@@ -9,26 +9,29 @@ import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class ReportsViewModel : BaseViewModel()
-{
-    var reportsAdapter  = ReportsAdapter()
-    var reportsList= ArrayList<DataItem>()
+class ReportsViewModel : BaseViewModel() {
+
+    private var reportsAdapter = ReportsAdapter()
+
+    private var reportsList = ArrayList<DataItem>()
+
     var type = "daily" // monthly
     var from = ""
     var to = ""
 
-    fun getReports()
-    {
+    fun getReports() {
         setShowProgress(true)
         obsIsFull.set(false)
         obsIsEmpty.set(false)
 
-        requestCall<ReportsTotalResponse?>({ withContext(Dispatchers.IO) {
-            return@withContext getApiRepo()
-                .getReportsTotal(PrefMethods.getStoreData()!!.id!!,50,0,type,from, to) }
+        requestCall<ReportsTotalResponse?>({
+            withContext(Dispatchers.IO) {
+                return@withContext getApiRepo()
+                    .getReportsTotal(PrefMethods.getStoreData()!!.id!!, 50, 0, type, from, to)
+            }
         })
         { res ->
-            when  {
+            when {
                 res!!.data!!.isNotEmpty() -> {
                     obsIsFull.set(true)
                     obsIsEmpty.set(false)
@@ -37,8 +40,8 @@ class ReportsViewModel : BaseViewModel()
                     reportsList = res.data as ArrayList<DataItem>
                     reportsAdapter.updateList(reportsList)
                     reportsAdapter.notifyDataSetChanged()
-
                 }
+
                 else -> {
                     obsIsFull.set(false)
                     obsIsEmpty.set(true)
@@ -47,5 +50,4 @@ class ReportsViewModel : BaseViewModel()
             }
         }
     }
-
 }

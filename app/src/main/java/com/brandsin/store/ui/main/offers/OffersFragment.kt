@@ -20,54 +20,75 @@ import com.brandsin.store.ui.main.addofffer.AddOfferActivity
 import com.brandsin.store.utils.MyApp
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 import timber.log.Timber
 
-class OffersFragment : BaseHomeFragment(), Observer<Any?>
-{
-    private lateinit var binding : HomeFragmentOffersBinding
+class OffersFragment : BaseHomeFragment(), Observer<Any?> {
+
+    private lateinit var binding: HomeFragmentOffersBinding
+
     private lateinit var offersViewModel: OffersViewModel
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.home_fragment_offers, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
         super.onViewCreated(view, savedInstanceState)
-
-        offersViewModel = ViewModelProvider(this).get(OffersViewModel::class.java)
-        binding.viewModel = offersViewModel
 
         setBarName(getString(R.string.offers))
 
+        offersViewModel = ViewModelProvider(this)[OffersViewModel::class.java]
+        binding.viewModel = offersViewModel
+
         offersViewModel.mutableLiveData.observe(viewLifecycleOwner, this)
 
-        offersViewModel.offersAdapter.editLiveData.observe(viewLifecycleOwner, {
-            val intent = Intent(requireActivity(), AddOfferActivity::class.java)
-            intent.putExtra(Params.OFFER_ITEM , it)
-            startActivityForResult(intent, Codes.UPDATE_OFFER)
-        })
+        offersViewModel.getUserStatus()
 
-        offersViewModel.offersAdapter.deleteLiveData.observe(viewLifecycleOwner, {
+        offersViewModel.offersAdapter.editLiveData.observe(viewLifecycleOwner) {
+            val intent = Intent(requireActivity(), AddOfferActivity::class.java)
+            intent.putExtra(Params.OFFER_ITEM, it)
+            startActivityForResult(intent, Codes.UPDATE_OFFER)
+        }
+
+        offersViewModel.offersAdapter.deleteLiveData.observe(viewLifecycleOwner) {
             val bundle = Bundle()
-            bundle.putString(Params.DIALOG_CONFIRM_MESSAGE, MyApp.getInstance().getString(R.string.delete_cart_warning))
-            bundle.putString(Params.DIALOG_CONFIRM_POSITIVE, MyApp.getInstance().getString(R.string.confirm))
-            bundle.putString(Params.DIALOG_CONFIRM_NEGATIVE, MyApp.getInstance().getString(R.string.ignore))
+            bundle.putString(
+                Params.DIALOG_CONFIRM_MESSAGE,
+                MyApp.getInstance().getString(R.string.delete_cart_warning)
+            )
+            bundle.putString(
+                Params.DIALOG_CONFIRM_POSITIVE,
+                MyApp.getInstance().getString(R.string.confirm)
+            )
+            bundle.putString(
+                Params.DIALOG_CONFIRM_NEGATIVE,
+                MyApp.getInstance().getString(R.string.ignore)
+            )
             bundle.putSerializable(Params.OFFER_ITEM, it)
-            Utils.startDialogActivity(requireActivity(), DialogConfirmFragment::class.java.name, Codes.DIALOG_CONFIRM_REQUEST, bundle)
-        })
+            Utils.startDialogActivity(
+                requireActivity(),
+                DialogConfirmFragment::class.java.name,
+                Codes.DIALOG_CONFIRM_REQUEST,
+                bundle
+            )
+        }
 
         observe(offersViewModel.apiResponseLiveData) {
             when (it.status) {
                 Status.ERROR_MESSAGE -> {
                     showToast(it.message.toString(), 1)
                 }
+
                 Status.SUCCESS_MESSAGE -> {
                     showToast(it.message.toString(), 2)
                 }
+
                 Status.SUCCESS -> {
                     when (it.data) {
                         is DeleteOfferResponse -> {
@@ -75,6 +96,7 @@ class OffersFragment : BaseHomeFragment(), Observer<Any?>
                         }
                     }
                 }
+
                 else -> {
                     Timber.e(it.message)
                 }
@@ -87,10 +109,10 @@ class OffersFragment : BaseHomeFragment(), Observer<Any?>
         }
     }
 
-    override fun onChanged(it: Any?) {
-        when (it) {
+    override fun onChanged(value: Any?) {
+        when (value) {
             null -> return
-            else -> it.let {
+            else -> value.let {
                 when (it) {
                     Codes.ADD_OFFER -> {
                         val intent = Intent(requireActivity(), AddOfferActivity::class.java)
@@ -101,8 +123,7 @@ class OffersFragment : BaseHomeFragment(), Observer<Any?>
         }
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?)
-    {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         when {
@@ -110,9 +131,10 @@ class OffersFragment : BaseHomeFragment(), Observer<Any?>
                 when {
                     data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
                         when {
-                            data.getIntExtra(Params.DIALOG_CLICK_ACTION,1) == 1 -> {
-                                if (data.getIntExtra(Params.OFFER_ITEM,0) != 0) {
-                                    offersViewModel.deleteOfferRequest.offerId = data.getIntExtra(Params.OFFER_ITEM,0)
+                            data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
+                                if (data.getIntExtra(Params.OFFER_ITEM, 0) != 0) {
+                                    offersViewModel.deleteOfferRequest.offerId =
+                                        data.getIntExtra(Params.OFFER_ITEM, 0)
                                     offersViewModel.deleteOffer()
                                 }
                             }
@@ -127,16 +149,19 @@ class OffersFragment : BaseHomeFragment(), Observer<Any?>
                 when {
                     data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
                         when {
-                            data.getIntExtra(Params.DIALOG_CLICK_ACTION,1) == 1 -> {
+                            data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                                 offersViewModel.getOffers()
                             }
-                            data.getIntExtra(Params.DIALOG_CLICK_ACTION,1) == 2 -> {
+
+                            data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 2 -> {
                                 findNavController().navigateUp()
                             }
                         }
                     }
                 }
             }
+
+            else -> offersViewModel.getOffers()
         }
 
         when {
@@ -144,17 +169,19 @@ class OffersFragment : BaseHomeFragment(), Observer<Any?>
                 when {
                     data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
                         when {
-                            data.getIntExtra(Params.DIALOG_CLICK_ACTION,1) == 1 -> {
+                            data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 1 -> {
                                 offersViewModel.getOffers()
                             }
-                            data.getIntExtra(Params.DIALOG_CLICK_ACTION,1) == 2 -> {
+
+                            data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 2 -> {
                                 findNavController().navigateUp()
                             }
                         }
                     }
                 }
             }
+
+            else -> offersViewModel.getOffers()
         }
     }
-
 }

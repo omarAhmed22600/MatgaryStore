@@ -1,103 +1,207 @@
-<?xml
-    version="1.0"
-    encoding="utf-8"?>
-
-<layout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <variable
             name="viewModel"
             type="com.brandsin.store.ui.main.reports.total.ItemReportViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_16sdp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:id="@+id/tv_reportTitle"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="October, 2020"
-            android:text="@{viewModel.item.date}"
-            android:textSize="@dimen/_14ssp"
-            android:fontFamily="@font/cairo_bold"
-            android:textColor="@color/black"
-            android:textAlignment="viewStart" />
+        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_marginHorizontal="@dimen/_4sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        app:cardCornerRadius="@dimen/_6sdp"
+        app:cardElevation="@dimen/_4sdp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/_16sdp"
-            android:layout_marginEnd="@dimen/_16sdp"
-            app:layout_constraintStart_toStartOf="@+id/tv_reportTitle"
-            app:layout_constraintTop_toBottomOf="@+id/tv_reportTitle">
+            android:layout_margin="@dimen/_4sdp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/tv_reportTitle"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/text_tripNumbers"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:fontFamily="@font/cairoregular"
-                android:text="@string/trip_numbers"
+                android:layout_marginVertical="@dimen/_4sdp"
+                android:layout_marginHorizontal="@dimen/_8sdp"
+                android:fontFamily="@font/cairo_semibold"
+                android:text="@{viewModel.item.date}"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_12ssp" />
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="2024-02-26" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/_1sdp"
+                android:layout_marginTop="@dimen/_6sdp"
+                android:background="@color/demo_dark_transparent"
+                app:layout_constraintEnd_toEndOf="@id/tv_reportTitle"
+                app:layout_constraintStart_toStartOf="@id/tv_reportTitle"
+                app:layout_constraintTop_toBottomOf="@id/tv_reportTitle" />
 
             <TextView
+                android:id="@+id/text_tripNumbers"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_2sdp"
+                android:layout_marginVertical="@dimen/_12sdp"
+                android:fontFamily="@font/cairo_bold"
+                android:text="@string/orders_count"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/tv_reportTitle"
+                app:layout_constraintTop_toBottomOf="@id/view" />
+
+            <TextView
                 android:id="@+id/tv_tripNumbers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/_8sdp"
-                app:layout_constraintTop_toTopOf="@id/text_tripNumbers"
+                android:fontFamily="@font/cairo_bold"
+                android:text="@{viewModel.item.completedCount}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/price_color"
+                android:textSize="@dimen/_11ssp"
                 app:layout_constraintBottom_toBottomOf="@+id/text_tripNumbers"
                 app:layout_constraintStart_toEndOf="@+id/text_tripNumbers"
-                android:fontFamily="@font/cairoregular"
-                tools:text="275 "
+                app:layout_constraintTop_toTopOf="@id/text_tripNumbers"
+                tools:text="275" />
+
+            <TextView
+                android:id="@+id/text_requestsCost"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo_bold"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:text="@string/orders_price"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                app:layout_constraintStart_toEndOf="@id/tv_tripNumbers"
+                app:layout_constraintTop_toTopOf="@id/text_tripNumbers" />
+
+            <TextView
+                android:id="@+id/tv_requestsCost"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_6sdp"
+                android:fontFamily="@font/cairo_bold"
+                android:text="@{viewModel.item.completedTotal + ` ` + @string/currency}"
                 android:textAlignment="viewStart"
                 android:textColor="@color/price_color"
-                android:textSize="@dimen/_12ssp"
-                android:text="@{viewModel.item.count}"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/text_requestsCost"
-                app:layout_constraintTop_toBottomOf="@+id/tv_tripNumbers"
-                app:layout_constraintStart_toStartOf="parent"
-                android:fontFamily="@font/cairoregular"
-                android:text="@string/requests_cost"
-                android:textColor="@color/black"
-                android:textAlignment="viewStart"
-                android:textSize="@dimen/_12ssp"
-                />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/tv_requestsCost"
-                android:layout_marginStart="@dimen/_8sdp"
-                app:layout_constraintTop_toTopOf="@id/text_requestsCost"
+                android:textSize="@dimen/_11ssp"
+                android:maxLines="1"
+                android:ellipsize="end"
                 app:layout_constraintBottom_toBottomOf="@+id/text_requestsCost"
                 app:layout_constraintStart_toEndOf="@+id/text_requestsCost"
-                android:fontFamily="@font/cairoregular"
-                tools:text="275"
-                android:textAlignment="viewStart"
-                android:text="@{viewModel.item.total}"
-                android:textColor="@color/price_color"
-                android:textSize="@dimen/_12ssp" />
-
+                app:layout_constraintTop_toTopOf="@id/text_requestsCost"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="275.002222222 SAR" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
 </layout>
+
+    <!--
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/_16sdp">
+
+            <TextView
+                android:id="@+id/tv_reportTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/cairo_bold"
+                android:text="@{viewModel.item.date}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="October, 2020" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_16sdp"
+                android:layout_marginEnd="@dimen/_16sdp"
+                app:layout_constraintStart_toStartOf="@+id/tv_reportTitle"
+                app:layout_constraintTop_toBottomOf="@+id/tv_reportTitle">
+
+                <TextView
+                    android:id="@+id/text_tripNumbers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@string/trip_numbers"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_tripNumbers"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@{viewModel.item.count}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/price_color"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_tripNumbers"
+                    app:layout_constraintStart_toEndOf="@+id/text_tripNumbers"
+                    app:layout_constraintTop_toTopOf="@id/text_tripNumbers"
+                    tools:text="275 " />
+
+                <TextView
+                    android:id="@+id/text_requestsCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@string/requests_cost"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tv_tripNumbers" />
+
+                <TextView
+                    android:id="@+id/tv_requestsCost"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:fontFamily="@font/cairoregular"
+                    android:text="@{viewModel.item.total}"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/price_color"
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="@+id/text_requestsCost"
+                    app:layout_constraintStart_toEndOf="@+id/text_requestsCost"
+                    app:layout_constraintTop_toTopOf="@id/text_requestsCost"
+                    tools:text="275" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    -->

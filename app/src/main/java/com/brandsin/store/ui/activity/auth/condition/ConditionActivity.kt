@@ -15,7 +15,7 @@ import com.brandsin.store.ui.activity.ParentActivity
 import com.brandsin.store.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
-import com.brandsin.user.model.constants.Params
+import com.brandsin.store.model.constants.Params
 import timber.log.Timber
 
 class ConditionActivity : ParentActivity(), Observer<Any?>
