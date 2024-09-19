@@ -58,7 +58,8 @@
                             app:cardCornerRadius="@dimen/_8sdp"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent">
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_bias="0.0">
 
                             <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/iv_notifyImg"
@@ -80,9 +81,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_8sdp"
-                            android:ellipsize="end"
+                            android:ellipsize="marquee"
+                            android:marqueeRepeatLimit="marquee_forever"
                             android:fontFamily="@font/cairo_semibold"
                             android:lines="1"
+                            app:set_marquee="@{true}"
                             android:maxLines="1"
                             android:text="@{viewModel.obsUserName}"
                             android:textAlignment="viewStart"
@@ -90,7 +93,7 @@
                             android:textSize="@dimen/_12ssp"
                             app:layout_constraintEnd_toStartOf="@id/whatsApp"
                             app:layout_constraintStart_toEndOf="@+id/img_layout"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/img_layout"
                             tools:text="Mohamed Mohamed" />
 
                         <TextView
@@ -99,10 +102,9 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="@dimen/_10sdp"
                             android:layout_marginEnd="@dimen/_8sdp"
-                            android:ellipsize="end"
+
                             android:fontFamily="@font/cairoregular"
-                            android:lines="1"
-                            android:maxLines="1"
+
                             android:text="@{viewModel.obsOrderNumber}"
                             android:textAlignment="viewStart"
                             android:textSize="@dimen/_10ssp"
@@ -120,6 +122,7 @@
                             android:text="@{viewModel.orderDetails.order.deliveryTime}"
                             android:textAlignment="viewStart"
                             android:textSize="@dimen/_10ssp"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/whatsApp"
                             app:layout_constraintStart_toEndOf="@+id/img_layout"
                             app:layout_constraintTop_toBottomOf="@+id/tv_desc"
@@ -129,7 +132,6 @@
                             android:id="@+id/whatsApp"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="@dimen/_16sdp"
                             android:layout_marginEnd="@dimen/_8sdp"
                             android:duplicateParentState="false"
                             android:fontFamily="@font/cairo_semibold"
@@ -138,9 +140,10 @@
                             android:textColor="@color/completed"
                             android:textSize="@dimen/_12ssp"
                             app:drawableTopCompat="@drawable/ic_circle_whatsapp"
-                            app:layout_constraintBottom_toTopOf="@id/icChat"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@id/tv_call"
-                            app:layout_constraintTop_toTopOf="@id/tv_title" />
+                            app:layout_constraintTop_toTopOf="@id/tv_title"
+                            app:layout_constraintVertical_bias="0.0" />
 
                         <TextView
                             android:id="@+id/tv_call"
@@ -626,6 +629,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rg_accept">
 
+                    <!-- android:onClick="@{() -> viewModel.onCancelClicked()}" -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_accept"
                         style="@style/Widget.MaterialComponents.Button"
@@ -644,13 +648,13 @@
                         android:textSize="@dimen/_12ssp"
                         app:cornerRadius="@dimen/_6sdp" />
 
-                    <!-- android:onClick="@{() -> viewModel.onCancelClicked()}" -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnReject"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_weight="2"
+                        app:set_redOutline="@{true}"
                         android:clickable="@{viewModel.obsIsClickable}"
                         android:fontFamily="@font/cairo_semibold"
                         android:insetTop="0dp"

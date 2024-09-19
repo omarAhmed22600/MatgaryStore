@@ -24,27 +24,31 @@
 
             <!-- Notifications Layout -->
             <androidx.constraintlayout.widget.ConstraintLayout
+                isFull="@{viewModel.obsIsFull}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:paddingBottom="@dimen/_16sdp"
-                tools:visibility="visible"
-                isFull="@{viewModel.obsIsFull}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent">
+                tools:visibility="visible">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:id="@+id/rv_categories"
-                    android:paddingStart="@dimen/_16sdp"
-                    android:paddingTop="@dimen/_16sdp"
-                    app:disableItemChangedAnimation="@{true}"
                     adapter="@{viewModel.notificationAdapter}"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="@dimen/_16sdp"
                     android:orientation="vertical"
-                    tools:listitem="@layout/raw_home_notification"
-                    tools:itemCount="5"
+                    app:disableItemChangedAnimation="@{true}"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:itemCount="5"
+                    tools:listitem="@layout/raw_home_notification" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

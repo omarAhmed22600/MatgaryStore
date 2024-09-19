@@ -366,7 +366,7 @@
     <string name="register_your_store_and_enjoy_the_best_selling_experience_ever_or_log_in_if_you_already_have_an_account">قم بالاشتراك معنا و تسجيل متجرك فى تطبيق براندز أن و استمتع بأفضل تجربة بيع على الأطلاق وزد منافذ بيعك و احصل على متجر إلكترونى مجانى أو سجل دخولك فى حالة لديك حساب بالفعل</string>
     <string name="pay_with">الدفع عن طريق</string>
     <string name="accept_with_delivering_order">قبول مع توصيل الطلب </string>
-    <string name="accept_without_delivering_order"> قبول مع عدم توصيل الطلب </string>
+    <string name="accept_without_delivering_order"> قبول من غير توصيل الطلب </string>
     <string name="update">تحديث</string>
     <string name="update_offer">تعديل العرض</string>
     <string name="update_product">تعديل المنتج</string>

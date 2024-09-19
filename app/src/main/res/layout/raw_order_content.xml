@@ -50,7 +50,7 @@
             android:textColor="@color/black"
             android:textSize="@dimen/_10ssp"
             app:layout_constraintBottom_toBottomOf="@id/img_circle"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/img_selected"
             app:layout_constraintStart_toEndOf="@id/img_circle"
             app:layout_constraintTop_toTopOf="@id/img_circle"
             tools:text="Product name Product name " />
