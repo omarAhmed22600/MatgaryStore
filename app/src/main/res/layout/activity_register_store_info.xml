@@ -81,7 +81,7 @@
                     android:layout_width="@dimen/_80sdp"
                     android:layout_height="@dimen/_80sdp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/app_logo2"
+                    android:src="@drawable/app_logo"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
@@ -556,7 +556,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/pickUpFromStoreLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/whats_layout">
 
@@ -567,10 +567,10 @@
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingVertical="@dimen/_10sdp">
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:fontFamily="@font/cairo_semibold"
@@ -580,7 +580,7 @@
 
                         <RadioGroup
                             android:id="@+id/rgPickUpFromStore"
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
                             android:orientation="horizontal">
@@ -614,7 +614,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/cashOnDeliveryLayout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/pickUpFromStoreLayout">
 
@@ -625,7 +625,8 @@
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingVertical="@dimen/_10sdp">
 
                         <TextView
                             android:layout_width="match_parent"
@@ -672,7 +673,7 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/delivery_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_30sdp"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
                     app:layout_constraintTop_toBottomOf="@+id/cashOnDeliveryLayout">
 
@@ -683,7 +684,8 @@
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:paddingVertical="@dimen/_10sdp">
 
                         <TextView
                             android:id="@+id/textView"
@@ -903,7 +905,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_8sdp"
-                        android:layout_marginEnd="@dimen/_12sdp"
                         android:fontFamily="@font/cairo_semibold"
                         android:text="@string/average_delivery_time"
                         android:textColor="@color/black"
@@ -930,10 +931,62 @@
                         app:layout_constraintTop_toBottomOf="@+id/text_time"
                         tools:ignore="Autofill" />
 
+                    <TextView
+                        android:id="@+id/delivery_Type"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:text="@string/select_delivery_type"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_9ssp"
+                        android:layout_marginTop="@dimen/_8sdp"
+                        app:layout_constraintStart_toStartOf="@+id/text_time"
+                        app:layout_constraintTop_toBottomOf="@+id/et_store_time" />
                     <!--
                     android:layout_marginStart="@dimen/_8sdp"
                         android:layout_marginEnd="@dimen/_12sdp"
                     -->
+                    <RadioGroup
+                        android:id="@+id/rgDeliveryType"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:orientation="horizontal"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/delivery_Type">
+
+                        <RadioButton
+                            android:id="@+id/day"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:text="@string/day"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9ssp" />
+
+                        <RadioButton
+                            android:id="@+id/hour"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:text="@string/hour"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9ssp" />
+
+                        <RadioButton
+                            android:id="@+id/minute"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:text="@string/minute"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_9ssp" />
+                    </RadioGroup>
                     <TextView
                         android:id="@+id/deliveryType"
                         android:layout_width="wrap_content"
@@ -943,11 +996,13 @@
                         android:paddingEnd="@dimen/_8sdp"
                         android:text="@={viewModel.obsType}"
                         android:textColor="@color/black"
+                        android:visibility="gone"
                         android:textSize="@dimen/_9ssp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toEndOf="@+id/et_store_time"
                         app:layout_constraintTop_toTopOf="@+id/et_store_time"
                         tools:text="hour" />
+
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

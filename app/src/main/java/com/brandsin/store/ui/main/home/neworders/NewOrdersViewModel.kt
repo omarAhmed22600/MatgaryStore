@@ -43,7 +43,7 @@ class NewOrdersViewModel : BaseViewModel() {
             withContext(Dispatchers.IO) {
                 return@withContext getApiRepo().getStoreOrders(
                     PrefMethods.getLanguage(),
-                    PrefMethods.getStoreData()!!.id!!.toInt(),
+                    PrefMethods.getStoreData()?.id?.toInt()?:0,
                     limit = null, // 30
                     "new",
                     page = null

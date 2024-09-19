@@ -44,7 +44,7 @@
                             android:layout_width="@dimen/_70sdp"
                             android:layout_height="@dimen/_70sdp"
                             android:layout_marginTop="@dimen/_24sdp"
-                            android:src="@drawable/app_logo4"
+                            android:src="@drawable/app_logo"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />

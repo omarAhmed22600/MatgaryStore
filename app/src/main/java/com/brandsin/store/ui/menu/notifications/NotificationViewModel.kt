@@ -36,7 +36,7 @@ class NotificationViewModel : BaseViewModel()
         obsIsLoading.set(true)
         requestCall<NotificationResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().getNotifications(30 , 0, PrefMethods.getStoreData()!!.id!!)
+                return@withContext getApiRepo().getNotifications(30 , 0, PrefMethods.getUserData()?.id?:-1 ,PrefMethods.getStoreData()?.id?:-1)
             }
         })
         { res ->

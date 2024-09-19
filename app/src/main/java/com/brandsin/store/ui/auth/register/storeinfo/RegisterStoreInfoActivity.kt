@@ -70,6 +70,21 @@ class RegisterStoreInfoActivity : AppCompatActivity(), Observer<Any?> {
 
         viewModel.storeRequest.hasDelivery = "1"
 
+        binding.rgDeliveryType.setOnCheckedChangeListener { radioGroup, i ->
+            when(i)
+            {
+                R.id.minute -> {
+                    viewModel.obsType.set(getString(R.string.minute))
+                }
+                R.id.day -> {
+                    viewModel.obsType.set(getString(R.string.day))
+                }
+                else -> {
+                    viewModel.obsType.set(getString(R.string.hour))
+                }
+            }
+        }
+
         when {
             intent.hasExtra(Params.STORE_REGISTER) -> {
                 when {

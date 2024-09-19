@@ -304,7 +304,7 @@ interface ApiInterface {
     @GET("/api/hajaty/notifications")
     suspend fun getNotifications(
         @Query("limit") limit: Int, @Query("page") page: Int,
-        @Query("user_id") userId: Int
+        @Query("user_id") userId: Int,@Query("store_id") storeId: Int
     ): NotificationResponse
 
     @POST("/api/hajaty/notifications")

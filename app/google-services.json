@@ -98,6 +98,51 @@
     },
     {
       "client_info": {
+        "mobilesdk_app_id": "1:305418294270:android:0748ede288a95daa21e6af",
+        "android_client_info": {
+          "package_name": "com.brandsin.storeapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305418294270-r489voh81h81bl4tji5egtludgs894p1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brandsin.storeapp",
+            "certificate_hash": "303a3c2b7e2d3ece32edca3724cc865e05e8b9ae"
+          }
+        },
+        {
+          "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7o6zvb6ZJl2Z4O79zjSOTnWpj_inzroY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "305418294270-118lfl7c04ehd3eip7da2uj00ddedbm9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ahmed.BRANDS-IN",
+                "app_store_id": "1635151799"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:305418294270:android:d8a8304146f123fb21e6af",
         "android_client_info": {
           "package_name": "com.brandsin.user"
@@ -118,6 +163,59 @@
           "android_info": {
             "package_name": "com.brandsin.user",
             "certificate_hash": "39427d16a9077d54ce962638db2c76a54fe61023"
+          }
+        },
+        {
+          "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7o6zvb6ZJl2Z4O79zjSOTnWpj_inzroY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "305418294270-118lfl7c04ehd3eip7da2uj00ddedbm9.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.Ahmed.BRANDS-IN",
+                "app_store_id": "1635151799"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305418294270:android:5e78747942d2276e21e6af",
+        "android_client_info": {
+          "package_name": "com.brandsin.userapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305418294270-ekmpqn15avkdgln29m90hakf1jdk0rgg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brandsin.userapp",
+            "certificate_hash": "39427d16a9077d54ce962638db2c76a54fe61023"
+          }
+        },
+        {
+          "client_id": "305418294270-f3vni9q6mfoe880mrehmceh5c9pn9kcg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brandsin.userapp",
+            "certificate_hash": "303a3c2b7e2d3ece32edca3724cc865e05e8b9ae"
           }
         },
         {

@@ -179,6 +179,7 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
             )
         }
 
+        //TODO
         binding.whatsApp.setOnClickListener {
             val url =
                 "https://api.whatsapp.com/send?phone=" + viewModel.orderDetails.order?.phoneNumber

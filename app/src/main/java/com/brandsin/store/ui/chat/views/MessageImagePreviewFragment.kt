@@ -45,7 +45,7 @@ class MessageImagePreviewFragment : Fragment() {
     private fun initView() {
         Glide.with(requireContext())
             .load(image)
-            .error(R.drawable.app_logo3)
+            .error(R.drawable.app_logo)
             .into(binding.imageView)
     }
 

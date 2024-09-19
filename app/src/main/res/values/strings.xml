@@ -59,14 +59,14 @@
     <string name="_00000">00000</string>
     <string name="reset_title">Enter new password</string>
     <string name="reset_desc">Enter yuor new password</string>
-    <string name="terms_text">In order to become a member of Hajjati on the web application, you must first fill out the registration form, then agree and pledge to abide by the provisions of the Talabat.com user agreement, and upon filling out and approving the registration form or obtaining any services or meal request using the site</string>
+    <string name="terms_text">In order to become a member of BrandsIn on the web application, you must first fill out the registration form, then agree and pledge to abide by the provisions of the Talabat.com user agreement, and upon filling out and approving the registration form or obtaining any services or meal request using the site</string>
     <string name="accept">Accept</string>
     <string name="reject">Reject</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_desc">Navigation header</string>
-
+    <string name="select_delivery_type">Select Delivery Type</string>
     <string name="not_login">Login</string>
     <string name="offers">Offers</string>
     <string name="notifications">Notifications</string>
@@ -238,7 +238,7 @@
     <string name="mobile_number"> Phone number</string>
     <string name="enter_mobile">Enter phone number</string>
     <string name="tv_ٌRedioDes1">If you choose that, you will deliver the order through your delivery agents, and the value of the delivery will be your right</string>
-    <string name="tv_ٌRedioDes2">If you choose that, Hajaty will deliver the order on your behalf, and the delivery value will be the right of the Hajaty representative</string>
+    <string name="tv_ٌRedioDes2">If you choose that, BrandsIn will deliver the order on your behalf, and the delivery value will be the right of the BrandsIn representative</string>
     <string name="email">Email address</string>
     <string name="enter_email">enter your email</string>
     <string name="vehicle_type">vehicle type</string>
@@ -362,7 +362,7 @@
     <string name="pending">Pending</string>
     <string name="accepted">Preparing</string>
     <string name="cancelled">Cancelled</string>
-    <string name="register_your_store_and_enjoy_the_best_selling_experience_ever_or_log_in_if_you_already_have_an_account">Subscribe with us and register your store in the Hajati app and enjoy the best selling experience ever, increase your outlets, get a free online store, or log in if you already have an account</string>
+    <string name="register_your_store_and_enjoy_the_best_selling_experience_ever_or_log_in_if_you_already_have_an_account">Subscribe with us and register your store in the BrandsIn app and enjoy the best selling experience ever, increase your outlets, get a free online store, or log in if you already have an account</string>
     <string name="pay_with">Pay with</string>
     <string name="accept_with_delivering_order">Accept with delivering order</string>
     <string name="accept_without_delivering_order">Acception without delivering the order</string>

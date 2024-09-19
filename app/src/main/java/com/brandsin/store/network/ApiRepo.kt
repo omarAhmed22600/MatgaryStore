@@ -84,8 +84,8 @@ class ApiRepo(private val apiInterface: ApiInterface) {
     suspend fun getStoreOrders(lang: String, userId: Int, limit: Int?, status: String, page: Int?) =
         apiInterface.getStoreOrders(lang, userId, limit, status, page)
 
-    suspend fun getNotifications(limit: Int, page: Int, userId: Int) =
-        apiInterface.getNotifications(limit, page, userId)
+    suspend fun getNotifications(limit: Int, page: Int, userId: Int,storeId: Int) =
+        apiInterface.getNotifications(limit, page, userId, storeId)
 
     suspend fun readNotification(request: ReadNotificationRequest) =
         apiInterface.readNotification(request)

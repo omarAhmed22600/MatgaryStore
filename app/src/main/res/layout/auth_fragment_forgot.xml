@@ -29,7 +29,7 @@
                 android:layout_height="@dimen/_80sdp"
                 android:layout_marginTop="@dimen/_70sdp"
                 android:id="@+id/login_logo"
-                android:src="@drawable/app_logo2"
+                android:src="@drawable/app_logo"
                 android:scaleType="centerCrop"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

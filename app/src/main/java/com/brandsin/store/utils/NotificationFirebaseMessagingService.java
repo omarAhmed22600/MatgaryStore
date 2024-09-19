@@ -48,7 +48,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
     private void sendNotification(RemoteMessage.Notification notification, Map<String, String> data) {
 
         // Bitmap icon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.app_logo3);
+        Bitmap icon = BitmapFactory.decodeResource(getResources(), R.drawable.app_logo);
 
         if (intent == null) {
             intent = new Intent();
@@ -79,7 +79,7 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
                     .setContentIntent(pendingIntent)
                     .setContentInfo(notification.getTitle())
                     .setLargeIcon(icon)
-                    .setSmallIcon(R.drawable.app_logo3) // .setSmallIcon(R.mipmap.ic_launcher)
+                    .setSmallIcon(R.drawable.app_logo) // .setSmallIcon(R.mipmap.ic_launcher)
                     // .setColor(getResources().getColor(R.color.color_primary))
                     .setLights(Color.RED, 1000, 300)
                     .setDefaults(Notification.DEFAULT_VIBRATE);

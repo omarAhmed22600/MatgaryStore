@@ -86,7 +86,7 @@
                     android:layout_marginTop="@dimen/_24sdp"
                     android:id="@+id/login_logo"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/app_logo2"
+                    android:src="@drawable/app_logo"
                     android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"

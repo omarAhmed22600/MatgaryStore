@@ -238,7 +238,7 @@
     <string name="mobile_number">رقم الجوال</string>
     <string name="enter_mobile">ادخل رقم الجوال</string>
     <string name="tv_ٌRedioDes1">فى حالة اختيارك ذلك ستقوم أنت بتوصيل الطلب عبر مناديب التوصيل التابعين لك و ستكون قيمة التوصيل من حقك</string>
-    <string name="tv_ٌRedioDes2">فى حالة اختيارك ذلك ستقوم حاجاتى بتوصيل الطلب نيابة عنك و ستكون قيمة التوصيل من حق مندوب حاجاتى</string>
+    <string name="tv_ٌRedioDes2">فى حالة اختيارك ذلك ستقوم براندز أن بتوصيل الطلب نيابة عنك و ستكون قيمة التوصيل من حق مندوب براندز أن</string>
     <string name="email">البريد الالكتروني</string>
     <string name="enter_email">ادخل بريدك الالكتروني</string>
     <string name="vehicle_type">نوع المركبة</string>
@@ -363,7 +363,7 @@
     <string name="pending">قيد الانتظار</string> <!-- ●  قيد الانتظاز -->
     <string name="accepted">مقبول</string> <!-- قيد التنفيذ -->
     <string name="cancelled">ملغي</string>
-    <string name="register_your_store_and_enjoy_the_best_selling_experience_ever_or_log_in_if_you_already_have_an_account">قم بالاشتراك معنا و تسجيل متجرك فى تطبيق حاجاتى و استمتع بأفضل تجربة بيع على الأطلاق وزد منافذ بيعك و احصل على متجر إلكترونى مجانى أو سجل دخولك فى حالة لديك حساب بالفعل</string>
+    <string name="register_your_store_and_enjoy_the_best_selling_experience_ever_or_log_in_if_you_already_have_an_account">قم بالاشتراك معنا و تسجيل متجرك فى تطبيق براندز أن و استمتع بأفضل تجربة بيع على الأطلاق وزد منافذ بيعك و احصل على متجر إلكترونى مجانى أو سجل دخولك فى حالة لديك حساب بالفعل</string>
     <string name="pay_with">الدفع عن طريق</string>
     <string name="accept_with_delivering_order">قبول مع توصيل الطلب </string>
     <string name="accept_without_delivering_order"> قبول مع عدم توصيل الطلب </string>
@@ -578,4 +578,5 @@
     <string name="an_hour_ago">منذ ساعة</string>
     <string name="a_minute_ago">منذ دقيقة</string>
     <string name="just_now">الان</string>
+    <string name="select_delivery_type">اختر نوع التوصيل</string>
 </resources>
