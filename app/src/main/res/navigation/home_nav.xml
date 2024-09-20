@@ -410,5 +410,9 @@
         android:name="com.brandsin.store.ui.chat.views.MessageImagePreviewFragment"
         android:label=""
         tools:layout="@layout/fragment_message_image_preview" />
+    <fragment
+        android:id="@+id/storeStatisticsFragment"
+        android:name="com.brandsin.store.ui.menu.storeStatistics.StoreStatisticsFragment"
+        android:label="StoreStatisticsFragment" />
 
 </navigation>

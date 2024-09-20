@@ -13,56 +13,78 @@
             android:title="@string/added_stories" />
 
         <item
-            android:id="@+id/nav_offers"
+            android:id="@+id/nav_wallet"
             android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/offer_img"
+            android:icon="@drawable/ic_wallet"
             android:iconTint="@color/color_primary"
-            android:title="@string/offers" />
-
+            android:title="@string/wallet" />
         <item
-            android:id="@+id/nav_categories"
+            android:id="@+id/storeStatisticsFragment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_categories"
-            android:title="@string/categories" />
-
+            android:icon="@drawable/ic_wallet"
+            android:iconTint="@color/color_primary"
+            android:title="@string/store_statistics" />
         <item
-            android:id="@+id/nav_chat"
+            android:id="@+id/nav_reports"
             android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_chat"
-            android:title="@string/chat" />
-
+            android:icon="@drawable/ic_reports"
+            android:iconTint="@color/color_primary"
+            android:title="@string/reports" />
         <item
             android:id="@+id/nav_refundableProducts"
             android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/ic_refundable_products"
             android:title="@string/return_requests" />
-
         <item
-            android:id="@+id/nav_discountCoupons"
+            android:id="@+id/nav_chat"
             android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_empty_discount_coupon"
-            android:title="@string/discount_coupons" />
-
-        <item
-            android:id="@+id/nav_add_product"
-            android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_add_product"
-            android:iconTint="@color/color_primary"
-            android:title="@string/add_product" />
-
+            android:icon="@drawable/ic_chat"
+            android:title="@string/chat" />
         <item
             android:id="@+id/nav_my_products"
             android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/ic_my_products"
             android:iconTint="@color/color_primary"
             android:title="@string/my_products" />
-
+        <item
+            android:id="@+id/nav_add_product"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/ic_add_product"
+            android:iconTint="@color/color_primary"
+            android:title="@string/add_product" />
+        <item
+            android:id="@+id/nav_categories"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/ic_categories"
+            android:title="@string/categories" />
+        <item
+            android:id="@+id/nav_offers"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/offer_img"
+            android:iconTint="@color/color_primary"
+            android:title="@string/offers" />
+        <item
+            android:id="@+id/nav_discountCoupons"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/ic_empty_discount_coupon"
+            android:title="@string/discount_coupons" />
         <item
             android:id="@+id/nav_marketingRequest"
             android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/ic_marketing_request"
             android:title="@string/marketing_requests" />
-
+        <item
+            android:id="@+id/nav_subscriptions"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/ic_subscription"
+            android:title="@string/subscriptions" />
+        <item
+            android:id="@+id/nav_offers_and_features"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/ic_offers_and_features"
+            android:title="@string/offers_and_features" />
         <item
             android:id="@+id/nav_store_code"
             android:fontFamily="@font/cairo_semibold"
@@ -78,33 +100,12 @@
             android:title="@string/connecting_to_the_main_headquarters" />
 
         <item
-            android:id="@+id/nav_wallet"
-            android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_wallet"
-            android:iconTint="@color/color_primary"
-            android:title="@string/wallet" />
-
-        <item
-            android:id="@+id/nav_reports"
-            android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_reports"
-            android:iconTint="@color/color_primary"
-            android:title="@string/reports" />
-
-        <item
-            android:id="@+id/nav_offers_and_features"
-            android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_offers_and_features"
-            android:title="@string/offers_and_features" />
-
-        <item
             android:id="@+id/nav_busy"
             android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/busy"
             android:iconTint="@color/color_primary"
             android:title="@string/busy"
             app:actionLayout="@layout/menu_switch_busy" />
-
         <item
             android:id="@+id/nav_closed"
             android:fontFamily="@font/cairo_semibold"
@@ -112,12 +113,6 @@
             android:iconTint="@color/color_primary"
             android:title="@string/closed"
             app:actionLayout="@layout/menu_switch_close" />
-
-        <item
-            android:id="@+id/nav_subscriptions"
-            android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_subscription"
-            android:title="@string/subscriptions" />
 
         <item
             android:id="@+id/nav_help"
@@ -139,6 +134,24 @@
             android:icon="@drawable/contact_img"
             android:iconTint="@color/color_primary"
             android:title="@string/contact" />
+        <item
+            android:id="@+id/nav_logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:iconTint="@color/order_rejected_color"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/logout"
+            android:title="@string/logout"
+            />
+        <item
+            android:id="@+id/nav_delete_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/cairo_semibold"
+            android:icon="@drawable/logout"
+            android:iconTint="@color/order_rejected_color"
+            android:title="@string/delete_account"
+            />
     </group>
 
 </menu>

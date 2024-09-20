@@ -580,4 +580,12 @@
     <string name="just_now">الان</string>
     <string name="select_delivery_type">اختر نوع التوصيل</string>
     <string name="print_invoice">طباعة الفاتورة</string>
+    <string name="store_statistics">إحصائيات المتجر</string>
+    <string name="delete_account">حذف الحساب</string>
+    <string name="Store_visitings">زيارات المتجر</string>
+    <string name="store_rating">تقييم المتجر</string>
+    <string name="stories_views">مشاهدات القصص</string>
+    <string name="products_rating">تقييم المنتجات</string>
+    <string name="store_followers">متابعين المتجر</string>
+    <string name="store_likes">إعجابات المتجر</string>
 </resources>

@@ -88,7 +88,7 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
                 R.id.nav_help,
                 R.id.nav_store_code,
                 R.id.nav_about,
-                R.id.nav_contact
+                R.id.nav_contact,
             ), drawerLayout
         )
         // setupActionBarWithNavController(navController, appBarConfiguration)
@@ -138,6 +138,10 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
         switchBusy =
             navView.menu.findItem(R.id.nav_busy).actionView?.findViewById(R.id.switch_busy)
 
+        navView.menu.findItem(R.id.nav_logout).setOnMenuItemClickListener {
+            viewModel!!.onLogoutClicked()
+            true
+        }
         switchBusy?.isChecked = PrefMethods.getStoreData()?.isBusy == 1
         switchBusy?.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
@@ -162,7 +166,7 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
     private fun setUpToolbarAndStatusBar() {
         navController.addOnDestinationChangedListener { _, destination, _ -> // controller, arguments
             when (destination.id) {
-                R.id.nav_home -> {
+                R.id.nav_home,R.id.storeStatisticsFragment -> {
                     customBarColor(ContextCompat.getColor(this, R.color.black))
                     binding.tvLoginTitle.setTextColor(ContextCompat.getColor(this, R.color.black))
                     binding.ibBack.setColorFilter(ContextCompat.getColor(this, R.color.black))

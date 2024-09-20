@@ -2,9 +2,19 @@ package com.brandsin.store.utils
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.PorterDuff
+import android.graphics.PorterDuffXfermode
+import android.graphics.RectF
 import android.graphics.Typeface
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
+import android.text.style.ForegroundColorSpan
+import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -19,6 +29,7 @@ import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
 import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -165,5 +176,45 @@ fun MaterialButton.setRedOutline(
     {
 // Set the stroke color to red
         strokeColor = ColorStateList.valueOf(ContextCompat.getColor(context, android.R.color.holo_red_dark))
+    }
+}
+/*
+@BindingAdapter("set_titleColor")
+fun MenuItem.setTitleColor(color: Int) {
+    val spannableTitle = SpannableString(this.title).apply {
+        setSpan(ForegroundColorSpan(color), 0, this.length, 0)
+    }
+    this.title = spannableTitle
+}
+*/
+@BindingAdapter("cornerRadius")
+fun ImageView.setCornerRadius(radius: Float) {
+    val roundedDrawable = this.drawable?.let { originalDrawable ->
+        val bitmap = (originalDrawable as BitmapDrawable).bitmap
+        Bitmap.createBitmap(bitmap).let { srcBitmap ->
+            val roundedBitmap = Bitmap.createBitmap(
+                srcBitmap.width,
+                srcBitmap.height,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(roundedBitmap)
+            val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+            val rectF = RectF(0f, 0f, srcBitmap.width.toFloat(), srcBitmap.height.toFloat())
+            canvas.drawRoundRect(rectF, radius, radius, paint)
+            paint.xfermode = PorterDuffXfermode(PorterDuff.Mode.SRC_IN)
+            canvas.drawBitmap(srcBitmap, 0f, 0f, paint)
+            BitmapDrawable(resources, roundedBitmap)
+        }
+    }
+    this.setImageDrawable(roundedDrawable)
+}
+@BindingAdapter("navigationButton")
+fun View.setAsNavigationButton(
+    isNavigationButton: Boolean
+) {
+    if (isNavigationButton) {
+        setOnClickListener {
+            findNavController().navigateUp()
+        }
     }
 }
