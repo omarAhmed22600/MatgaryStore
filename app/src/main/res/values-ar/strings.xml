@@ -579,4 +579,5 @@
     <string name="a_minute_ago">منذ دقيقة</string>
     <string name="just_now">الان</string>
     <string name="select_delivery_type">اختر نوع التوصيل</string>
+    <string name="print_invoice">طباعة الفاتورة</string>
 </resources>

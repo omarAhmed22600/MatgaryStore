@@ -621,12 +621,14 @@
 
                 <LinearLayout
                     android:id="@+id/btn_confirm"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_50sdp"
+                    android:layout_width="0dp"
+                    android:layout_height="98dp"
                     android:layout_marginTop="@dimen/_16sdp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/rg_accept">
 
                     <!-- android:onClick="@{() -> viewModel.onCancelClicked()}" -->
@@ -649,12 +651,28 @@
                         app:cornerRadius="@dimen/_6sdp" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_print_invoice"
+                        style="@style/Widget.MaterialComponents.Button"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/_40sdp"
+                        android:layout_weight="3"
+                        android:clickable="@{viewModel.obsIsClickable}"
+                        android:fontFamily="@font/cairo_semibold"
+                        android:insetTop="0dp"
+                        android:insetBottom="0dp"
+                        android:text="@string/print_invoice"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/_12ssp"
+                        app:cornerRadius="@dimen/_6sdp" />
+
+
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnReject"
                         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_40sdp"
                         android:layout_weight="2"
-                        app:set_redOutline="@{true}"
                         android:clickable="@{viewModel.obsIsClickable}"
                         android:fontFamily="@font/cairo_semibold"
                         android:insetTop="0dp"
@@ -664,6 +682,7 @@
                         android:textColor="@color/color_primary"
                         android:textSize="@dimen/_12ssp"
                         app:cornerRadius="@dimen/_6sdp"
+                        app:set_redOutline="@{true}"
                         app:strokeColor="@color/color_primary"
                         app:strokeWidth="@dimen/_1sdp" />
                 </LinearLayout>

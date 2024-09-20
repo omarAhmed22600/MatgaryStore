@@ -37,6 +37,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.koin.android.ext.android.bind
 import timber.log.Timber
 import java.util.UUID
 
@@ -135,11 +136,17 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
                             }
 
                             if (it.data.order.status == "pending") {
+                                binding.btnPrintInvoice.visibility = View.GONE
                                 binding.rgAccept.visibility = View.VISIBLE
-                                binding.btnConfirm.visibility = View.VISIBLE
+                                binding.btnAccept.visibility = View.VISIBLE
+                                binding.btnReject.visibility = View.VISIBLE
+//                                binding.btnConfirm.visibility = View.VISIBLE
                             } else {
+                                binding.btnPrintInvoice.visibility = View.VISIBLE
                                 binding.rgAccept.visibility = View.GONE
-                                binding.btnConfirm.visibility = View.GONE
+                                binding.btnAccept.visibility = View.GONE
+                                binding.btnReject.visibility = View.GONE
+//                                binding.btnConfirm.visibility = View.GONE
                             }
                         }
 

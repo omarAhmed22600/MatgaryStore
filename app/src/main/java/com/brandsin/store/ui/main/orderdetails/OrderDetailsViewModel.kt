@@ -32,7 +32,6 @@ class OrderDetailsViewModel : BaseViewModel() {
     var obsAcceptWay = ObservableField<String>()
     var obsUserName = ObservableField<String>()
     var obsOrderNumber = ObservableField<String>()
-
     var orderId = 0
     var request = UpdateStatusOrderRequest()
 

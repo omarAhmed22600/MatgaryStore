@@ -294,6 +294,8 @@
     <string name="detailed_report">Detailed report</string>
     <string name="order_address">Order title</string>
     <string name="prepare_order">Prepare order</string>
+    <string name="print_invoice">Print Invoice</string>
+
     <string name="edit">Edit</string>
     <string name="add_new_offer">Add new offer</string>
     <string name="offer_name">Offer name</string>
