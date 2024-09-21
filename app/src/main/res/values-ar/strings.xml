@@ -588,4 +588,9 @@
     <string name="products_rating">تقييم المنتجات</string>
     <string name="store_followers">متابعين المتجر</string>
     <string name="store_likes">إعجابات المتجر</string>
+    <string name="choose_year">إختار السنة</string>
+    <string name="cities">المدن</string>
+    <string name="most_ordering_cities">اكثر المدن طلبا</string>
+    <string name="men_precentage">نسبه الرجال</string>
+    <string name="women_percentage">نسبه السيدات</string>
 </resources>
