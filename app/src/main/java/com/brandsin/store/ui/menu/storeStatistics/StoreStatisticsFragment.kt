@@ -147,7 +147,7 @@ cartesian.credits().enabled(false)
         cartesian.yAxis(0).title(getString(R.string.orders))
 
 // Format the y-axis to display values in thousands with 'k'
-        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: ")
+        cartesian.yAxis(0).labels().format("{%Value}{groupsSeparator: }")
 
 // Format the bar labels to show the real value followed by 'k'
         columnData.labels().enabled(true)

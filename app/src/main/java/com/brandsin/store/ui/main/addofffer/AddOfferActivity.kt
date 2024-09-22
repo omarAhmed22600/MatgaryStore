@@ -2,7 +2,10 @@ package com.brandsin.store.ui.main.addofffer
 
 import android.app.Activity
 import android.content.Intent
+import android.media.MediaMetadataRetriever
+import android.media.ThumbnailUtils
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -377,8 +380,33 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                             returnValue?.let { array ->
                                 binding.notOfferImg.visibility = View.GONE
                                 binding.ivPhoto.visibility = View.VISIBLE
-                                binding.ivOfferImg.setImageURI(array[0].toUri())
-                                viewModel.addOfferRequest.offerImage = File(array[0])
+
+                                val fileUri = array[0].toUri()
+
+                                Timber.e("uri $fileUri")
+                                if (fileUri.toString().contains("/IMG_")) {
+                                    // Handle image selection
+                                    Timber.e("image")
+                                    viewModel.isImage = true
+                                    binding.ivOfferImg.setImageURI(fileUri)
+                                    binding.ivVideo.visibility = View.GONE
+                                    viewModel.addOfferRequest.offerImage = File(array[0])
+                                } else if (fileUri.toString().contains("/VID_")) {
+                                    // Handle video selection
+                                    val videoFile = File(array[0])
+                                    viewModel.isImage = false
+                                    val retriever = MediaMetadataRetriever()
+                                    retriever.setDataSource(videoFile.path)
+                                    val thumbnail = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC) // Get frame at 1 second (in microseconds)
+                                    retriever.release()
+                                    binding.ivOfferImg.setImageBitmap(thumbnail)
+                                    viewModel.addOfferRequest.offerVideo = videoFile
+                                    binding.ivVideo.visibility = View.VISIBLE
+                                    // You can also use a video thumbnail generator here if needed
+                                } else
+                                {
+                                    Timber.e("Unknown File")
+                                }
                             }
                         }
                     }
@@ -389,8 +417,32 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                             returnValue?.let { array ->
                                 binding.notOfferImg.visibility = View.GONE
                                 binding.ivPhoto.visibility = View.VISIBLE
-                                binding.ivOfferImg.setImageURI(array[0].toUri())
-                                viewModel.updateOfferRequest.offerImage = File(array[0])
+
+                                val fileUri = array[0].toUri()
+                                val fileType = contentResolver.getType(fileUri) // Get MIME type of the file
+
+                                if (fileType?.startsWith("image/") == true) {
+                                    // Handle image selection
+                                    viewModel.isImage = true
+
+                                    Timber.e("image")
+                                    binding.ivOfferImg.setImageURI(fileUri)
+                                    binding.ivVideo.visibility = View.GONE
+                                    viewModel.addOfferRequest.offerImage = File(array[0])
+                                } else /*if (fileType?.startsWith("video/") == true)*/ {
+                                    // Handle video selection
+                                    Timber.e("video $fileType")
+                                    val videoFile = File(array[0])
+                                    viewModel.isImage = false
+                                    val retriever = MediaMetadataRetriever()
+                                    retriever.setDataSource(videoFile.path)
+                                    val thumbnail = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC) // Get frame at 1 second (in microseconds)
+                                    retriever.release()
+                                    binding.ivOfferImg.setImageBitmap(thumbnail)
+                                    viewModel.addOfferRequest.offerVideo = videoFile
+                                    binding.ivVideo.visibility = View.VISIBLE
+                                    // You can also use a video thumbnail generator here if needed
+                                }
                             }
                         }
                     }
@@ -477,7 +529,7 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
             .setRequestCode(requestCode) //Request code for activity results
             .setFrontfacing(false) //Front Facing camera on start
             .setExcludeVideos(false) //Option to exclude videos
-            .setMode(Options.Mode.Picture)
+            .setMode(Options.Mode.All)
         if (PermissionUtil.hasImagePermission(this)) {
             Pix.start(this, options)
         } else {

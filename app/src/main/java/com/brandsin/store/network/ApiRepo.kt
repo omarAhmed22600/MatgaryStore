@@ -123,7 +123,8 @@ class ApiRepo(private val apiInterface: ApiInterface) {
         request.active!!.toRequestBodyParam(),
         request.type!!.toRequestBodyParam(),
         request.productsIds,
-        request.offerImage?.toMultiPart("image")!!,
+        request.offerImage?.toMultiPart("image"),
+        request.offerVideo?.toMultiPart("video"),
         request.locale!!.toRequestBodyParam()
     )
 
@@ -132,7 +133,7 @@ class ApiRepo(private val apiInterface: ApiInterface) {
     suspend fun updateOfferWithoutImage(request: UpdateOfferRequest) =
         apiInterface.updateOfferWithoutImage(request)
 
-    suspend fun updateOffer(request: UpdateOfferRequest) = apiInterface.updateOffer(
+    suspend fun updateOffer(request: UpdateOfferRequest,isImage:Boolean) = apiInterface.updateOffer(
         request.offerId!!.toRequestBodyParam(),
         request.storeId!!.toRequestBodyParam(),
         request.name!!.toRequestBodyParam(),
@@ -146,7 +147,8 @@ class ApiRepo(private val apiInterface: ApiInterface) {
         request.active!!.toRequestBodyParam(),
         request.type!!.toRequestBodyParam(),
         request.productsIds,
-        request.offerImage?.toMultiPart("image")!!,
+        request.offerImage?.toMultiPart("image"),
+        request.offerVideo?.toMultiPart("video"),
         request.locale!!.toRequestBodyParam()
     )
 

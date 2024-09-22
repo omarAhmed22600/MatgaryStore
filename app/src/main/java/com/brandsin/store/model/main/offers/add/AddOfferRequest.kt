@@ -42,5 +42,7 @@ data class AddOfferRequest(
 
     var productsIds: ArrayList<Int>? = null,
 
-    var offerImage: File? = null
+    var offerImage: File? = null,
+    var offerVideo: File? = null
+
 )

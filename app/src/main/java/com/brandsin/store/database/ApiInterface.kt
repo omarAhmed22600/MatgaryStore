@@ -212,7 +212,8 @@ interface ApiInterface {
         @Part("active") active: RequestBody,
         @Part("type") type: RequestBody,
         @Part("products[]") products: ArrayList<Int>? = null,
-        @Part image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
+        @Part video: MultipartBody.Part?,
         @Part("locale") locale: RequestBody
     ): CreateOfferResponse
 
@@ -238,7 +239,8 @@ interface ApiInterface {
         @Part("active") active: RequestBody,
         @Part("type") type: RequestBody,
         @Part("products[]") products: ArrayList<Int>? = null,
-        @Part image: MultipartBody.Part,
+        @Part image: MultipartBody.Part?,
+        @Part video: MultipartBody.Part?,
         @Part("locale") locale: RequestBody
     ): UpdateOfferResponse
 

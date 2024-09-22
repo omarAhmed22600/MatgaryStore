@@ -21,7 +21,7 @@ import java.util.*
 class AddOfferViewModel : BaseViewModel() {
 
     var offerAddProductRequest = OfferAddProductRequest()
-
+    var isImage = false
     // Add
     var addOfferRequest = AddOfferRequest()
     var productsList: ArrayList<DataItem> = ArrayList()
@@ -115,7 +115,7 @@ class AddOfferViewModel : BaseViewModel() {
 
             else -> {
                 when {
-                    addOfferRequest.offerImage == null -> {
+                    addOfferRequest.offerImage == null && addOfferRequest.offerVideo == null -> {
                         setValue(Codes.EMPTY_IMAGE)
                     }
 
@@ -355,7 +355,7 @@ class AddOfferViewModel : BaseViewModel() {
         obsIsVisible.set(true)
         requestCall<UpdateOfferResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().updateOffer(updateOfferRequest)
+                return@withContext getApiRepo().updateOffer(updateOfferRequest,isImage)
             }
         })
         { res ->
