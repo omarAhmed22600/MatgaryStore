@@ -10,6 +10,7 @@
             android:id="@+id/nav_add_stories"
             android:fontFamily="@font/cairo_semibold"
             android:icon="@drawable/ic_my_stories"
+            android:iconTint="@color/white"
             android:title="@string/added_stories" />
 
         <item

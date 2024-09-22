@@ -34,6 +34,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
+import com.brandsin.store.ui.menu.storeStatistics.Product
+import com.brandsin.store.ui.menu.storeStatistics.ProductAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
@@ -217,4 +219,13 @@ fun View.setAsNavigationButton(
             findNavController().navigateUp()
         }
     }
+}
+@BindingAdapter("listDataForProducts")
+fun bindRecyclerViewForProducts(
+    recyclerView: RecyclerView,
+    data: List<Product>?
+) {
+    val adapter = recyclerView.adapter as? ProductAdapter
+        ?: ProductAdapter().also { recyclerView.adapter = it }
+    adapter.submitList(data)
 }
