@@ -80,48 +80,47 @@
                 tools:text="200 ر.س" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/editPrice_layout"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/_28sdp"
                 android:layout_marginStart="@dimen/_16sdp"
-                android:id="@+id/editPrice_layout"
-                android:background="@drawable/ic_edit_border"
                 android:layout_marginTop="@dimen/_4sdp"
+                android:background="@drawable/ic_edit_border"
                 android:visibility="invisible"
-                android:layout_marginEnd="@dimen/_8sdp"
-                app:layout_constraintTop_toBottomOf="@+id/tv_title"
+                app:layout_constraintEnd_toEndOf="@+id/tv_price"
                 app:layout_constraintStart_toEndOf="@+id/offer_img_layout"
-                app:layout_constraintEnd_toStartOf="@+id/tv_edit">
+                app:layout_constraintTop_toBottomOf="@+id/tv_title">
 
                 <EditText
                     android:layout_width="0dp"
                     android:layout_height="@dimen/_28sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/tv_currency"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintVertical_bias=".5"
                     android:background="@android:color/transparent"
-                    android:paddingStart="@dimen/_2sdp"
-                    android:textAlignment="viewStart"
-                    android:paddingEnd="@dimen/_2sdp"
                     android:inputType="numberDecimal"
-                    android:textSize="@dimen/_12ssp"
+                    android:paddingStart="@dimen/_2sdp"
+                    android:paddingEnd="@dimen/_2sdp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/price_color"
                     android:textColorHint="@color/price_color"
-                    android:textColor="@color/price_color" />
+                    android:textSize="@dimen/_12ssp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/tv_currency"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias=".5" />
 
                 <TextView
+                    android:id="@+id/tv_currency"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tv_currency"
+                    android:layout_marginEnd="@dimen/_12sdp"
                     android:fontFamily="@font/cairoregular"
-                    android:textSize="@dimen/_10ssp"
+                    android:text="@string/currency"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
-                    android:layout_marginEnd="@dimen/_12sdp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
+                    android:textSize="@dimen/_10ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    android:text="@string/currency" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -139,18 +138,33 @@
                 android:text="@string/delete" />
 
             <TextView
+                android:id="@+id/tv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_8sdp"
+                android:fontFamily="@font/cairoregular"
+
+                android:text="@string/edit"
+                android:textColor="@color/edit_color"
+                android:textSize="@dimen/_12ssp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_delete"
+                app:layout_constraintEnd_toStartOf="@+id/tv_status"
+                app:layout_constraintTop_toTopOf="@+id/tv_delete" />
+
+            <TextView
+                android:id="@+id/tv_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/cairoregular"
+                android:text="@{viewModel.item.getStatusText(tvStatus)}"
                 android:textSize="@dimen/_12ssp"
-                android:id="@+id/tv_edit"
-                android:textColor="@color/edit_color"
-                app:layout_constraintTop_toTopOf="@+id/tv_delete"
+                android:layout_marginEnd="@dimen/_8sdp"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_delete"
-                android:layout_marginEnd="@dimen/_12sdp"
                 app:layout_constraintEnd_toStartOf="@+id/tv_delete"
-                android:text="@string/edit" />
-
+                app:layout_constraintTop_toTopOf="@+id/tv_delete"
+                app:textView_setTextColorRes="@{viewModel.item.statusColor}"
+                tools:text="@string/disabled"
+                tools:textColor="@color/order_rejected_color" />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

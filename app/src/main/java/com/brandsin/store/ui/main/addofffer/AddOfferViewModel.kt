@@ -14,6 +14,7 @@ import com.brandsin.store.network.requestCall
 import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
@@ -41,7 +42,7 @@ class AddOfferViewModel : BaseViewModel() {
 
 
     /*------------- PARAMETERS ------------*/
-    private var isImageChanged: Boolean = false
+    var isImageChanged: Boolean = false
     var obsOfferName = ObservableField<String>()
     var obsOfferNameEn = ObservableField<String>()
     var obsOfferDescription = ObservableField<String>()
@@ -87,27 +88,30 @@ class AddOfferViewModel : BaseViewModel() {
         when (isUpdated) {
             true -> {
                 if (offerType == "product") {
+                    Timber.e("$isImageChanged")
                     when {
                         prevOfferProducts.size == 0 && productsList.size == 0 -> {
                             setValue(Codes.EMPTY_PRODUCTS)
                         }
 
                         isImageChanged -> {
-                            updateOffer()
+                            updateOfferWithImage()
                         }
 
                         else -> {
-                            updateOfferWithImage()
+                            updateOffer()
+
                         }
                     }
                 } else {
                     when {
                         isImageChanged -> {
-                            updateOffer()
+                            updateOfferWithImage()
+
                         }
 
                         else -> {
-                            updateOfferWithImage()
+                            updateOffer()
                         }
                     }
                 }
@@ -285,7 +289,7 @@ class AddOfferViewModel : BaseViewModel() {
         obsIsVisible.set(true)
         requestCall<UpdateOfferResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().updateOfferWithoutImage(updateOfferRequest)
+                return@withContext getApiRepo().updateOffer(updateOfferRequest,isImage)
             }
         })
         { res ->
@@ -355,7 +359,7 @@ class AddOfferViewModel : BaseViewModel() {
         obsIsVisible.set(true)
         requestCall<UpdateOfferResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().updateOffer(updateOfferRequest,isImage)
+                return@withContext getApiRepo().updateOfferWithoutImage(updateOfferRequest)
             }
         })
         { res ->

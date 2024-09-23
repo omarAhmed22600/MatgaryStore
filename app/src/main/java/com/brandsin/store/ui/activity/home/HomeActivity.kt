@@ -34,6 +34,8 @@ import com.brandsin.store.utils.observe
 import com.brandsin.store.model.constants.Params
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.delay
+import timber.log.Timber
+import java.lang.Exception
 
 class HomeActivity : ParentActivity(), Observer<Any?> {
 
@@ -352,7 +354,12 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
         networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 // there is internet
-                binding.noWifi.visibility = View.GONE
+                try {
+                    binding.noWifi.visibility = View.GONE
+                } catch (e:Exception)
+                {
+                    Timber.e(e.toString())
+                }
             }
 
             override fun onLost(network: Network) {

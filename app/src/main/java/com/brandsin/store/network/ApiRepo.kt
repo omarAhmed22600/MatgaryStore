@@ -176,6 +176,9 @@ class ApiRepo(private val apiInterface: ApiInterface) {
 
     suspend fun deleteProduct(request: DeleteProductRequest) = apiInterface.deleteProduct(request)
 
+    suspend fun changeProductStatus(productId:Int) = apiInterface.changeProductStatus(productId)
+
+
     suspend fun updateProduct(request: UpdateProductRequest) = apiInterface.updateProduct(
         request.id!!.toRequestBodyParam(),
         request.name!!.toRequestBodyParam(),

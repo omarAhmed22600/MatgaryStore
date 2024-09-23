@@ -270,7 +270,10 @@ interface ApiInterface {
         @Part("delete_media_id[]") deleteMedia: ArrayList<Int>,
         @Part("locale") locale: RequestBody
     ): AddProductResponse
-
+    @POST("api/product/update_status/{id}")
+    suspend fun changeProductStatus(
+        @Path("id") id: Int,
+    ): CommonQuesResponse
 
     @POST("/api/hajaty/product/delete")
     suspend fun deleteProduct(@Body deleteProductRequest: DeleteProductRequest): DeleteProductResponse

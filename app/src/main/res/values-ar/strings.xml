@@ -230,6 +230,7 @@
     <string name="create_you_account_now">قم بإنشاء حسابك الأن</string>
     <string name="enter_store_address">ادخل عنوان متجرك</string>
     <string name="click_here_to_add_photo">اضغط هنا لاضافة صورة</string>
+    <string name="click_here_to_add_photo_or_video">اضغط هنا لاضافة صورة او فيديو</string>
     <string name="national_id_photo">صورة الهوية</string> <!--  صورة البطاقة الشخصية -->
     <string name="store_code">كود التاجر الخاص بك</string>
     <string name="اختياري">(اختياري)</string>
@@ -593,4 +594,6 @@
     <string name="most_ordering_cities">اكثر المدن طلبا</string>
     <string name="men_precentage">نسبه الرجال</string>
     <string name="women_percentage">نسبه السيدات</string>
+    <string name="active">مفعل</string>
+    <string name="disabled">معطل</string>
 </resources>

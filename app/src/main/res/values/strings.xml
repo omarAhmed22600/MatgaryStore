@@ -230,6 +230,8 @@
     <string name="create_you_account_now">Create your account now</string>
     <string name="enter_store_address">Enter your store location</string>
     <string name="click_here_to_add_photo">Click here to add photo</string>
+    <string name="click_here_to_add_photo_or_video">Click here to add photo or video</string>
+
     <string name="national_id_photo">ID photo</string> <!-- Personal ID photo -->
     <string name="store_code">Store Code</string>
     <string name="اختياري">optional</string>
@@ -630,9 +632,11 @@
     <string name="products_rating">Products Rating</string>
     <string name="store_followers">Store Followers</string>
     <string name="store_likes">Story Likes</string>
-    <string name="choose_year">إختار السنة</string>
-    <string name="cities">المدن</string>
-    <string name="most_ordering_cities">اكثر المدن طلبا</string>
-    <string name="men_precentage">نسبه الرجال</string>
-    <string name="women_percentage">نسبه السيدات</string>
+    <string name="choose_year">Choose year</string>
+    <string name="cities">Cities</string>
+    <string name="most_ordering_cities">Best ordering Cities</string>
+    <string name="men_precentage">Men percentage</string>
+    <string name="women_percentage">Women percentage</string>
+    <string name="active">Active</string>
+    <string name="disabled">Disbaled</string>
 </resources>

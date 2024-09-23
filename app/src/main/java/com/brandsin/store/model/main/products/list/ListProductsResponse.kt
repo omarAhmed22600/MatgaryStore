@@ -1,5 +1,9 @@
 package com.brandsin.store.model.main.products.list
 
+import android.content.Context
+import android.view.View
+import androidx.core.content.ContextCompat
+import com.brandsin.store.R
 import com.google.gson.annotations.SerializedName
 import com.brandsin.store.model.main.products.update.SkuUpdateProductItem
 import java.io.Serializable
@@ -315,10 +319,22 @@ data class ProductsItem(
 	val isFeatured: Boolean? = null,
 
 	@field:SerializedName("status")
-	val status: String? = null,
+	var status: String? = null,
 
 	@field:SerializedName("city_id")
 	val cityId: Any? = null,
 
 	var isSelected: Boolean = false
-): Serializable
+): Serializable {
+	fun getStatusColor() :Int = when(status) {
+		"active" -> com.google.android.libraries.places.R.color.quantum_googgreen300
+		else -> R.color.order_rejected_color
+	}
+	fun getStatusText(v: View):String {
+		val context = v.context
+		return when (status) {
+			"active" -> context.getString(R.string.active)
+			else -> context.getString(R.string.disabled)
+		}
+	}
+}

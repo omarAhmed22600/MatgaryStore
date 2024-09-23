@@ -43,6 +43,15 @@ class ProductsAdapter : RecyclerView.Adapter<ProductsAdapter.ProductsHolder>()
         holder.binding.tvEdit.setOnClickListener {
             editLiveData.value = itemViewModel.item
         }
+        holder.binding.tvStatus.setOnClickListener {
+            itemViewModel.toggleStatus(holder.binding.tvStatus) {
+                // This will run after the toggleStatus function completes
+                holder.binding.tvStatus.text = itemViewModel.item.getStatusText(holder.binding.tvStatus)
+                holder.binding.tvStatus.setTextColor(holder.binding.tvStatus.context.getColor(itemViewModel.item.getStatusColor()))
+            }
+        }
+
+
 
 //        holder.binding.tvSave.setOnClickListener {
 //            holder.binding.tvEdit.visibility = View.VISIBLE

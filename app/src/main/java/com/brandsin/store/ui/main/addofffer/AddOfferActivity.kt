@@ -40,6 +40,7 @@ import com.fxn.pix.Options
 import com.fxn.pix.Pix
 import timber.log.Timber
 import java.io.File
+import java.util.Locale
 
 class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
 
@@ -48,6 +49,8 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
     lateinit var viewModel: AddOfferViewModel
 
     private var productsNamesList = ArrayList<String>()
+
+    var onceFlag = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,12 +76,19 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                         binding.notOfferImg.visibility = View.GONE
                         binding.ivPhoto.visibility = View.VISIBLE
 
-                        Glide.with(this)
-                            .load(offerData.image)
-                            .error(R.drawable.app_logo)
-                            .into(binding.ivOfferImg)
-                        viewModel.obsToolBarTitle.set(getString(R.string.update_offer))
 
+                        if (offerData.image != null) {
+                            Glide.with(this)
+                                .load(offerData.image)
+                                .error(R.drawable.app_logo)
+                                .into(binding.ivOfferImg)
+                            onceFlag = true
+                        }else {
+                            binding.notOfferImg.visibility = View.VISIBLE
+                            binding.ivPhoto.visibility = View.GONE
+                        }
+                        viewModel.obsToolBarTitle.set(getString(R.string.update_offer))
+                        Timber.e("${offerData.type}")
                         if (offerData.type == "product") {
                             binding.radioBtnProduct.isChecked = true
                             binding.radioBtnGift.isChecked = false
@@ -90,6 +100,7 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                         }
 
                         viewModel.offerType = offerData.type
+                        viewModel.updateOfferRequest.type = offerData.type
                     }
 
                     else -> {
@@ -382,17 +393,34 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                                 binding.ivPhoto.visibility = View.VISIBLE
 
                                 val fileUri = array[0].toUri()
+                                if (array[0]!=null)
+                                    viewModel.isImageChanged = true
 
+                                val file = File(array[0])
                                 Timber.e("uri $fileUri")
-                                if (fileUri.toString().contains("/IMG_")) {
+                                if (/*fileUri.toString().toLowerCase(Locale.ROOT).contains("img")*/
+                                    file.extension.toLowerCase(Locale.ROOT).contains("jpg")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("png")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("jpeg")) {
                                     // Handle image selection
                                     Timber.e("image")
                                     viewModel.isImage = true
                                     binding.ivOfferImg.setImageURI(fileUri)
                                     binding.ivVideo.visibility = View.GONE
+                                    viewModel.updateOfferRequest.offerImage = File(array[0])
+                                    viewModel.updateOfferRequest.offerVideo = null
                                     viewModel.addOfferRequest.offerImage = File(array[0])
-                                } else if (fileUri.toString().contains("/VID_")) {
+                                    viewModel.addOfferRequest.offerVideo = null
+                                } else if (/*fileUri.toString().toLowerCase(Locale.ROOT).contains("vid")
+                                    ||*/ file.extension.toLowerCase(Locale.ROOT).contains("mp4")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("mkv")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("mpeg")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("wmv")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("amv")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("mov")) {
                                     // Handle video selection
+                                    Timber.e("video")
+
                                     val videoFile = File(array[0])
                                     viewModel.isImage = false
                                     val retriever = MediaMetadataRetriever()
@@ -401,6 +429,9 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                                     retriever.release()
                                     binding.ivOfferImg.setImageBitmap(thumbnail)
                                     viewModel.addOfferRequest.offerVideo = videoFile
+                                    viewModel.addOfferRequest.offerImage = null
+                                    viewModel.updateOfferRequest.offerVideo = videoFile
+                                    viewModel.updateOfferRequest.offerImage = null
                                     binding.ivVideo.visibility = View.VISIBLE
                                     // You can also use a video thumbnail generator here if needed
                                 } else
@@ -420,18 +451,31 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
 
                                 val fileUri = array[0].toUri()
                                 val fileType = contentResolver.getType(fileUri) // Get MIME type of the file
-
-                                if (fileType?.startsWith("image/") == true) {
+                                val file = File(array[0])
+                                if (array[0]!=null)
+                                    viewModel.isImageChanged = true
+                                if (/*fileUri.toString().toLowerCase(Locale.ROOT).contains("img")*/
+                                    file.extension.toLowerCase(Locale.ROOT).contains("jpg")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("png")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("jpeg")) {
                                     // Handle image selection
+                                    Timber.e("image ${fileUri.toString()}")
                                     viewModel.isImage = true
-
-                                    Timber.e("image")
                                     binding.ivOfferImg.setImageURI(fileUri)
                                     binding.ivVideo.visibility = View.GONE
+                                    viewModel.updateOfferRequest.offerImage = File(array[0])
+                                    viewModel.updateOfferRequest.offerVideo = null
                                     viewModel.addOfferRequest.offerImage = File(array[0])
-                                } else /*if (fileType?.startsWith("video/") == true)*/ {
+                                    viewModel.addOfferRequest.offerVideo = null
+                                } else if (/*fileUri.toString().toLowerCase(Locale.ROOT).contains("vid")
+                                    ||*/ file.extension.toLowerCase(Locale.ROOT).contains("mp4")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("mkv")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("mpeg")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("wmv")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("amv")
+                                    || file.extension.toLowerCase(Locale.ROOT).contains("mov")) {
                                     // Handle video selection
-                                    Timber.e("video $fileType")
+                                    Timber.e("video")
                                     val videoFile = File(array[0])
                                     viewModel.isImage = false
                                     val retriever = MediaMetadataRetriever()
@@ -439,9 +483,15 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                                     val thumbnail = retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC) // Get frame at 1 second (in microseconds)
                                     retriever.release()
                                     binding.ivOfferImg.setImageBitmap(thumbnail)
+                                    viewModel.updateOfferRequest.offerVideo = videoFile
+                                    viewModel.updateOfferRequest.offerImage = null
                                     viewModel.addOfferRequest.offerVideo = videoFile
+                                    viewModel.addOfferRequest.offerImage = null
                                     binding.ivVideo.visibility = View.VISIBLE
                                     // You can also use a video thumbnail generator here if needed
+                                }else
+                                {
+                                    Timber.e("Unknown File")
                                 }
                             }
                         }
