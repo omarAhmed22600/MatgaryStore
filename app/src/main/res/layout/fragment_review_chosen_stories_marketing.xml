@@ -1,120 +1,349 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.main.marketingRequest.ReviewChosenStoriesMarketingFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cvPinStoryHomePage"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.marketingRequest.viewmodel.MarketingRequestViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/_10sdp"
-        android:elevation="@dimen/_4sdp"
-        app:cardCornerRadius="@dimen/_6sdp"
-        app:cardElevation="@dimen/_4sdp"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.main.marketingRequest.ReviewChosenStoriesMarketingFragment">
 
-        <TextView
-            android:id="@+id/pinStories"
+        <HorizontalScrollView
+            android:id="@+id/cvPinStoryHomePage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="@dimen/_8sdp"
-            android:fontFamily="@font/cairo_semibold"
-            android:gravity="center_vertical"
-            android:padding="@dimen/_6sdp"
-            android:textColor="@color/black"
-            android:textSize="@dimen/_14ssp"
-            app:drawableStartCompat="@drawable/ic_pin_item_marketing_request"
-            tools:text="@string/pin_a_story_to_the_home_page" />
+            app:layout_constraintTop_toTopOf="parent">
 
-    </androidx.cardview.widget.CardView>
+            <LinearLayout
 
-    <TextView
-        android:id="@+id/txtChooseStories"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:fontFamily="@font/cairo_bold"
-        android:gravity="center_vertical"
-        android:text="@string/choose_the_stories_you_want_to_add"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintEnd_toEndOf="@id/cvPinStoryHomePage"
-        app:layout_constraintStart_toStartOf="@id/cvPinStoryHomePage"
-        app:layout_constraintTop_toBottomOf="@id/cvPinStoryHomePage" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvChooseStories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_8sdp"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:scrollbars="horizontal"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/edtNumOfDayMarketing"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/txtChooseStories"
-        tools:itemCount="3"
-        tools:listitem="@layout/item_choose_story" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:padding="@dimen/_2sdp"
+                    android:onClick="@{() -> viewModel.selectStoryToHome()}"
+                    app:view_setBackgroundRes="@{viewModel.storyToHomeCardRes}"
+                    tools:background="@drawable/card_primary_stroke">
 
-    <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/edtNumOfDayMarketing"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:hint="@string/number_of_marketing_campaign_days"
-        android:inputType="number"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintEnd_toEndOf="@id/cvPinStoryHomePage"
-        app:layout_constraintStart_toStartOf="@id/cvPinStoryHomePage"
-        app:layout_constraintTop_toBottomOf="@id/rvChooseStories" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="@dimen/_4sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        app:cardCornerRadius="@dimen/_6sdp"
+                        app:cardElevation="@dimen/_4sdp">
 
-    <TextView
-        android:id="@+id/txtMarketingValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:fontFamily="@font/cairo_semibold"
-        android:gravity="center_vertical"
-        android:text="@string/marketing_value"
-        android:textColor="@color/grey"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintBottom_toTopOf="@id/btnContinuation"
-        app:layout_constraintStart_toStartOf="@id/cvPinStoryHomePage" />
+                        <TextView
+                            android:id="@+id/pinStoriesToHome"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/_8sdp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/_6sdp"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp"
+                            app:drawableStartCompat="@drawable/ic_pin_item_marketing_request"
+                            android:text="@string/pin_a_story_to_the_home_page" />
 
-    <TextView
-        android:id="@+id/marketingValue"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:fontFamily="@font/cairo_bold"
-        android:gravity="center_vertical"
-        android:text="@string/marketing_value"
-        android:textColor="@color/black"
-        android:textSize="@dimen/_13ssp"
-        app:layout_constraintBottom_toTopOf="@id/btnContinuation"
-        app:layout_constraintEnd_toEndOf="@id/cvPinStoryHomePage" />
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnContinuation"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="@dimen/_28sdp"
-        android:layout_marginVertical="@dimen/_16sdp"
-        android:fontFamily="@font/cairo_semibold"
-        android:insetTop="0dp"
-        android:insetBottom="0dp"
-        android:text="@string/pay_now"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/_14ssp"
-        app:cornerRadius="@dimen/_8sdp"
-        app:layout_constraintBottom_toBottomOf="parent" />
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="@dimen/_10sdp"
+                    android:onClick="@{() -> viewModel.selectStoryToOffers()}"
+                    app:view_setBackgroundRes="@{viewModel.storyToOffersCardRes}"
+                    android:padding="@dimen/_2sdp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:elevation="@dimen/_4sdp"
+                        app:cardCornerRadius="@dimen/_6sdp"
+                        android:layout_margin="@dimen/_1sdp"
+                        app:cardElevation="@dimen/_4sdp"
+
+                        tools:background="@drawable/item_back_bg">
+
+                        <TextView
+                            android:id="@+id/pinStoriesToOffers"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="@dimen/_8sdp"
+                            android:fontFamily="@font/cairo_semibold"
+                            android:gravity="center_vertical"
+                            android:padding="@dimen/_6sdp"
+                            android:text="@string/pin_a_story_to_the_offers_page"
+                            android:textColor="@color/black"
+                            android:textSize="@dimen/_13ssp"
+                            app:drawableStartCompat="@drawable/ic_pin_item_marketing_request" />
+
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+            </LinearLayout>
+
+
+        </HorizontalScrollView>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:view_setVisibleOrGone="@{!viewModel.obsIsLoading}"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:layout_constraintEnd_toEndOf="@id/cvPinStoryHomePage"
+            app:layout_constraintTop_toBottomOf="@id/cvPinStoryHomePage">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/_16sdp">
+
+                <TextView
+                    android:id="@+id/txtChooseStories"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/choose_the_stories_you_want_to_add"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rvChooseStories"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:orientation="horizontal"
+                    android:scrollbars="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                    app:layout_constraintBottom_toTopOf="@id/edtNumOfDayMarketing"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/txtChooseStories"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_choose_story" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edtNumOfDayMarketing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_16sdp"
+                    android:hint="@string/number_of_marketing_campaign_days"
+                    android:inputType="number"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
+                    app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
+                    app:layout_constraintTop_toBottomOf="@id/rvChooseStories" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edtStartDateOfMarketing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+
+                    android:focusable="false"
+                    android:hint="@string/start_date_of_marketing"
+                    android:text="@{viewModel.startDate}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
+                    app:layout_constraintTop_toBottomOf="@+id/edtNumOfDayMarketing"
+                    app:layout_constraintWidth_percent="0.48" />
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/edtEndDateOfMarketing"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:focusable="false"
+                    android:hint="@string/end_date_of_marketing"
+                    android:layout_marginEnd="@dimen/_8sdp"
+                    android:text="@{viewModel.endDate}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_13ssp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtNumOfDayMarketing"
+                    app:layout_constraintWidth_percent="0.48" />
+
+                <TextView
+                    android:id="@+id/txtMarketingValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center_vertical"
+                    android:text="@string/marketing_value"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
+                    app:layout_constraintTop_toBottomOf="@+id/labelEndDate" />
+
+                <TextView
+                    android:id="@+id/marketingValue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/marketing_value"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
+                    app:layout_constraintTop_toTopOf="@+id/txtMarketingValue" />
+
+                <TextView
+                    android:id="@+id/labelNoOfDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center_vertical"
+                    android:text="@string/number_of_days"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/edtStartDateOfMarketing" />
+
+                <TextView
+                    android:id="@+id/tvNoOfDays"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.noOfDays}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
+                    app:layout_constraintTop_toTopOf="@+id/labelNoOfDays"
+                    tools:text="5" />
+
+                <TextView
+                    android:id="@+id/labelStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center_vertical"
+                    android:text="@string/start_date_of_marketing"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
+                    app:layout_constraintTop_toBottomOf="@+id/labelShowPlace" />
+
+                <TextView
+                    android:id="@+id/tvStartDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.endDate}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
+                    app:layout_constraintTop_toTopOf="@+id/labelStartDate"
+                    tools:text="2024-12-23" />
+
+                <TextView
+                    android:id="@+id/labelEndDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center_vertical"
+                    android:text="@string/end_date_of_marketing"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
+                    app:layout_constraintTop_toBottomOf="@+id/labelStartDate" />
+
+                <TextView
+                    android:id="@+id/tvEndDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.startDate}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
+                    app:layout_constraintTop_toTopOf="@+id/labelEndDate"
+                    tools:text="2024-12-23" />
+
+                <TextView
+                    android:id="@+id/labelShowPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:gravity="center_vertical"
+                    android:text="@string/show_place"
+                    android:textColor="@color/grey"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
+                    app:layout_constraintTop_toBottomOf="@+id/labelNoOfDays" />
+
+                <TextView
+                    android:id="@+id/tvShowPlace"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_vertical"
+                    android:text="@{viewModel.showPlace}"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
+                    app:layout_constraintTop_toTopOf="@+id/labelShowPlace"
+                    tools:text="تثبيت قصة علي الصفحة الرئيسية" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnContinuation"
+                    style="@style/Widget.MaterialComponents.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="@dimen/_28sdp"
+                    android:layout_marginVertical="@dimen/_16sdp"
+                    android:fontFamily="@font/cairo_semibold"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/pay_now"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/_14ssp"
+                    app:cornerRadius="@dimen/_8sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/txtMarketingValue"
+                    app:layout_constraintVertical_bias="1.0"
+                    tools:layout_editor_absoluteX="37dp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <ProgressBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:view_setVisibleOrGone="@{viewModel.obsIsLoading}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:progressTint="@color/color_primary"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

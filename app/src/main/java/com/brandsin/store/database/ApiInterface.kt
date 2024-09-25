@@ -1,5 +1,6 @@
 package com.brandsin.store.database
 
+import com.brandsin.store.model.BaseResponse
 import com.brandsin.store.model.IntroResponse
 import com.brandsin.store.model.MessageResponse
 import com.brandsin.store.model.auth.StoreTagsRequest
@@ -598,7 +599,7 @@ interface ApiInterface {
     suspend fun getNewListStories(
         @Query("store_id") storeId: Int,
         @Query("locale") locale: String = "ar"
-    ): Response<ListStoriesResponse?>
+    ): BaseResponse<List<com.brandsin.store.model.ListStoriesResponse>?>
 
     @GET("/api/common/settings")
     suspend fun getPinStoriesMarketing(
@@ -606,12 +607,16 @@ interface ApiInterface {
         @Query("lang") lang: String
     ): Response<PinStoriesMarketingResponse>
 
+    @FormUrlEncoded
     @POST("api/hajaty/marketing_requests")
     suspend fun createMarketingRequests(
-        @Query("type") type: String,
-        @Query("story") story: List<String>, // ["870","869"]
-        @Query("number_of_shopping_days") numberOfShoppingDays: Int,
-        @Query("price") price: Double
+        @Field("context") context: String,
+        @Field("type") type: String,
+        @Field("story") story: String,  /// Sending as a JSON string
+        @Field("start_date") startDate: String, // {start_date} 11:00:00
+        @Field("end_date") endDate: String, // {end_date} 11:00:00
+        @Field("number_of_shopping_days") numberOfShoppingDays: Int,
+        @Field("price") price: Double
     ): Response<MessageResponse>
 
     @GET("/api/hajaty/store/show")

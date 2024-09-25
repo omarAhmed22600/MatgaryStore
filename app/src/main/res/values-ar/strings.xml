@@ -375,7 +375,10 @@
     <string name="select_start_date">من فضلك ادخل تاريخ بداية العرض</string>
     <string name="select_end_date">من فضلك ادخل تاريخ نهاية العرض</string>
     <string name="start_after_end">تاريخ نهاية العرض قبل تاريخ البداية</string>
-    <string name="start_equal_end">تاريخ نهاية العرض مطابق لتاريخ بداية العر</string>
+    <string name="start_after_end_marketing">تاريخ نهاية التسويق قبل تاريخ البداية</string>
+    <string name="start_equal_end_marketing">تاريخ نهاية التسويق مطابق لتاريخ بدايته</string>
+
+    <string name="start_equal_end">تاريخ نهاية العرض مطابق لتاريخ بداية العرض</string>
     <string name="please_select_offer_image">من فضلك اختر صورة العرض</string>
     <string name="offer_description">وصف العرض</string>
     <string name="offer_description_ar">وصف العرض (باللغة العربية)</string>
@@ -529,8 +532,8 @@
     <string name="reason_for_rejection">سبب الرفض</string>
     <string name="please_enter_reason_for_rejection">من فضلك ادخل سبب الرفض</string>
     <string name="marketing_requests">طلبات التسويق</string>
-    <string name="pin_a_story_to_the_home_page">تثبيت القصة علي الصفحة الرئيسية</string>
-    <string name="show_a_on_the_store_page">عرض في صفحة المتجر</string>
+    <string name="pin_a_story_to_the_home_page">تثبيت القصة في الصفحة الرئيسية</string>
+    <string name="show_a_on_the_store_page">تثبيت عرض في صفحة العروض</string>
     <string name="pin_a_story_to_the_offers_page">تثبيت قصة في صفحة العروض</string>
     <string name="choose_the_stories_you_want_to_add">اختر القصص التي تريد اضافتها</string>
     <string name="continuation">استمرار</string>
@@ -596,4 +599,10 @@
     <string name="women_percentage">نسبه السيدات</string>
     <string name="active">مفعل</string>
     <string name="disabled">معطل</string>
+    <string name="pin_an_offer_on_home_page">تثبيت عرض في الصفحة الرئيسية</string>
+    <string name="start_date_of_marketing">تاريخ بداية حملة التسويق</string>
+    <string name="end_date_of_marketing">تاريخ نهاية حملة التسويق</string>
+    <string name="number_of_days">عدد الايام</string>
+    <string name="show_place">مكان العرض</string>
+    <string name="no_of_days_invalid">عدد الايام غير صحيح</string>
 </resources>

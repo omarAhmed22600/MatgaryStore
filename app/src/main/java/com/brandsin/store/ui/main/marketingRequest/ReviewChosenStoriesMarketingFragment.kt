@@ -10,6 +10,7 @@ import android.widget.EditText
 import android.widget.Toast
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.brandsin.store.R
 import com.brandsin.store.databinding.FragmentReviewChosenStoriesMarketingBinding
 import com.brandsin.store.network.ResponseHandler
@@ -17,6 +18,9 @@ import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.main.marketingRequest.adapter.ReviewChosenStoriesAdapter
 import com.brandsin.store.ui.main.marketingRequest.viewmodel.MarketingRequestViewModel
 import com.brandsin.store.utils.PrefMethods
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.payment.paymentsdk.PaymentSdkActivity
 import com.payment.paymentsdk.PaymentSdkConfigBuilder
 import com.payment.paymentsdk.integrationmodels.PaymentSdkBillingDetails
@@ -30,6 +34,11 @@ import com.payment.paymentsdk.integrationmodels.PaymentSdkTransactionType
 import com.payment.paymentsdk.sharedclasses.interfaces.CallbackPaymentInterface
 import com.payment.paymentsdk.sharedclasses.interfaces.CallbackQueryInterface
 import com.payment.paymentsdk.sharedclasses.model.response.TransactionResponseBody
+import timber.log.Timber
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 @SuppressLint("SetTextI18n", "LogNotTimber")
 class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPaymentInterface,
@@ -44,7 +53,8 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
 
     private lateinit var numOfDayMarketing: String
     private lateinit var marketingValue: String
-
+private lateinit var startDate:Date
+    private lateinit var endDate:Date
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -56,7 +66,8 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = this
         setBarName(getString(R.string.marketing_requests))
 
         viewModel.getPinStoriesMarketing()
@@ -68,21 +79,27 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
     }
 
     private fun initViews() {
-        when (viewModel.pinStoriesType) {
-            "home" -> binding.pinStories.text = getString(R.string.pin_a_story_to_the_home_page)
-            "offers" -> binding.pinStories.text = getString(R.string.pin_a_story_to_the_offers_page)
-            "in_store" -> binding.pinStories.text = getString(R.string.show_a_on_the_store_page)
+        //TODO
+        when (viewModel.pinStoriesType.value) {
+            "home" -> {
+
+            }
+            "offers" -> {}
+            "in_store" -> {}
         }
 
         binding.edtNumOfDayMarketing.doAfterTextChanged {
-            if (it.toString().isNotEmpty()) {
+            if (it.toString().isNotEmpty()||it!=null) {
+                viewModel.noOfDays.value = it.toString()
                 numOfDayMarketing = it.toString()
+
                 marketingValue =
-                    (numOfDayMarketing.toInt() * viewModel.pricePinStoriesType!!.toInt()).toString()
+                    (numOfDayMarketing.toInt() * viewModel.pricePinStoriesType.orEmpty().toInt()).toString()
                 binding.marketingValue.text = "$marketingValue " + getString(
                     R.string.currency
                 )
             } else {
+                viewModel.noOfDays.value = ""
                 numOfDayMarketing = ""
                 binding.marketingValue.text =
                     viewModel.pricePinStoriesType.toString() + " " + getString(R.string.currency)
@@ -101,14 +118,62 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
     private fun setBtnListener() {
         binding.btnContinuation.setOnClickListener {
             if (validate()) {
-                // viewModel.createMarketingRequests(numOfDayMarketing)
-                configurationPayTabsPayment(marketingValue.toDouble())
+                 viewModel.createMarketingRequests(numOfDayMarketing)
+//                configurationPayTabsPayment(marketingValue.toDouble())
             }
+        }
+        binding.edtStartDateOfMarketing.setOnClickListener {
+            val picker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText(getString(R.string.select_start_date))
+                    .setCalendarConstraints(
+                        CalendarConstraints.Builder()
+                            .setValidator(DateValidatorPointForward.now())
+                            .build()
+                    )
+                    .build()
+            picker.addOnPositiveButtonClickListener {
+
+                val timeZoneUTC: TimeZone = TimeZone.getDefault()
+                val offsetFromUTC: Int = timeZoneUTC.getOffset(Date().time) * -1
+                val simpleFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                val date = Date(it + offsetFromUTC)
+                startDate = date
+                viewModel.startDate.value = simpleFormat.format(date)
+                Timber.e("date picked -> ${viewModel.startDate.value}")
+
+            }
+            picker.show(requireFragmentManager(), "")
+        }
+        binding.edtEndDateOfMarketing.setOnClickListener {
+            val picker =
+                MaterialDatePicker.Builder.datePicker()
+                    .setTitleText(getString(R.string.select_end_date))
+                    .setCalendarConstraints(
+                        CalendarConstraints.Builder()
+                            .setValidator(DateValidatorPointForward.now())
+                            .build()
+                    )
+                    .build()
+            picker.addOnPositiveButtonClickListener {
+
+                val timeZoneUTC: TimeZone = TimeZone.getDefault()
+                val offsetFromUTC: Int = timeZoneUTC.getOffset(Date().time) * -1
+                val simpleFormat = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+                val date = Date(it + offsetFromUTC)
+                endDate = date
+                viewModel.endDate.value = simpleFormat.format(date)
+                Timber.e("date picked -> ${viewModel.startDate.value}")
+
+            }
+            picker.show(requireFragmentManager(), "")
         }
     }
 
+
     private fun subscribeData() {
         viewModel.getPinStoriesMarketingResponse.observe(viewLifecycleOwner) {
+            viewModel.obsIsLoading.set(false)
             when (it) {
                 is ResponseHandler.Success -> {
                     viewModel.pricePinStoriesType = it.data?.value.toString()
@@ -142,7 +207,10 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
         viewModel.createMarketingRequestsResponse.observe(viewLifecycleOwner) {
             when (it) {
                 is ResponseHandler.Success -> {
-
+                    showToast(getString(R.string.success),2)
+                    findNavController().navigateUp()
+                    findNavController().navigateUp()
+                    findNavController().navigateUp()
                 }
 
                 is ResponseHandler.Error -> {
@@ -179,12 +247,56 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
         }
 
         numOfDayMarketing = binding.edtNumOfDayMarketing.text.toString().trim()
+        val numOfDayMarketingInt = numOfDayMarketing.toIntOrNull()
+        viewModel.noOfDays.value = numOfDayMarketing
+        // Calculate the difference in time between the two dates
+        val diffInMillis = endDate.time - startDate.time
+
+// Convert milliseconds to days
+        val diffInDays = (diffInMillis / (1000 * 60 * 60 * 24)).toInt()
 
         when {
             numOfDayMarketing.isEmpty() -> showErrorAndToast(
                 binding.edtNumOfDayMarketing,
                 getString(R.string.enter_the_coupon_code)
             )
+            viewModel.startDate.value.orEmpty().isEmpty() -> showErrorAndToast(
+                binding.edtStartDateOfMarketing,
+                getString(R.string.select_start_date)
+            )
+            viewModel.endDate.value.orEmpty().isEmpty() -> showErrorAndToast(
+                binding.edtEndDateOfMarketing,
+                getString(R.string.select_end_date)
+            )
+            startDate.after(endDate) -> {
+                showErrorAndToast(
+                    binding.edtStartDateOfMarketing,
+                    getString(R.string.start_after_end_marketing)
+                )
+                showErrorAndToast(
+                    binding.edtEndDateOfMarketing,
+                    getString(R.string.start_after_end_marketing)
+                )
+            }
+
+            startDate == endDate -> {
+                showErrorAndToast(
+                    binding.edtStartDateOfMarketing,
+                    getString(R.string.start_equal_end_marketing)
+                )
+                showErrorAndToast(
+                    binding.edtEndDateOfMarketing,
+                    getString(R.string.start_equal_end_marketing)
+                )
+            }
+            diffInDays != numOfDayMarketingInt ->
+            {
+                showErrorAndToast(
+                    binding.edtNumOfDayMarketing,
+                    getString(R.string.no_of_days_invalid)
+                )
+            }
+
         }
 
         return isValid
@@ -301,6 +413,8 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
             Toast.LENGTH_SHORT
         ).show()
         // call api
+        viewModel.createMarketingRequests(numOfDayMarketing)
+
     }
 
     override fun onPaymentCancel() {

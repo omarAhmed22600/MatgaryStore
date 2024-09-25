@@ -17,6 +17,7 @@ import android.text.style.ForegroundColorSpan
 import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.ColorRes
@@ -55,6 +56,8 @@ fun View.setDrawableRes(@DrawableRes drawableRes: Int?) {
     foreground = drawable
 }
 
+
+
 @BindingAdapter("view_setVisibleOrInvisible")
 fun View.setVisibleOrInvisible(visible: Boolean?) {
     visibility = if (visible == true) View.VISIBLE else View.INVISIBLE
@@ -73,7 +76,7 @@ fun TextView.setTextColorRes(@ColorRes colorRes: Int?) {
 }
 
 @BindingAdapter("view_setBackgroundRes")
-fun View.setBackgroundRes(@DrawableRes drawableRes: Int?) {
+fun FrameLayout.setBackgroundRes(@DrawableRes drawableRes: Int?) {
     val drawable: Drawable? = drawableRes?.let { ContextCompat.getDrawable(context, it) }
     background = drawable
 }

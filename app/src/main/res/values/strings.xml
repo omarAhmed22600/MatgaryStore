@@ -381,7 +381,10 @@
     <string name="select_start_date">Please select start offer date</string>
     <string name="select_end_date">Please select end offer date</string>
     <string name="start_after_end">End date occurs before start date</string>
+    <string name="start_after_end_marketing">End date occurs before start date</string>
     <string name="start_equal_end">End date is the same as start date</string>
+    <string name="start_equal_end_marketing">End date is the same as start date</string>
+
     <string name="please_select_offer_image">Please select offer image</string>
     <string name="offer_description">Offer description</string>
     <string name="offer_description_ar">Offer description (In Arabic)</string>
@@ -578,8 +581,8 @@
     <string name="reason_for_rejection">reason for rejection</string>
     <string name="please_enter_reason_for_rejection">Please enter reason for rejection</string>
     <string name="marketing_requests">Marketing requests</string>
-    <string name="pin_a_story_to_the_home_page">Pin a story to the home page</string>
-    <string name="show_a_on_the_store_page">Show a on the store page</string>
+    <string name="pin_a_story_to_the_home_page">Pin a story on the home page</string>
+    <string name="show_a_on_the_store_page">Pin an offer on the offers page</string>
     <string name="pin_a_story_to_the_offers_page">Pin a story to the offers page</string>
     <string name="choose_the_stories_you_want_to_add">Choose the stories you want to add</string>
     <string name="continuation">Continuation</string>
@@ -639,4 +642,10 @@
     <string name="women_percentage">Women percentage</string>
     <string name="active">Active</string>
     <string name="disabled">Disbaled</string>
+    <string name="pin_an_offer_on_home_page">تثبيت عرض في الصفحة الرئيسية</string>
+    <string name="start_date_of_marketing">تاريخ بداية حملة التسويق</string>
+    <string name="end_date_of_marketing">تاريخ نهاية حملة التسويق</string>
+    <string name="number_of_days">عدد الايام</string>
+    <string name="show_place">مكان العرض</string>
+    <string name="no_of_days_invalid">عدد الايام غير صحيح</string>
 </resources>

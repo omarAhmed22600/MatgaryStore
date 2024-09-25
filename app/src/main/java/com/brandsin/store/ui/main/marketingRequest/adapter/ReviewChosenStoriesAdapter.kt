@@ -7,6 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
 import com.brandsin.store.databinding.ItemChooseStoryBinding
+import com.brandsin.store.model.Story
 import com.brandsin.store.model.profile.addedstories.liststories.StoriesItem
 import com.brandsin.store.utils.gone
 import com.brandsin.store.utils.visible
@@ -15,7 +16,7 @@ import com.bumptech.glide.Glide
 class ReviewChosenStoriesAdapter :
     RecyclerView.Adapter<ReviewChosenStoriesAdapter.ReviewChoseStoriesViewHolder>() {
 
-    private var storiesItemList: List<StoriesItem?>? = ArrayList()
+    private var storiesItemList: List<Story?>? = ArrayList()
 
     private lateinit var binding: ItemChooseStoryBinding
 
@@ -45,27 +46,27 @@ class ReviewChosenStoriesAdapter :
 
     private fun bindData(
         holder: ReviewChoseStoriesViewHolder,
-        storyItem: StoriesItem
+        storyItem: Story
     ) {
 
-        if (storyItem.mediaUrl?.endsWith(".mp4") == true) {
+        if (storyItem.media_url?.endsWith(".mp4") == true) {
             holder.icStoryVideo.visible()
             holder.constraintStoryText.gone()
             holder.storyText.gone()
 
             Glide.with(holder.itemView.context)
-                .load(storyItem.mediaUrl)
+                .load(storyItem.media_url)
                 .error(R.drawable.app_logo)
                 .into(holder.imgStory)
 
-        } else if (storyItem.mediaUrl.isNullOrEmpty() && storyItem.text?.isNotEmpty() == true) {
+        } else if (storyItem.media_url.isNullOrEmpty() && storyItem.text?.isNotEmpty() == true) {
             holder.imgStory.gone()
             holder.icStoryVideo.gone()
             holder.constraintStoryText.visible()
             holder.storyText.visible()
 
             holder.storyText.text = storyItem.text.toString()
-        } else if (storyItem.mediaUrl?.isNotEmpty() == true && storyItem.text?.isNotEmpty() == true) {
+        } else if (storyItem.media_url?.isNotEmpty() == true && storyItem.text?.isNotEmpty() == true) {
             holder.imgStory.gone()
             holder.icStoryVideo.gone()
             holder.constraintStoryText.visible()
@@ -74,7 +75,7 @@ class ReviewChosenStoriesAdapter :
             holder.storyText.text = storyItem.text.toString()
 
             Glide.with(holder.itemView.context)
-                .load(storyItem.mediaUrl)
+                .load(storyItem.media_url)
                 .error(R.drawable.app_logo)
                 .into(holder.imgStory)
         } else {
@@ -84,7 +85,7 @@ class ReviewChosenStoriesAdapter :
             holder.storyText.gone()
 
             Glide.with(holder.itemView.context)
-                .load(storyItem.mediaUrl)
+                .load(storyItem.media_url)
                 .error(R.drawable.app_logo)
                 .into(holder.imgStory)
         }
@@ -100,7 +101,7 @@ class ReviewChosenStoriesAdapter :
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun submitData(storiesList: List<StoriesItem?>?) {
+    fun submitData(storiesList: List<Story?>?) {
         storiesItemList = storiesList
         notifyDataSetChanged()
     }

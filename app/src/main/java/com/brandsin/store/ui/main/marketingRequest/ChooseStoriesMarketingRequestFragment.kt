@@ -8,6 +8,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.brandsin.store.R
 import com.brandsin.store.databinding.FragmentChooseStoriesMarketingRequestBinding
+import com.brandsin.store.model.ListStoriesResponse
+import com.brandsin.store.model.Story
 import com.brandsin.store.model.profile.addedstories.liststories.StoriesItem
 import com.brandsin.store.model.profile.addedstories.liststories.StoriesItemByDate
 import com.brandsin.store.network.ResponseHandler
@@ -26,7 +28,7 @@ class ChooseStoriesMarketingRequestFragment : BaseHomeFragment() {
 
     private lateinit var chooseStoriesAdapter: ChooseStoriesAdapter
 
-    private val btnChooseStoryClickCallBack: (storyItem: StoriesItem) -> Unit = { storyItem ->
+    private val btnChooseStoryClickCallBack: (storyItem: Story) -> Unit = { storyItem ->
         if (viewModel.storiesIds.contains(storyItem.id.toString())) { // storyItem.isSelected == true
             viewModel.storiesIds.remove(storyItem.id.toString())
             viewModel.storiesItem.remove(storyItem)
@@ -47,7 +49,8 @@ class ChooseStoriesMarketingRequestFragment : BaseHomeFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        _binding!!.viewModel = viewModel
+        _binding!!.lifecycleOwner = this
         setBarName(getString(R.string.marketing_requests))
 
         viewModel.getListStories()
@@ -59,10 +62,13 @@ class ChooseStoriesMarketingRequestFragment : BaseHomeFragment() {
     }
 
     private fun initViews() {
-        when (viewModel.pinStoriesType) {
-            "home" -> binding.pinStories.text = getString(R.string.pin_a_story_to_the_home_page)
-            "offers" -> binding.pinStories.text = getString(R.string.pin_a_story_to_the_offers_page)
-            "in_store" -> binding.pinStories.text = getString(R.string.show_a_on_the_store_page)
+        when (viewModel.pinStoriesType.value) {
+            "story_to_home" -> {
+
+            }
+            "story_to_offers" -> {
+
+            }
         }
     }
 
@@ -86,11 +92,12 @@ class ChooseStoriesMarketingRequestFragment : BaseHomeFragment() {
     }
 
     private fun subscribeData() {
+
         viewModel.getListStoriesResponse.observe(viewLifecycleOwner) { it ->
             when (it) {
                 is ResponseHandler.Success -> {
                     // bind data to the view
-                    if (it.data?.storiesItemByDate?.isEmpty() == true || it.data?.storiesItemByDate?.size == 0) {
+                    if (it.data?.isEmpty() == true || it.data?.size == 0) {
                         // binding.emptyLayout.visible()
                         binding.rvChooseStories.gone()
                     } else {
@@ -99,13 +106,13 @@ class ChooseStoriesMarketingRequestFragment : BaseHomeFragment() {
 
                         // set data in adapter
                         // Assuming you have the ListStoriesResponse instance named listStoriesResponse
-                        val storiesItemByDateList: List<StoriesItemByDate>? = it.data?.storiesItemByDate
+                        val storiesItemByDateList: List<ListStoriesResponse>? = it.data
 
                         if (storiesItemByDateList != null) {
-                            val allStories = ArrayList<StoriesItem>()
+                            val allStories = ArrayList<Story>()
 
                             for (storiesItemByDate in storiesItemByDateList) {
-                                val storiesList: List<StoriesItem?>? = storiesItemByDate.stories
+                                val storiesList: List<Story?> = storiesItemByDate.stories
 
                                 storiesList?.forEach { story ->
                                     story?.let {
