@@ -607,6 +607,19 @@ interface ApiInterface {
         @Query("lang") lang: String
     ): Response<PinStoriesMarketingResponse>
 
+    @Multipart
+    @POST("api/hajaty/marketing_requests")
+    suspend fun createMarketingRequests(
+        @Part("context") context: RequestBody,
+        @Part("type") type: RequestBody,
+        @Part("start_date") startDate: RequestBody, // {start_date} 11:00:00
+        @Part("end_date") endDate: RequestBody, // {end_date} 11:00:00
+        @Part("number_of_shopping_days") numberOfShoppingDays: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part enImage: MultipartBody.Part?,
+        @Part arImage: MultipartBody.Part?,
+        ): Response<MessageResponse>
+
     @FormUrlEncoded
     @POST("api/hajaty/marketing_requests")
     suspend fun createMarketingRequests(

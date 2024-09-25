@@ -10,8 +10,6 @@ import com.brandsin.store.R
 import com.brandsin.store.databinding.FragmentChooseStoriesMarketingRequestBinding
 import com.brandsin.store.model.ListStoriesResponse
 import com.brandsin.store.model.Story
-import com.brandsin.store.model.profile.addedstories.liststories.StoriesItem
-import com.brandsin.store.model.profile.addedstories.liststories.StoriesItemByDate
 import com.brandsin.store.network.ResponseHandler
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.main.marketingRequest.adapter.ChooseStoriesAdapter
@@ -62,7 +60,7 @@ class ChooseStoriesMarketingRequestFragment : BaseHomeFragment() {
     }
 
     private fun initViews() {
-        when (viewModel.pinStoriesType.value) {
+        when (viewModel.pinType.value) {
             "story_to_home" -> {
 
             }

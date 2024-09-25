@@ -40,7 +40,8 @@ fun View.invisible() = run { visibility = View.INVISIBLE }
 fun Context.shortToast(message: String?, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
-
+inline fun <X, Y> LiveData<X>.mapToMutableLiveData(crossinline transform: (X) -> Y): MutableLiveData<Y> =
+    TransformationsUtils.map(this) { transform(it) }
 fun Context.shortToast(@StringRes resId: Int, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, this.resources.getText(resId), duration).show()
 }

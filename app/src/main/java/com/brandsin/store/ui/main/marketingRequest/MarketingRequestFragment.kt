@@ -10,7 +10,10 @@ import com.brandsin.store.R
 import com.brandsin.store.databinding.FragmentMarketingRequestBinding
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.main.marketingRequest.viewmodel.MarketingRequestViewModel
-import org.koin.android.ext.android.bind
+import com.brandsin.store.utils.observe
+import com.brandsin.user.utils.map.PermissionUtil
+import com.fxn.pix.Options
+import com.fxn.pix.Pix
 
 class MarketingRequestFragment : BaseHomeFragment() {
 
@@ -38,22 +41,22 @@ class MarketingRequestFragment : BaseHomeFragment() {
 
     private fun setBtnListener() {
         binding.cvPinStoryHomePage.setOnClickListener {
-            viewModel.pinStoriesType.value = "story_to_home"
+            viewModel.pinType.value = "story_to_home"
             findNavController().navigate(R.id.chooseStoriesMarketingRequestFragment)
         }
 
         binding.cvPinStoryOffersPage.setOnClickListener {
-            viewModel.pinStoriesType.value = "story_to_offers"
+            viewModel.pinType.value = "story_to_offers"
             findNavController().navigate(R.id.chooseStoriesMarketingRequestFragment)
         }
 
         binding.cvPinOfferHomePage.setOnClickListener {
-            viewModel.pinOffersType.value = "offer_to_home"
-            findNavController().navigate(R.id.chooseStoriesMarketingRequestFragment)
+            viewModel.pinType.value = "offer_to_home"
+            findNavController().navigate(R.id.reviewChosenStoriesMarketingFragment)
         }
         binding.cvPinOfferOffersPage.setOnClickListener {
-            viewModel.pinOffersType.value = "offer_to_offers"
-            findNavController().navigate(R.id.chooseStoriesMarketingRequestFragment)
+            viewModel.pinType.value = "offer_to_offers"
+            findNavController().navigate(R.id.reviewChosenStoriesMarketingFragment)
         }
     }
 
@@ -61,4 +64,5 @@ class MarketingRequestFragment : BaseHomeFragment() {
         super.onDestroy()
         _binding = null
     }
+
 }

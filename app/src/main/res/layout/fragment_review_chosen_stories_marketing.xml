@@ -31,16 +31,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
+                    android:onClick="@{() -> viewModel.selectToHome()}"
                     android:padding="@dimen/_2sdp"
-                    android:onClick="@{() -> viewModel.selectStoryToHome()}"
                     app:view_setBackgroundRes="@{viewModel.storyToHomeCardRes}"
                     tools:background="@drawable/card_primary_stroke">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:elevation="@dimen/_4sdp"
                         android:layout_margin="@dimen/_1sdp"
+                        android:elevation="@dimen/_4sdp"
                         app:cardCornerRadius="@dimen/_6sdp"
                         app:cardElevation="@dimen/_4sdp">
 
@@ -52,10 +52,11 @@
                             android:fontFamily="@font/cairo_semibold"
                             android:gravity="center_vertical"
                             android:padding="@dimen/_6sdp"
+                            android:text="@{viewModel.toHomeCardString}"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp"
+                            android:textSize="@dimen/_10ssp"
                             app:drawableStartCompat="@drawable/ic_pin_item_marketing_request"
-                            android:text="@string/pin_a_story_to_the_home_page" />
+                            tools:text="@string/pin_a_story_to_the_home_page" />
 
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -64,16 +65,16 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="@dimen/_10sdp"
-                    android:onClick="@{() -> viewModel.selectStoryToOffers()}"
-                    app:view_setBackgroundRes="@{viewModel.storyToOffersCardRes}"
-                    android:padding="@dimen/_2sdp">
+                    android:onClick="@{() -> viewModel.selectToOffers()}"
+                    android:padding="@dimen/_2sdp"
+                    app:view_setBackgroundRes="@{viewModel.storyToOffersCardRes}">
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_1sdp"
                         android:elevation="@dimen/_4sdp"
                         app:cardCornerRadius="@dimen/_6sdp"
-                        android:layout_margin="@dimen/_1sdp"
                         app:cardElevation="@dimen/_4sdp"
 
                         tools:background="@drawable/item_back_bg">
@@ -86,10 +87,11 @@
                             android:fontFamily="@font/cairo_semibold"
                             android:gravity="center_vertical"
                             android:padding="@dimen/_6sdp"
-                            android:text="@string/pin_a_story_to_the_offers_page"
+                            android:text="@{viewModel.toOffersCardString}"
                             android:textColor="@color/black"
-                            android:textSize="@dimen/_13ssp"
-                            app:drawableStartCompat="@drawable/ic_pin_item_marketing_request" />
+                            android:textSize="@dimen/_10ssp"
+                            app:drawableStartCompat="@drawable/ic_pin_item_marketing_request"
+                            tools:text="@string/pin_a_story_to_the_offers_page" />
 
                     </androidx.cardview.widget.CardView>
                 </FrameLayout>
@@ -101,12 +103,12 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:view_setVisibleOrGone="@{!viewModel.obsIsLoading}"
             android:visibility="gone"
-            tools:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/cvPinStoryHomePage"
-            app:layout_constraintTop_toBottomOf="@id/cvPinStoryHomePage">
+            app:layout_constraintTop_toBottomOf="@id/cvPinStoryHomePage"
+            app:view_setVisibleOrGone="@{!viewModel.obsIsLoading}"
+            tools:visibility="visible">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
@@ -114,24 +116,236 @@
                 android:layout_marginBottom="@dimen/_16sdp">
 
                 <TextView
+                    android:id="@+id/tvAddArPic"
+                    view_setVisibleOrGone="@{!viewModel.isStoryType}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:gravity="center_vertical"
+                    android:text="@string/add_offer_pic_in_arabic"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/flChooseArPic"
+                    view_setVisibleOrGone="@{!viewModel.isStoryType}"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/card_primary_stroke"
+                    android:elevation="@dimen/_5sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.20"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddArPic">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_1sdp"
+                        app:cardCornerRadius="@dimen/_6sdp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_16sdp">
+
+                            <ImageView
+                                android:id="@+id/ivArOfferImg"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitXY"
+                                android:visibility="gone"
+                                view_setVisibleOrGone="@{viewModel.isArImageChanged}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <!-- ImageView for Camera Icon -->
+                            <ImageView
+                                android:id="@+id/camera_icon"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/ic_add_a_photo_24px"
+                                app:layout_constraintTop_toTopOf="parent"
+                                view_setVisibleOrGone="@{!viewModel.isArImageChanged}"
+
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toTopOf="@+id/select_image_text"
+                                app:layout_constraintVertical_chainStyle="packed"
+                                app:tint="@color/color_primary" />
+
+                            <!-- TextView for "اختر الصورة" -->
+                            <TextView
+                                android:id="@+id/select_image_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/select_picture"
+                                view_setVisibleOrGone="@{!viewModel.isArImageChanged}"
+                                android:textColor="@color/color_primary"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintTop_toBottomOf="@+id/camera_icon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toTopOf="@+id/image_size_text" />
+
+                            <!-- TextView for "مقاسات الصورة 1280 * 604" -->
+                            <TextView
+                                android:id="@+id/image_size_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/picture_resolution"
+                                android:textColor="@color/color_primary"
+                                view_setVisibleOrGone="@{!viewModel.isArImageChanged}"
+
+                                android:textSize="@dimen/_11ssp"
+                                app:layout_constraintTop_toBottomOf="@id/select_image_text"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvAddEnPic"
+                    view_setVisibleOrGone="@{!viewModel.isStoryType}"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:fontFamily="@font/cairo_bold"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:gravity="center_vertical"
+                    android:text="صورة العرض باللغة الانجليزية (إختياري)"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_11ssp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/flChooseArPic" />
+
+                <FrameLayout
+                    android:id="@+id/flChooseEnPic"
+                    view_setVisibleOrGone="@{!viewModel.isStoryType}"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginHorizontal="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_8sdp"
+                    android:background="@drawable/card_primary_stroke"
+                    android:elevation="@dimen/_5sdp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHeight_percent="0.20"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/tvAddEnPic">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_1sdp"
+                        app:cardCornerRadius="@dimen/_6sdp">
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_gravity="center_vertical"
+                            android:layout_height="match_parent"
+                            android:padding="@dimen/_16sdp">
+
+                            <ImageView
+                                android:id="@+id/ivEnOfferImg"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="fitXY"
+                                android:visibility="gone"
+                                view_setVisibleOrGone="@{viewModel.isEnImageChanged}"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                            <!-- ImageView for Camera Icon -->
+                            <ImageView
+                                android:id="@+id/enCameraIcon"
+                                android:layout_width="@dimen/_20sdp"
+                                android:layout_height="@dimen/_20sdp"
+                                android:src="@drawable/ic_add_a_photo_24px"
+                                app:layout_constraintTop_toTopOf="parent"
+                                view_setVisibleOrGone="@{!viewModel.isEnImageChanged}"
+
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toTopOf="@+id/en_select_image_text"
+                                app:layout_constraintVertical_chainStyle="packed"
+                                app:tint="@color/color_primary" />
+
+                            <!-- TextView for "اختر الصورة" -->
+                            <TextView
+                                android:id="@+id/en_select_image_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/select_picture"
+                                view_setVisibleOrGone="@{!viewModel.isEnImageChanged}"
+
+                                android:textColor="@color/color_primary"
+                                android:textSize="@dimen/_12ssp"
+                                app:layout_constraintTop_toBottomOf="@+id/enCameraIcon"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toTopOf="@+id/en_image_size_text" />
+
+                            <!-- TextView for "مقاسات الصورة 1280 * 604" -->
+                            <TextView
+                                android:id="@+id/en_image_size_text"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cairo_semibold"
+                                android:text="@string/picture_resolution"
+                                view_setVisibleOrGone="@{!viewModel.isEnImageChanged}"
+
+                                android:textColor="@color/color_primary"
+                                android:textSize="@dimen/_11ssp"
+                                app:layout_constraintTop_toBottomOf="@id/en_select_image_text"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintBottom_toBottomOf="parent" />
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                    </androidx.cardview.widget.CardView>
+                </FrameLayout>
+
+                <TextView
                     android:id="@+id/txtChooseStories"
+                    view_setVisibleOrGone="@{viewModel.isStoryType}"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/cairo_bold"
                     android:gravity="center_vertical"
                     android:text="@string/choose_the_stories_you_want_to_add"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_13ssp"
+                    android:textSize="@dimen/_11ssp"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/flChooseEnPic"
+                    tools:visibility="gone" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rvChooseStories"
+                    view_setVisibleOrGone="@{viewModel.isStoryType}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:orientation="horizontal"
+
                     android:scrollbars="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                     app:layout_constraintBottom_toTopOf="@id/edtNumOfDayMarketing"
@@ -139,7 +353,8 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/txtChooseStories"
                     tools:itemCount="3"
-                    tools:listitem="@layout/item_choose_story" />
+                    tools:listitem="@layout/item_choose_story"
+                    tools:visibility="gone" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edtNumOfDayMarketing"
@@ -148,6 +363,7 @@
                     android:layout_marginTop="@dimen/_16sdp"
                     android:hint="@string/number_of_marketing_campaign_days"
                     android:inputType="number"
+                    app:editText_adjustHintFont="@{`cairo_semibold`}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
@@ -159,7 +375,8 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-
+                    app:editText_adjustHintFont="@{`cairo_semibold`}"
+                    app:editText_adjustHintFont_sizeInSp="@{12f}"
                     android:focusable="false"
                     android:hint="@string/start_date_of_marketing"
                     android:text="@{viewModel.startDate}"
@@ -167,22 +384,24 @@
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
                     app:layout_constraintTop_toBottomOf="@+id/edtNumOfDayMarketing"
-                    app:layout_constraintWidth_percent="0.48" />
+                    app:layout_constraintWidth_percent="0.46" />
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/edtEndDateOfMarketing"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_8sdp"
-                    android:focusable="false"
-                    android:hint="@string/end_date_of_marketing"
                     android:layout_marginEnd="@dimen/_8sdp"
+                    android:focusable="false"
+                    app:editText_adjustHintFont="@{`cairo_semibold`}"
+                    app:editText_adjustHintFont_sizeInSp="@{12f}"
+                    android:hint="@string/end_date_of_marketing"
                     android:text="@{viewModel.endDate}"
                     android:textColor="@color/black"
                     android:textSize="@dimen/_13ssp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edtNumOfDayMarketing"
-                    app:layout_constraintWidth_percent="0.48" />
+                    app:layout_constraintWidth_percent="0.46" />
 
                 <TextView
                     android:id="@+id/txtMarketingValue"
@@ -193,7 +412,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/marketing_value"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
                     app:layout_constraintTop_toBottomOf="@+id/labelEndDate" />
 
@@ -205,7 +424,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/marketing_value"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
                     app:layout_constraintTop_toTopOf="@+id/txtMarketingValue" />
 
@@ -219,7 +438,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/number_of_days"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/edtStartDateOfMarketing" />
 
@@ -231,7 +450,7 @@
                     android:gravity="center_vertical"
                     android:text="@{viewModel.noOfDays}"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
                     app:layout_constraintTop_toTopOf="@+id/labelNoOfDays"
                     tools:text="5" />
@@ -245,7 +464,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/start_date_of_marketing"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
                     app:layout_constraintTop_toBottomOf="@+id/labelShowPlace" />
 
@@ -257,7 +476,7 @@
                     android:gravity="center_vertical"
                     android:text="@{viewModel.endDate}"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
                     app:layout_constraintTop_toTopOf="@+id/labelStartDate"
                     tools:text="2024-12-23" />
@@ -271,7 +490,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/end_date_of_marketing"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
                     app:layout_constraintTop_toBottomOf="@+id/labelStartDate" />
 
@@ -283,7 +502,7 @@
                     android:gravity="center_vertical"
                     android:text="@{viewModel.startDate}"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
                     app:layout_constraintTop_toTopOf="@+id/labelEndDate"
                     tools:text="2024-12-23" />
@@ -297,7 +516,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/show_place"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintStart_toStartOf="@+id/labelNoOfDays"
                     app:layout_constraintTop_toBottomOf="@+id/labelNoOfDays" />
 
@@ -309,7 +528,7 @@
                     android:gravity="center_vertical"
                     android:text="@{viewModel.showPlace}"
                     android:textColor="@color/black"
-                    android:textSize="@dimen/_11ssp"
+                    android:textSize="@dimen/_9ssp"
                     app:layout_constraintEnd_toEndOf="@+id/edtEndDateOfMarketing"
                     app:layout_constraintTop_toTopOf="@+id/labelShowPlace"
                     tools:text="تثبيت قصة علي الصفحة الرئيسية" />
@@ -339,11 +558,11 @@
         <ProgressBar
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
-            app:view_setVisibleOrGone="@{viewModel.obsIsLoading}"
+            android:progressTint="@color/color_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:progressTint="@color/color_primary"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:view_setVisibleOrGone="@{viewModel.obsIsLoading}" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

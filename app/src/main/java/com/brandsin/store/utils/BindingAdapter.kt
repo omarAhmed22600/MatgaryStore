@@ -87,7 +87,28 @@ fun TextView.setStartDrawableRes(@DrawableRes drawableRes: Int?) {
     setCompoundDrawablesRelativeWithIntrinsicBounds(drawable, null, null, null)
 
 }
+@BindingAdapter(
+    "editText_adjustHintFont",
+    "editText_adjustHintFont_sizeInSp",
+    requireAll = false,
+)
+fun EditText.adjustHintFontBA(fontStyleResName: String?, sizeInSp: Float?) {
+    postWithReceiver {
+        val context = context ?: return@postWithReceiver
 
+        @SuppressLint("DiscouragedApi")
+        val id = context.resources.getIdentifier(fontStyleResName, "font", context.packageName)
+
+        if (id == 0 || hint.toStringOrEmpty().isEmpty()) return@postWithReceiver
+
+        val typeface = ResourcesCompat.getFont(context, id)
+        hint = buildSpannedString {
+            inSpans(AbsoluteSizeSpan(context.spToPx(sizeInSp ?: 11f).roundToInt())) {
+                appendWithSpan(hint.toStringOrEmpty(), CustomTypefaceSpan(typeface))
+            }
+        }
+    }
+}
 
 @BindingAdapter("imageUrl")
 fun bindImage(imgView: ImageView, imgUrl: String?) {
