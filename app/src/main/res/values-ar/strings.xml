@@ -462,6 +462,7 @@
     <string name="store_photos">صور المتجر</string>
     <string name="a_maximum_of_3_photos">اختياري(بحد أقصى 5 صور)</string>
     <string name="a_maximum_of_4_photos">(بحد أقصى 4 صور)</string>
+    <string name="a_maximum_of_10_photos">(بحد أقصى 10 صور)</string>
     <string name="connect">ربط</string>
     <string name="link_request_successfully">تم ارسال طلب الربط بنجاح</string>
     <string name="added_stories">الحالات المضافة</string>
@@ -609,4 +610,10 @@
     <string name="select_picture">اختر الصورة</string>
     <string name="picture_resolution">مقاسات الصورة 1280 * 604</string>
     <string name="please_choose_arabic_offer_picture">برجاء إدخال صورة العرض باللغة العربية!</string>
+    <string name="unsupported_format">Unsupported Format</string>
+    <string name="ryal">ريال</string>
+    <string name="color">اللون</string>
+    <string name="mass">الحجم</string>
+    <string name="capacity">السعة</string>
+    <string name="selling_price">سعر البيع</string>
 </resources>

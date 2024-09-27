@@ -1,5 +1,6 @@
 package com.brandsin.store.ui.main.addproduct
 
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.brandsin.store.database.BaseViewModel
 import com.brandsin.store.model.constants.Codes
@@ -17,6 +18,7 @@ import com.brandsin.store.network.requestCall
 import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class AddProductViewModel : BaseViewModel()
 {
@@ -28,7 +30,8 @@ class AddProductViewModel : BaseViewModel()
     var addproductSkuAdapter = AddProductSkuAdapter()
     var validate = false
     var skuPosition = -1
-
+    var imageList = MutableLiveData(mutableListOf<PhotoModel>())
+    var fileImageList = MutableLiveData(mutableListOf<File>())
     var uploadRequest = UploadRequest ()
 
     init {

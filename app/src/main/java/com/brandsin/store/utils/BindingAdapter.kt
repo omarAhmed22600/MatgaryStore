@@ -35,6 +35,8 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
+import com.brandsin.store.ui.main.addproduct.PhotoModel
+import com.brandsin.store.ui.main.addproduct.ProductPhotoAdapter
 import com.brandsin.store.ui.menu.storeStatistics.Product
 import com.brandsin.store.ui.menu.storeStatistics.ProductAdapter
 import com.bumptech.glide.Glide
@@ -122,7 +124,15 @@ fun bindImage(imgView: ImageView, imgUrl: String?) {
 }
 
 
-
+@BindingAdapter("selLocalImg")
+fun setLocalImg(imgView: ImageView, imgUri: String?) {
+    imgUri?.let {
+        Glide.with(imgView.context)
+            .load(it)
+            .apply(RequestOptions().error(R.drawable.app_logo))
+            .into(imgView)
+    }
+}
 
 
 @BindingAdapter("linearLayoutManagerForScrolling")
@@ -130,7 +140,7 @@ fun RecyclerView.bindLinearLayout(
     boolean: Boolean
 ) {
     if (boolean.not()) {
-        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, boolean).apply {
+        layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, boolean).apply {
             isMeasurementCacheEnabled = false
         }
     }
@@ -252,4 +262,20 @@ fun bindRecyclerViewForProducts(
     val adapter = recyclerView.adapter as? ProductAdapter
         ?: ProductAdapter().also { recyclerView.adapter = it }
     adapter.submitList(data)
+}
+@BindingAdapter("listDataForProductPhotos")
+fun bindRecyclerViewForProductPhotos(
+    recyclerView: RecyclerView,
+    data: List<PhotoModel>?
+) {
+    val adapter = recyclerView.adapter as ProductPhotoAdapter
+    adapter.submitList(data)
+}
+// Binding adapter function to set a Bitmap to an ImageView
+@BindingAdapter("setImageBitmap")
+fun ImageView.setImageBitmap(bitmap: Bitmap?) {
+    // Set the Bitmap to the ImageView if it's not null
+    bitmap?.let {
+        this.setImageBitmap(it)
+    }
 }

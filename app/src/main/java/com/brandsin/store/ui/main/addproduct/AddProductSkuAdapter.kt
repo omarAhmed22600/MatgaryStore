@@ -50,9 +50,9 @@ class AddProductSkuAdapter  : RecyclerView.Adapter<AddProductSkuAdapter.ProductS
             skuItem.id = position
             skuItem.name = holder.binding.size.text.toString()
             skuItem.inventory_value = holder.binding.inventoryValue.text.toString()
-            skuItem.regular_price = holder.binding.price.text.toString()
-            skuItem.sale_price = holder.binding.salePrice.text.toString()
-            skuItem.code = holder.binding.productCode.text.toString()
+            skuItem.regular_price = holder.binding.color.text.toString()
+            skuItem.sale_price = holder.binding.mass.text.toString()
+            skuItem.code = holder.binding.capacity.text.toString()
             if (unitId.isNotEmpty()){
                 skuItem.unitId= unitId
             }
