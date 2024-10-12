@@ -5,6 +5,9 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.Cursor
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
@@ -12,6 +15,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.webkit.MimeTypeMap
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
@@ -31,6 +35,8 @@ import com.fxn.pix.Options
 import com.fxn.pix.Pix
 import timber.log.Timber
 import java.io.File
+import java.io.FileOutputStream
+import java.util.Locale
 
 class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
 
@@ -73,12 +79,12 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
         }
 
         binding.cvStoryVideo.setOnClickListener {
-            viewModel.uploadType = "video"
+//            viewModel.uploadType = "video"
             pickImage(Codes.PRODUCT_IMG_REQUEST_CODE, Options.Mode.Video)
         }
 
         binding.constraintUploadStoryPhoto.setOnClickListener {
-            viewModel.uploadType = "photo"
+//            viewModel.uploadType = "photo"
             pickImage(Codes.PRODUCT_IMG_REQUEST_CODE, Options.Mode.Picture)
         }
     }
@@ -161,38 +167,128 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        Timber.e("result code is $resultCode \n ${requestCode == Codes.PRODUCT_IMG_REQUEST_CODE}")
+        Timber.e("result code is $resultCode \n ${requestCode}\n data :$data\n tempuri:$tempFileUri\n${viewModel.uploadType}")
         when (resultCode) {
             Activity.RESULT_OK -> {
                 when (requestCode) {
                     Codes.PRODUCT_IMG_REQUEST_CODE -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                viewModel.request.file = File(array[0])
-                                viewModel.setShowProgress(true)
-                                // viewModel.uploadStories()
-
-                                findNavController().navigate(R.id.previewUploadStoryPhotoAndVideoFragment)
+                        Timber.e("selecting product img")
+//                        data?.let {
+                            val fileUri: Uri? =
+                                if (tempFileUri == null)
+                                    data?.data
+                                else
+                                    tempFileUri
+                            tempFileUri = null
+                            Timber.e("file uri is $fileUri")
+                            val file = fileUri?.let { uri ->
+                                Timber.e("fileUri?.let { $uri")
+                                val mimeType = context?.contentResolver?.getType(fileUri)
+                                val extension =
+                                    MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                                val fileName = "file_${System.currentTimeMillis()}.$extension"
+                                val inputStream = context?.contentResolver?.openInputStream(uri)
+                                val file = File(requireContext().cacheDir, fileName)
+                                val outputStream = FileOutputStream(file)
+                                inputStream?.copyTo(outputStream)
+                                outputStream.close()
+                                file
                             }
-                        }
+                        var bitmap: Bitmap? = null
+
+                        if (file!!.extension.lowercase(Locale.ROOT).let { ext ->
+                                ext == "jpg" || ext == "png" || ext == "jpeg"
+                            })
+                        {
+                            viewModel.uploadType = "photo"
+                            Timber.e("is photo")
+                            try {
+                                Timber.e("scheme: ${fileUri!!.scheme}")
+
+                                bitmap = when {
+                                    // Handle content URI (content://)
+
+                                    fileUri!!.scheme.equals("content", ignoreCase = true) -> {
+                                        // Use ContentResolver to open an InputStream for content URIs
+                                        val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
+                                        BitmapFactory.decodeStream(inputStream)
+                                    }
+                                    // Handle file URI (file://) or regular file path
+                                    fileUri.scheme.equals("file", ignoreCase = true) || fileUri.scheme == null -> {
+                                        BitmapFactory.decodeFile(file!!.absolutePath)
+                                    }
+                                    else -> null
+                                }
+
+                                // If bitmap is successfully created
+                                bitmap?.let {
+                                    Timber.e("bitmap?.let {")
+
+                                    // Resize the bitmap to a manageable size
+                                    val resizedBitmap = resizeBitmap(it, 1024, 1024) // Adjust maxWidth and maxHeight as needed
+
+                                    // Rotate the resized bitmap if required
+                                    bitmap = rotateImageIfRequired(requireContext(), resizedBitmap, fileUri)
+                                    viewModel.imageBitmap = bitmap
+
+                                    // viewModel.uploadStories()
+                                    Timber.e("Bitmap created and processed successfully")
+                                } ?: run {
+                                    Timber.e("Failed to create bitmap: unsupported URI scheme")
+                                }
+
+                                // Handle image selection
+                                Timber.e("Image selected")
+                            } catch (e: Exception) {
+                                e.printStackTrace()
+                                Timber.e("Error converting Uri to Bitmap: ${e.message}")
+                            }
+
+                        } else
+                            viewModel.uploadType = "video"
+                        viewModel.request.file = file
+                        viewModel.setShowProgress(true)
+                        findNavController().navigate(R.id.previewUploadStoryPhotoAndVideoFragment)
+
+//                            fileUri?.let { array ->
+
+//                            }
+//                        }
                     }
 
                     9999 -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                viewModel.request.file = File(array[0])
-                                viewModel.setShowProgress(true)
-
-                                // show bottom sheet to enter reason
-                                val bottomSheetFragment = ChooseProductFragment()
-                                bottomSheetFragment.show(
-                                    childFragmentManager,
-                                    "ChooseProductFragment"
-                                )
+//                        data?.let {
+                            val fileUri: Uri? =
+                                if (tempFileUri == null)
+                                    data?.data
+                                else
+                                    tempFileUri
+                            tempFileUri = null
+                            Timber.e("file uri is $fileUri")
+                            val file = fileUri?.let { uri ->
+                                val mimeType = context?.contentResolver?.getType(fileUri)
+                                val extension =
+                                    MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                                val fileName = "file_${System.currentTimeMillis()}.$extension"
+                                val inputStream = context?.contentResolver?.openInputStream(uri)
+                                val file = File(requireContext().cacheDir, fileName)
+                                val outputStream = FileOutputStream(file)
+                                inputStream?.copyTo(outputStream)
+                                outputStream.close()
+                                file
                             }
-                        }
+//                            returnValue?.let { array ->
+                            viewModel.request.file = file
+                            viewModel.setShowProgress(true)
+
+                            // show bottom sheet to enter reason
+                            val bottomSheetFragment = ChooseProductFragment()
+                            bottomSheetFragment.show(
+                                childFragmentManager,
+                                "ChooseProductFragment"
+                            )
+//                            }
+//                        }
                     }
                 }
             }

@@ -625,4 +625,7 @@
     <string name="permission_granted_try_again">Permission Granted Try Again!</string>
     <string name="permissions_are_needed_to_access_your_media">Permissions are needed to access your media.</string>
     <string name="permissions_denied_please_enable_them_in_settings">Permissions denied. Please enable them in settings.</string>
+    <string name="invalid_uri_or_file_path">Invalid URI or file path: %1$s</string>
+    <string name="permission_denied">Permission denied: %1$s</string>
+    <string name="failed_to_set_data_source">Failed to set data source: %1$s</string>
 </resources>

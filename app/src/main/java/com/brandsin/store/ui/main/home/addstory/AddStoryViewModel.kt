@@ -1,5 +1,6 @@
 package com.brandsin.store.ui.main.home.addstory
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -24,7 +25,7 @@ class AddStoryViewModel : BaseViewModel() {
     var galleryAdapter = GalleryAdapter()
     var galleryList = ArrayList<String>()
     var request = UploadStoryRequest()
-
+    var imageBitmap : Bitmap? = null
     var productName: String? = null
     var productSalePrice: String? = null
 

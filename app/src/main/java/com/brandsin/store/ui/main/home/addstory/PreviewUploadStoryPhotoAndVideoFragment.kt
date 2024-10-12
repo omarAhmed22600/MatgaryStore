@@ -17,6 +17,7 @@ import com.brandsin.store.network.Status
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.utils.gone
 import com.brandsin.store.utils.observe
+import com.brandsin.store.utils.setImageBitmap
 import com.brandsin.store.utils.visible
 import timber.log.Timber
 
@@ -54,8 +55,16 @@ class PreviewUploadStoryPhotoAndVideoFragment : BaseHomeFragment() {
         } else if (viewModel.uploadType == "photo") {
             binding.uploadVideo.gone()
             binding.uploadPhoto.visible()
+            Timber.e("init view ${viewModel.request.file?.toUri()}\n${viewModel.imageBitmap}")
+            if (viewModel.imageBitmap != null) {
+                Timber.e("image bitmap not null")
+                binding.uploadPhoto.setImageBitmap(viewModel.imageBitmap)
+                viewModel.imageBitmap = null
+            } else {
+                Timber.e("image bitmap null")
+                binding.uploadPhoto.setImageURI(viewModel.request.file?.toUri())
+            }
 
-            binding.uploadPhoto.setImageURI(viewModel.request.file?.toUri())
         }
     }
 

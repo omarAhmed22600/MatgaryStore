@@ -2,10 +2,12 @@ package com.brandsin.store.ui.profile.store
 
 import android.app.Activity
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.MimeTypeMap
 import android.widget.RadioButton
 import androidx.core.net.toUri
 import androidx.databinding.DataBindingUtil
@@ -35,6 +37,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import java.io.File
+import java.io.FileOutputStream
 
 class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
 
@@ -225,8 +228,8 @@ class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
         }*/
 
         println("cashOnDelivery  ${viewModel.updateRequest.cashOnDelivery}")
-        println("hasDelivery  ${viewModel.updateRequest.hasDelivery }")
-        println("checkDelivery  ${viewModel.checkDelivery }")
+        println("hasDelivery  ${viewModel.updateRequest.hasDelivery}")
+        println("checkDelivery  ${viewModel.checkDelivery}")
         if (viewModel.updateRequest.hasDelivery == "1") {
             viewModel.checkDelivery = true
             binding.yes.isChecked = true
@@ -384,31 +387,31 @@ class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
                 }
 
                 Codes.SELECT_STORE_IMAGE -> {
-                    pickImage(Codes.STORE_IMAGE, Options.Mode.All)
+                    pickImage(Codes.STORE_IMAGE, Options.Mode.Picture)
                 }
 
                 Codes.SELECT_STORE_THUMB -> {
-                    pickImage(Codes.STORE_THUMBNAIL, Options.Mode.All)
+                    pickImage(Codes.STORE_THUMBNAIL, Options.Mode.Picture)
                 }
 
                 Codes.SELECT_PHOTO1 -> {
-                    pickImage(Codes.SELECT_PHOTO1, Options.Mode.All)
+                    pickImage(Codes.SELECT_PHOTO1, Options.Mode.Picture)
                 }
 
                 Codes.SELECT_PHOTO2 -> {
-                    pickImage(Codes.SELECT_PHOTO2, Options.Mode.All)
+                    pickImage(Codes.SELECT_PHOTO2, Options.Mode.Picture)
                 }
 
                 Codes.SELECT_PHOTO3 -> {
-                    pickImage(Codes.SELECT_PHOTO3, Options.Mode.All)
+                    pickImage(Codes.SELECT_PHOTO3, Options.Mode.Picture)
                 }
 
                 Codes.SELECT_PHOTO4 -> {
-                    pickImage(Codes.SELECT_PHOTO4, Options.Mode.All)
+                    pickImage(Codes.SELECT_PHOTO4, Options.Mode.Picture)
                 }
 
                 Codes.SELECT_PHOTO5 -> {
-                    pickImage(Codes.SELECT_PHOTO5, Options.Mode.All)
+                    pickImage(Codes.SELECT_PHOTO5, Options.Mode.Picture)
                 }
 
                 Codes.LOCATION_CLICKED -> {
@@ -491,180 +494,293 @@ class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
                 when (requestCode) {
                     Codes.STORE_IMAGE -> {
                         data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notStoreImg.visibility = View.GONE
-                                binding.ivStorePhoto.visibility = View.VISIBLE
-                                binding.ivStoreImg.setImageURI(array[0].toUri())
-                                if (viewModel.updateRequest.storeMedia != null) {
-                                    if (viewModel.updateRequest.deleteMedia == null) {
-                                        viewModel.updateRequest.deleteMedia = ArrayList()
-                                    }
-                                    if (viewModel.updateRequest.storeMedia!!.size >= 1) {
-                                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![0])
-                                        viewModel.updateRequest.storeMedia!!.removeAt(0)
-                                    }
-                                } else {
-                                    viewModel.updateRequest.storeMedia = ArrayList()
-                                }
-                                viewModel.uploadRequest.collection = "marketplace-store-thumbnail"
-                                viewModel.uploadRequest.image = File(array[0])
-                                viewModel.upload(0)
+                            val fileUri: Uri? =
+                                if (tempFileUri == null)
+                                    data?.data
+                                else
+                                    tempFileUri
+                            tempFileUri = null
+                            val file = fileUri?.let { uri ->
+                                Timber.e("fileUri?.let { $uri")
+                                val mimeType = context?.contentResolver?.getType(fileUri)
+                                val extension =
+                                    MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                                val fileName = "file_${System.currentTimeMillis()}.$extension"
+                                val inputStream = context?.contentResolver?.openInputStream(uri)
+                                val file = File(requireContext().cacheDir, fileName)
+                                val outputStream = FileOutputStream(file)
+                                inputStream?.copyTo(outputStream)
+                                outputStream.close()
+                                file
                             }
+                            binding.notStoreImg.visibility = View.GONE
+                            binding.ivStorePhoto.visibility = View.VISIBLE
+                            binding.ivStoreImg.setImageURI(fileUri)
+                            if (viewModel.updateRequest.storeMedia != null) {
+                                if (viewModel.updateRequest.deleteMedia == null) {
+                                    viewModel.updateRequest.deleteMedia = ArrayList()
+                                }
+                                if (viewModel.updateRequest.storeMedia!!.size >= 1) {
+                                    viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![0])
+                                    viewModel.updateRequest.storeMedia!!.removeAt(0)
+                                }
+                            } else {
+                                viewModel.updateRequest.storeMedia = ArrayList()
+                            }
+                            viewModel.uploadRequest.collection = "marketplace-store-thumbnail"
+                            viewModel.uploadRequest.image = file
+                            viewModel.upload(0)
                         }
+//                        }
                     }
 
                     Codes.STORE_THUMBNAIL -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notThumbImg.visibility = View.GONE
-                                binding.ivThumb.visibility = View.VISIBLE
-                                binding.ivStoreThumb.setImageURI(array[0].toUri())
-                                if (viewModel.updateRequest.storeMedia != null) {
-                                    if (viewModel.updateRequest.deleteMedia == null) {
-                                        viewModel.updateRequest.deleteMedia = ArrayList()
-                                    }
-                                    if (viewModel.updateRequest.storeMedia!!.size >= 2) {
-                                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![1])
-                                        viewModel.updateRequest.storeMedia!!.removeAt(1)
-                                    }
-                                } else {
-                                    viewModel.updateRequest.storeMedia = ArrayList()
-                                }
-                                viewModel.uploadRequest.collection = "commercial_register"
-                                viewModel.uploadRequest.image = File(array[0])
-                                viewModel.upload(1)
-                            }
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
                         }
+                        binding.notThumbImg.visibility = View.GONE
+                        binding.ivThumb.visibility = View.VISIBLE
+                        binding.ivStoreThumb.setImageURI(fileUri)
+                        if (viewModel.updateRequest.storeMedia != null) {
+                            if (viewModel.updateRequest.deleteMedia == null) {
+                                viewModel.updateRequest.deleteMedia = ArrayList()
+                            }
+                            if (viewModel.updateRequest.storeMedia!!.size >= 2) {
+                                viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![1])
+                                viewModel.updateRequest.storeMedia!!.removeAt(1)
+                            }
+                        } else {
+                            viewModel.updateRequest.storeMedia = ArrayList()
+                        }
+                        viewModel.uploadRequest.collection = "commercial_register"
+                        viewModel.uploadRequest.image = file
+                        viewModel.upload(1)
+//                    }
+//                        }
                     }
 
                     Codes.SELECT_PHOTO1 -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notPhoto1.visibility = View.GONE
-                                binding.ivImg1.visibility = View.VISIBLE
-                                binding.ivPhoto1.setImageURI(array[0].toUri())
-                                if (viewModel.updateRequest.storeMedia != null) {
-                                    if (viewModel.updateRequest.deleteMedia == null) {
-                                        viewModel.updateRequest.deleteMedia = ArrayList()
-                                    }
-                                    if (viewModel.updateRequest.storeMedia!!.size >= 3) {
-                                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![2])
-                                        viewModel.updateRequest.storeMedia!!.removeAt(2)
-                                    }
-                                } else {
-                                    viewModel.updateRequest.storeMedia = ArrayList()
-                                }
-                                viewModel.uploadRequest.collection = "store-registration-images"
-                                viewModel.uploadRequest.image = File(array[0])
-                                viewModel.upload(2)
-                            }
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
                         }
+                        binding.notPhoto1.visibility = View.GONE
+                        binding.ivImg1.visibility = View.VISIBLE
+                        binding.ivPhoto1.setImageURI(fileUri)
+                        if (viewModel.updateRequest.storeMedia != null) {
+                            if (viewModel.updateRequest.deleteMedia == null) {
+                                viewModel.updateRequest.deleteMedia = ArrayList()
+                            }
+                            if (viewModel.updateRequest.storeMedia!!.size >= 3) {
+                                viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![2])
+                                viewModel.updateRequest.storeMedia!!.removeAt(2)
+                            }
+                        } else {
+                            viewModel.updateRequest.storeMedia = ArrayList()
+                        }
+                        viewModel.uploadRequest.collection = "store-registration-images"
+                        viewModel.uploadRequest.image = file
+                        viewModel.upload(2)
+                        /*                    }
+                                        }*/
                     }
 
                     Codes.SELECT_PHOTO2 -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notPhoto2.visibility = View.GONE
-                                binding.ivImg2.visibility = View.VISIBLE
-                                binding.ivPhoto2.setImageURI(array[0].toUri())
-                                if (viewModel.updateRequest.storeMedia != null) {
-                                    if (viewModel.updateRequest.deleteMedia == null) {
-                                        viewModel.updateRequest.deleteMedia = ArrayList()
-                                    }
-                                    if (viewModel.updateRequest.storeMedia!!.size >= 4) {
-                                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![3])
-                                        viewModel.updateRequest.storeMedia!!.removeAt(3)
-                                    }
-                                } else {
-                                    viewModel.updateRequest.storeMedia = ArrayList()
-                                }
-                                viewModel.uploadRequest.collection = "store-registration-images"
-                                viewModel.uploadRequest.image = File(array[0])
-                                viewModel.upload(3)
-                            }
+//                data?.let {
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
                         }
+                        binding.notPhoto2.visibility = View.GONE
+                        binding.ivImg2.visibility = View.VISIBLE
+                        binding.ivPhoto2.setImageURI(fileUri)
+                        if (viewModel.updateRequest.storeMedia != null) {
+                            if (viewModel.updateRequest.deleteMedia == null) {
+                                viewModel.updateRequest.deleteMedia = ArrayList()
+                            }
+                            if (viewModel.updateRequest.storeMedia!!.size >= 4) {
+                                viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![3])
+                                viewModel.updateRequest.storeMedia!!.removeAt(3)
+                            }
+                        } else {
+                            viewModel.updateRequest.storeMedia = ArrayList()
+                        }
+                        viewModel.uploadRequest.collection = "store-registration-images"
+                        viewModel.uploadRequest.image = file
+                        viewModel.upload(3)
+//                    }
+//                }
                     }
 
                     Codes.SELECT_PHOTO3 -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notPhoto3.visibility = View.GONE
-                                binding.ivImg3.visibility = View.VISIBLE
-                                binding.ivPhoto3.setImageURI(array[0].toUri())
-                                if (viewModel.updateRequest.storeMedia != null) {
-                                    if (viewModel.updateRequest.deleteMedia == null) {
-                                        viewModel.updateRequest.deleteMedia = ArrayList()
-                                    }
-                                    if (viewModel.updateRequest.storeMedia!!.size >= 5) {
-                                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![4])
-                                        viewModel.updateRequest.storeMedia!!.removeAt(4)
-                                    }
-                                } else {
-                                    viewModel.updateRequest.storeMedia = ArrayList()
-                                }
-                                viewModel.uploadRequest.collection = "store-registration-images"
-                                viewModel.uploadRequest.image = File(array[0])
-                                viewModel.upload(4)
-                            }
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
                         }
+                        binding.notPhoto3.visibility = View.GONE
+                        binding.ivImg3.visibility = View.VISIBLE
+                        binding.ivPhoto3.setImageURI(fileUri)
+                        if (viewModel.updateRequest.storeMedia != null) {
+                            if (viewModel.updateRequest.deleteMedia == null) {
+                                viewModel.updateRequest.deleteMedia = ArrayList()
+                            }
+                            if (viewModel.updateRequest.storeMedia!!.size >= 5) {
+                                viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![4])
+                                viewModel.updateRequest.storeMedia!!.removeAt(4)
+                            }
+                        } else {
+                            viewModel.updateRequest.storeMedia = ArrayList()
+                        }
+                        viewModel.uploadRequest.collection = "store-registration-images"
+                        viewModel.uploadRequest.image = file
+                        viewModel.upload(4)
+//                    }
+//                }
                     }
 
                     Codes.SELECT_PHOTO4 -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notPhoto4.visibility = View.GONE
-                                binding.ivImg4.visibility = View.VISIBLE
-                                binding.ivPhoto4.setImageURI(array[0].toUri())
-                                if (viewModel.updateRequest.storeMedia != null) {
-                                    if (viewModel.updateRequest.deleteMedia == null) {
-                                        viewModel.updateRequest.deleteMedia = ArrayList()
-                                    }
-                                    if (viewModel.updateRequest.storeMedia!!.size >= 6) {
-                                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![5])
-                                        viewModel.updateRequest.storeMedia!!.removeAt(5)
-                                    }
-                                } else {
-                                    viewModel.updateRequest.storeMedia = ArrayList()
-                                }
-                                viewModel.uploadRequest.collection = "store-registration-images"
-                                viewModel.uploadRequest.image = File(array[0])
-                                viewModel.upload(5)
-                            }
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
                         }
-                    }
-
-                    Codes.SELECT_PHOTO5 -> {
-                        data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.notPhoto5.visibility = View.GONE
-                                binding.ivImg5.visibility = View.VISIBLE
-                                binding.ivPhoto5.setImageURI(array[0].toUri())
-                                if (viewModel.updateRequest.storeMedia != null) {
-                                    if (viewModel.updateRequest.deleteMedia == null) {
-                                        viewModel.updateRequest.deleteMedia = ArrayList()
-                                    }
-                                    if (viewModel.updateRequest.storeMedia!!.size >= 7) {
-                                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![6])
-                                        viewModel.updateRequest.storeMedia!!.removeAt(6)
-                                    }
-                                } else {
-                                    viewModel.updateRequest.storeMedia = ArrayList()
-                                }
-                                viewModel.uploadRequest.collection = "store-registration-images"
-                                viewModel.uploadRequest.image = File(array[0])
-                                viewModel.upload(6)
+                        binding.notPhoto4.visibility = View.GONE
+                        binding.ivImg4.visibility = View.VISIBLE
+                        binding.ivPhoto4.setImageURI(fileUri)
+                        if (viewModel.updateRequest.storeMedia != null) {
+                            if (viewModel.updateRequest.deleteMedia == null) {
+                                viewModel.updateRequest.deleteMedia = ArrayList()
                             }
+                            if (viewModel.updateRequest.storeMedia!!.size >= 6) {
+                                viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![5])
+                                viewModel.updateRequest.storeMedia!!.removeAt(5)
+                            }
+                        } else {
+                            viewModel.updateRequest.storeMedia = ArrayList()
                         }
+                        viewModel.uploadRequest.collection = "store-registration-images"
+                        viewModel.uploadRequest.image = file
+                        viewModel.upload(5)
                     }
                 }
             }
+
+            Codes.SELECT_PHOTO5 -> {
+                val fileUri: Uri? =
+                    if (tempFileUri == null)
+                        data?.data
+                    else
+                        tempFileUri
+                tempFileUri = null
+                val file = fileUri?.let { uri ->
+                    Timber.e("fileUri?.let { $uri")
+                    val mimeType = context?.contentResolver?.getType(fileUri)
+                    val extension =
+                        MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                    val fileName = "file_${System.currentTimeMillis()}.$extension"
+                    val inputStream = context?.contentResolver?.openInputStream(uri)
+                    val file = File(requireContext().cacheDir, fileName)
+                    val outputStream = FileOutputStream(file)
+                    inputStream?.copyTo(outputStream)
+                    outputStream.close()
+                    file
+                }
+                binding.notPhoto5.visibility = View.GONE
+                binding.ivImg5.visibility = View.VISIBLE
+                binding.ivPhoto5.setImageURI(fileUri)
+                if (viewModel.updateRequest.storeMedia != null) {
+                    if (viewModel.updateRequest.deleteMedia == null) {
+                        viewModel.updateRequest.deleteMedia = ArrayList()
+                    }
+                    if (viewModel.updateRequest.storeMedia!!.size >= 7) {
+                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![6])
+                        viewModel.updateRequest.storeMedia!!.removeAt(6)
+                    }
+                } else {
+                    viewModel.updateRequest.storeMedia = ArrayList()
+                }
+                viewModel.uploadRequest.collection = "store-registration-images"
+                viewModel.uploadRequest.image = file
+                viewModel.upload(6)
+            }
+//                }
+//            }
+
         }
 
         /* When user select his location manually from map activity*/

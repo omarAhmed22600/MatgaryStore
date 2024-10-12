@@ -4,8 +4,12 @@ import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.Matrix
+import android.media.ExifInterface
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -217,34 +221,56 @@ open class BaseFragment : Fragment() {
     }
 
     // Helper methods to open gallery or camera
-    private fun openGalleryForImage(requestCode: Int) {
-        // Implement logic to open gallery for picking an image
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        startActivityForResult(intent, requestCode)
-    }
-    var photoURI: File? = null
+
+    var tempFileUri: Uri? = null
+
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString("photoUri", photoURI?.absolutePath.orEmpty())
+        outState.putParcelable("photoURI", tempFileUri)
+    }
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (savedInstanceState != null) {
+            tempFileUri = savedInstanceState.getParcelable("photoURI")
+        }
+    }
+    fun rotateImageIfRequired(context: Context, img: Bitmap, selectedImage: Uri): Bitmap {
+        val input = context.contentResolver.openInputStream(selectedImage) ?: return img
+        val ei = ExifInterface(input)
+        val orientation =
+            ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)
+
+        return when (orientation) {
+            ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(img, 90f)
+            ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(img, 180f)
+            ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(img, 270f)
+            else -> img
+        }
+    }
+    fun resizeBitmap(bitmap: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        val width = bitmap.width
+        val height = bitmap.height
+        val aspectRatio = width.toFloat() / height.toFloat()
+        var newWidth = maxWidth
+        var newHeight = maxHeight
+
+        if (width > height) {
+            newHeight = (newWidth / aspectRatio).toInt()
+        } else {
+            newWidth = (newHeight * aspectRatio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, true)
     }
 
-    override fun onViewStateRestored(savedInstanceState: Bundle?) {
-        super.onViewStateRestored(savedInstanceState)
-        savedInstanceState?.getString("photoFilePath")?.let {
-            photoURI = File(it) // Restore the file using the path
-        }
+    private fun rotateImage(img: Bitmap, degree: Float): Bitmap {
+        val matrix = Matrix()
+        matrix.postRotate(degree)
+        return Bitmap.createBitmap(img, 0, 0, img.width, img.height, matrix, true)
     }
-    private fun openCameraForImage(requestCode: Int) {
-        // Open camera for capturing an image
-        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        val photoFile = createImageFile() // Create a file to save the image
-        photoFile?.let {
-            photoURI = it
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
-            startActivityForResult(intent, requestCode) // Use the requestCode passed to this function
-        }
-    }
+
+
+
     // Helper function to create image file
     @Throws(IOException::class)
     private fun createImageFile(): File? {
@@ -252,12 +278,19 @@ open class BaseFragment : Fragment() {
         val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
         return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
     }
+
     // Helper function to create video file
     @Throws(IOException::class)
     private fun createVideoFile(): File? {
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
         val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES)
         return File.createTempFile("MP4_${timeStamp}_", ".mp4", storageDir)
+    }
+    private fun openGalleryForImage(requestCode: Int) {
+        // Implement logic to open gallery for picking an image
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        startActivityForResult(intent, requestCode)
     }
     private fun openGalleryForVideo(requestCode: Int) {
         // Implement logic to open gallery for picking a video
@@ -266,13 +299,22 @@ open class BaseFragment : Fragment() {
         startActivityForResult(intent, requestCode)
     }
 
+    private fun openCameraForImage(requestCode: Int) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val photoFile = createImageFile() // Create a file to save the image
+        photoFile?.let {
+            tempFileUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", it)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, tempFileUri)
+            startActivityForResult(intent, requestCode) // Use the requestCode passed to this function
+        }
+    }
     private fun openCameraForVideo(requestCode: Int) {
         // Implement logic to open camera for capturing a video
         val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
         val videoFile = createVideoFile() // Create a file to save the video
         videoFile?.also {
-            val videoURI: Uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", it)
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, videoURI)
+            tempFileUri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", it)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, tempFileUri)
             startActivityForResult(intent, requestCode)
         }
     }

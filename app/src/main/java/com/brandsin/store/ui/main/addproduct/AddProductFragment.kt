@@ -7,12 +7,10 @@ import android.graphics.BitmapFactory
 import android.media.MediaMetadataRetriever
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.net.toFile
-import androidx.core.net.toUri
+import android.webkit.MimeTypeMap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -29,10 +27,11 @@ import com.brandsin.store.ui.dialogs.productcategories.DialogProductCategoriesFr
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
 import com.fxn.pix.Options
-import com.fxn.pix.Pix
 import timber.log.Timber
 import java.io.File
+import java.io.FileOutputStream
 import java.util.Locale
+import kotlin.io.path.fileVisitor
 
 class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
     lateinit var binding: HomeFragmentAddProductBinding
@@ -96,7 +95,7 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                         it.removeAt(newPosition)
                         // Add a dummy item back to maintain consistent list size
                         it.add(
-                            it.lastIndex+1,
+                            it.lastIndex + 1,
                             PhotoModel(
                                 isPhotoOrVideo = "none",
                                 photoOrVideoBitmap = null
@@ -117,7 +116,10 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
 
                     // Notify the adapter
                     binding.rvProductPhotos.adapter?.notifyItemChanged(newPosition)
-                    binding.rvProductPhotos.adapter?.notifyItemRangeChanged(newPosition, viewModel.imageList.value!!.size - newPosition)
+                    binding.rvProductPhotos.adapter?.notifyItemRangeChanged(
+                        newPosition,
+                        viewModel.imageList.value!!.size - newPosition
+                    )
                     Timber.e("newPosition: $newPosition (Size: ${viewModel.fileImageList.value!!.size})\nNew image list: ${viewModel.imageList.value}\nNew file list: ${viewModel.fileImageList.value!!}")
                 } else {
                     Timber.e("Invalid position: $newPosition (Size: ${viewModel.imageList.value!!.size})")
@@ -180,26 +182,26 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
             }
         })*/
 
-/*
-        viewModel.addproductSkuAdapter.value!!.productUnitLiveData.observe(viewLifecycleOwner, {
-            if (viewModel.addProductRequest.categoriesIds != null) {
-                if (it != null) {
-                    viewModel.skuPosition = it
+        /*
+                viewModel.addproductSkuAdapter.value!!.productUnitLiveData.observe(viewLifecycleOwner, {
+                    if (viewModel.addProductRequest.categoriesIds != null) {
+                        if (it != null) {
+                            viewModel.skuPosition = it
 
-                    val bundle = Bundle()
-                    bundle.putSerializable(Params.PRODUCT_UNIT, viewModel.unitList)
-                    Utils.startDialogActivity(
-                        requireActivity(),
-                        DialogProductUnitFragment::class.java.name,
-                        Codes.DIALOG_PRODUCT_UNIT_CODE,
-                        bundle
-                    )
-                }
-            } else {
-                showToast(getString(R.string.enter_product_type), 1)
-            }
-        })
-*/
+                            val bundle = Bundle()
+                            bundle.putSerializable(Params.PRODUCT_UNIT, viewModel.unitList)
+                            Utils.startDialogActivity(
+                                requireActivity(),
+                                DialogProductUnitFragment::class.java.name,
+                                Codes.DIALOG_PRODUCT_UNIT_CODE,
+                                bundle
+                            )
+                        }
+                    } else {
+                        showToast(getString(R.string.enter_product_type), 1)
+                    }
+                })
+        */
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -329,7 +331,165 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                         }
                     }*/
                     Codes.SELECT_PHOTO1 -> {
-                        data?.let {
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        Timber.e("file uri is $fileUri")
+                        val file = fileUri?.let { uri ->
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
+                        }
+                        Timber.e("image uri is :$fileUri \n file is $file")
+                        if (file == null) {
+                            showToast(getString(R.string.someThing_went_wrong), 1)
+                            return
+                        }
+                        var bitmap: Bitmap? = null
+                        var thumbnail: Bitmap? = null
+                        val isVideo: Boolean? = when {
+                            file.extension.lowercase(Locale.ROOT).let { ext ->
+                                ext == "jpg" || ext == "png" || ext == "jpeg"
+                            } -> {
+                                try {
+                                    bitmap = when {
+                                        // Handle content URI (content://)
+                                        fileUri.scheme.equals("content", ignoreCase = true) -> {
+                                            // Use ContentResolver to open an InputStream for content URIs
+                                            val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
+                                            BitmapFactory.decodeStream(inputStream)
+                                        }
+                                        // Handle file URI (file://) or regular file path
+                                        fileUri.scheme.equals("file", ignoreCase = true) || fileUri.scheme == null -> {
+                                            BitmapFactory.decodeFile(file.absolutePath)
+                                        }
+                                        else -> null
+                                    }
+
+                                    // If bitmap is successfully created
+                                    bitmap?.let {
+                                        // Resize the bitmap to a manageable size
+                                        val resizedBitmap = resizeBitmap(it, 1024, 1024) // Adjust maxWidth and maxHeight as needed
+
+                                        // Rotate the resized bitmap if required
+                                        bitmap = rotateImageIfRequired(requireContext(), resizedBitmap, fileUri)
+                                        Timber.e("Bitmap created and processed successfully")
+                                    } ?: run {
+                                        Timber.e("Failed to create bitmap: unsupported URI scheme")
+                                    }
+
+                                    // Handle image selection
+                                    Timber.e("Image selected")
+                                    false // Indicate it's not a video
+                                } catch (e: Exception) {
+                                    e.printStackTrace()
+                                    Timber.e("Error converting Uri to Bitmap: ${e.message}")
+                                    null
+                                }
+
+                            }
+                            // Check for video formats
+                            file.extension.lowercase(Locale.ROOT).let { ext ->
+                                ext == "mp4" || ext == "mkv" || ext == "mpeg" ||
+                                        ext == "wmv" || ext == "amv" || ext == "mov"
+                            } -> {
+                                Timber.e("Video selected")
+                                val retriever = MediaMetadataRetriever()
+                                try {
+                                    retriever.setDataSource(context, fileUri)
+                                    thumbnail = retriever.getFrameAtTime(
+                                        1000000,
+                                        MediaMetadataRetriever.OPTION_CLOSEST_SYNC
+                                    ) // Get frame at 1 second (in microseconds)
+                                } catch (e: IllegalArgumentException) {
+                                    showToast(
+                                        getString(
+                                            R.string.invalid_uri_or_file_path,
+                                            e.message
+                                        ),1)
+                                    return
+                                } catch (e: SecurityException) {
+                                    showToast(getString(R.string.permission_denied, e.message),1)
+                                    return
+                                } catch (e: RuntimeException) {
+                                    showToast(
+                                        getString(
+                                            R.string.failed_to_set_data_source,
+                                            e.message
+                                        ),1)
+                                    return
+                                } finally {
+                                    retriever.release()
+                                }
+                                true // Indicate it's a video
+                            }
+
+                            else -> {
+                                showToast(getString(R.string.unsupported_format), 1)
+                                null
+                            }
+                        }
+
+                        // Determine the position in the image list
+                        var position = getEmptyPosition(viewModel.imageList.value.orEmpty())
+                        if (viewModel.imageList.value.isNullOrEmpty()) {
+                            position = 0
+                        }
+                        if ((position == -1 && viewModel.imageList.value!!.size == 10) || position >= 10) {
+                            // No available position or exceeded the limit
+                            showToast(getString(com.fxn.pix.R.string.selection_limiter_pix, 10), 1)
+                            return
+                        }
+
+                        // Create the new photo model
+                        val newPhotoModel = PhotoModel(
+                            isPhotoOrVideo = when {
+                                isVideo == true -> "video"
+                                isVideo == false -> "photo"
+                                else -> "none"
+                            },
+                            photoOrVideoBitmap = when {
+                                isVideo == true -> thumbnail
+                                isVideo == false -> bitmap
+                                else -> null
+                            }
+                        )
+
+                        // Ensure we still have exactly 10 slots (fill with dummies if needed)
+                        while (viewModel.imageList.value!!.size < 10) {
+                            viewModel.imageList.value!!.add(
+                                PhotoModel(
+                                    isPhotoOrVideo = "none",
+                                    photoOrVideoBitmap = null
+                                )
+                            )
+                        }
+
+                        // Replace the dummy item at the found position with the new photo or video
+                        viewModel.imageList.value = viewModel.imageList.value!!.apply {
+                            removeAt(position) // Remove dummy item
+                            add(position, newPhotoModel) // Add new photo/video at the same position
+                        }
+
+                        // Update the file list accordingly
+                        viewModel.fileImageList.value = viewModel.fileImageList.value!!.apply {
+                            add(position, file) // Add the new file at the same position
+                        }
+
+                        // Notify the adapter about the change
+                        binding.rvProductPhotos.adapter?.notifyDataSetChanged()
+                    }
+                    /*data?.let {
                             val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
                             returnValue?.let { array ->
                                 binding.rvProductPhotos.visibility = View.VISIBLE
@@ -455,67 +615,65 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                                 binding.rvProductPhotos.adapter?.notifyDataSetChanged()
 
                             }
+                        }*/
+                }
+
+
+                when {
+                    requestCode == Codes.DIALOG_PRODUCT_CATEGORY_CODE && data != null -> {
+                        if (data.hasExtra(Params.DIALOG_CLICK_ACTION)) {
+                            Timber.e("data: ${data.getStringExtra("productCategoryNames")}")
+                            when {
+                                data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
+                                    binding.productCategory.text =
+                                        data.getStringExtra("productCategoryNames")
+                                    viewModel.addProductRequest.categoriesIds =
+                                        data.getIntegerArrayListExtra("productCategoryId")
+                                    viewModel.getUnitsList(viewModel.addProductRequest.categoriesIds!!)
+                                }
+                            }
                         }
                     }
                 }
 
-
-                    when {
-                        requestCode == Codes.DIALOG_PRODUCT_CATEGORY_CODE && data != null -> {
-                            if (data.hasExtra(Params.DIALOG_CLICK_ACTION)) {
-                                Timber.e("data: ${data.getStringExtra("productCategoryNames")}")
-                                when {
-                                    data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
-                                        binding.productCategory.text =
-                                            data.getStringExtra("productCategoryNames")
-                                        viewModel.addProductRequest.categoriesIds =
-                                            data.getIntegerArrayListExtra("productCategoryId")
-                                        viewModel.getUnitsList(viewModel.addProductRequest.categoriesIds!!)
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                        when {
-                        requestCode == Codes.DIALOG_PRODUCT_UNIT_CODE && data != null -> {
-                            if (data.hasExtra(Params.DIALOG_CLICK_ACTION)) {
-                                when {
-                                    data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
-                                        var productUnitId =
-                                            data.getStringExtra("productUnitId").toString()
-                                        var productUnitName =
-                                            data.getStringExtra("productUnitName").toString()
-
-                                        viewModel.addproductSkuAdapter.value!!.updateList(
-                                            productUnitId,
-                                            productUnitName,
-                                            viewModel.skuPosition
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    when {
-                        requestCode == Codes.DIALOG_PRODUCT_REQUEST && data != null -> {
+                when {
+                    requestCode == Codes.DIALOG_PRODUCT_UNIT_CODE && data != null -> {
+                        if (data.hasExtra(Params.DIALOG_CLICK_ACTION)) {
                             when {
-                                data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
-                                    when {
-                                        data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
-                                            findNavController().navigate(R.id.add_products_to_products)
-                                        }
+                                data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
+                                    var productUnitId =
+                                        data.getStringExtra("productUnitId").toString()
+                                    var productUnitName =
+                                        data.getStringExtra("productUnitName").toString()
 
-                                        data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 2 -> {
-                                            startActivity(
-                                                Intent(
-                                                    requireActivity(),
-                                                    HomeActivity::class.java
-                                                )
+                                    viewModel.addproductSkuAdapter.value!!.updateList(
+                                        productUnitId,
+                                        productUnitName,
+                                        viewModel.skuPosition
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                when {
+                    requestCode == Codes.DIALOG_PRODUCT_REQUEST && data != null -> {
+                        when {
+                            data.hasExtra(Params.DIALOG_CLICK_ACTION) -> {
+                                when {
+                                    data.getIntExtra(Params.DIALOG_CLICK_ACTION, 0) == 1 -> {
+                                        findNavController().navigate(R.id.add_products_to_products)
+                                    }
+
+                                    data.getIntExtra(Params.DIALOG_CLICK_ACTION, 1) == 2 -> {
+                                        startActivity(
+                                            Intent(
+                                                requireActivity(),
+                                                HomeActivity::class.java
                                             )
-                                            requireActivity().finishAffinity()
-                                        }
+                                        )
+                                        requireActivity().finishAffinity()
                                     }
                                 }
                             }
@@ -523,8 +681,9 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                     }
                 }
             }
-
         }
+
+    }
 
     override fun onChanged(it: Any?) {
         when (it) {
