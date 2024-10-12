@@ -17,7 +17,7 @@ import com.brandsin.store.R
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.utils.MyApp
 import com.brandsin.store.utils.PrefMethods
-import com.brandsin.user.utils.map.PermissionUtil
+import com.brandsin.store.utils.map.PermissionUtil
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.common.api.ApiException

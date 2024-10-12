@@ -2,14 +2,26 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.brandsin.store">
-
+    <supports-screens
+        android:smallScreens="true"
+        android:normalScreens="true"
+        android:largeScreens="false"
+        android:xlargeScreens="false"
+        android:anyDensity="true" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+
+<!--    &lt;!&ndash; Scoped storage permissions for Android 10+ &ndash;&gt;
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
+
     <uses-permission android:name="android.permission.CAMERA" />
 
     <uses-feature android:name="android.hardware.camera" />
@@ -20,6 +32,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
 
     <uses-permission
         android:name="com.google.android.gms.permission.AD_ID"
@@ -41,6 +54,7 @@
         android:usesCleartextTraffic="true"
         tools:replace="android:supportsRtl,android:allowBackup"
         tools:targetApi="31">
+
 
         <activity
             android:name=".ui.auth.register.bankAccountInfo.RegisterBankAccountInfoActivity"
@@ -125,14 +139,27 @@
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
             android:value="false" />
-
         <service
-            android:name=".utils.NotificationFirebaseMessagingService"
+            android:name=".utils.MainPushNotificationService"
+            android:exported="true">
+            <intent-filter android:priority="1">
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".utils.MyFirebaseMessagingService"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+        <!--<service
+            android:name=".utils.NotificationFirebaseMessagingService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>-->
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -144,5 +171,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
     </application>
+
 
 </manifest>

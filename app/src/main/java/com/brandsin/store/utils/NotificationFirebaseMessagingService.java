@@ -13,16 +13,20 @@ import android.media.RingtoneManager;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.brandsin.store.R;
 import com.brandsin.store.ui.activity.auth.AuthActivity;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
+
+import timber.log.Timber;
 
 public class NotificationFirebaseMessagingService extends FirebaseMessagingService {
 
@@ -30,17 +34,25 @@ public class NotificationFirebaseMessagingService extends FirebaseMessagingServi
     Intent intent;
 
     @Override
-    public void onMessageReceived(RemoteMessage remoteMessage) {
+    public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
 
-        showNotification = PrefMethods.INSTANCE.getIsNotificationsEnabled(this);
+        RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Map<String, String> data = remoteMessage.getData();
+// Convert notification and data to JSON
+        Gson gson = new Gson();
+        String notificationJson = gson.toJson(notification);
+        String dataJson = gson.toJson(data);
 
+        // Log the notification and data as JSON
+        Timber.e("Notification JSON: %s", notificationJson);
+        Timber.e("Data JSON: %s", dataJson);
         // Check if Notification are Enabled?
         if (showNotification) {
             //Show Notification
-            RemoteMessage.Notification notification = remoteMessage.getNotification();
-            Map<String, String> data = remoteMessage.getData();
 
+
+            showNotification = PrefMethods.INSTANCE.getIsNotificationsEnabled(this);
             sendNotification(notification, data);
         }
     }

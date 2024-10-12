@@ -12,6 +12,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.brandsin.store.R
 import com.brandsin.store.databinding.HomeFragmentOrderDetailsBinding
 import com.brandsin.store.model.constants.Codes
@@ -47,7 +48,7 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
 
     private lateinit var viewModel: OrderDetailsViewModel
 
-    // private val fragmentArgs: OrderDetailsFragmentArgs by navArgs()
+     private val fragmentArgs: OrderDetailsFragmentArgs by navArgs()
 
     private val btnRejectedOrderCallback: () -> Unit = {
         viewModel.setUpdateStatusOrder("rejected_by_store")
@@ -75,7 +76,7 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
 
         setBarName(getString(R.string.order_details))
 
-        viewModel.orderId = requireArguments().getInt(Params.ORDER_ID)
+        viewModel.orderId = fragmentArgs.orderId
 
         /*if (fragmentArgs.orderId == null) {
             viewModel.orderId = requireArguments().getInt(Params.ORDER_ID)
@@ -142,7 +143,8 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
                                 binding.btnReject.visibility = View.VISIBLE
 //                                binding.btnConfirm.visibility = View.VISIBLE
                             } else {
-                                binding.btnPrintInvoice.visibility = View.VISIBLE
+                                //todo
+//                                binding.btnPrintInvoice.visibility = View.VISIBLE
                                 binding.rgAccept.visibility = View.GONE
                                 binding.btnAccept.visibility = View.GONE
                                 binding.btnReject.visibility = View.GONE
@@ -185,11 +187,15 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
                 DialogRejectOrderFragment::class.java.simpleName
             )
         }
-
-        //TODO
         binding.whatsApp.setOnClickListener {
+            var phone = viewModel.orderDetails.order?.phoneNumber
+            //+05......
+            if (phone.orEmpty().startsWith("+966").not()){
+                phone.orEmpty().filter { it == '+' }
+                phone = "+966$phone"
+            }
             val url =
-                "https://api.whatsapp.com/send?phone=" + viewModel.orderDetails.order?.phoneNumber
+                "https://api.whatsapp.com/send?phone=$phone"
             val i = Intent(Intent.ACTION_VIEW)
             i.data = Uri.parse(url)
             startActivity(i)
@@ -217,7 +223,7 @@ class OrderDetailsFragment : BaseHomeFragment(), Observer<Any?>, OnMapReadyCallb
             bundle.putString("Avatar_User", messageModel.avateruser)
             bundle.putString("Sender_Id", messageModel.senderId)
             bundle.putString("Sender_Name", messageModel.senderName)
-            bundle.putString("Store_Id", messageModel.storeId)
+            bundle.putString("Store_Id", PrefMethods.getStoreData()?.userId.toString())
             bundle.putString("Store_Name", messageModel.storename)
             findNavController().navigate(R.id.messageFragment, bundle)
         }

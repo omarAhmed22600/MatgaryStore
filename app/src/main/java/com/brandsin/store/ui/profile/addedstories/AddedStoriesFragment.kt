@@ -11,18 +11,22 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.brandsin.store.R
 import com.brandsin.store.databinding.ProfileFragmentAddedStoriesBinding
+import com.brandsin.store.model.ListStoriesResponse
+import com.brandsin.store.model.Story
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.profile.addedstories.liststories.StoriesItem
+import com.brandsin.store.network.ResponseHandler
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.profile.addedstories.storyviewer.StoryView
 import com.brandsin.store.utils.observe
+import timber.log.Timber
 
 class AddedStoriesFragment : BaseHomeFragment(), Observer<Any?>, StoryView.StoryViewListener {
 
     lateinit var binding: ProfileFragmentAddedStoriesBinding
     lateinit var viewModel: AddedStoriesViewModel
 
-    var storiesItem = StoriesItem()
+    var storiesItem = Story()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -64,26 +68,78 @@ class AddedStoriesFragment : BaseHomeFragment(), Observer<Any?>, StoryView.Story
                 );
             }
         }
+        viewModel.getListStoriesResponse.observe(viewLifecycleOwner) { it ->
+            when (it) {
+                is ResponseHandler.Success -> {
 
+                    viewModel.storiesList =
+                        it.data as ArrayList<com.brandsin.store.model.ListStoriesResponse>
+                    viewModel.addedStoriesAdapter.updateList(viewModel.storiesList)
+                    viewModel.setShowProgress(false)
+                    viewModel.obsIsEmpty.set(false)
+                    viewModel.obsIsFull.set(true)
+                    for (item in viewModel.storiesList) {
+                        for (xItem in item.stories!!) {
+                            // myStory = MyStory()
+                            if (xItem!!.media_url.isNullOrEmpty()) {
+                                // myStory.url = ""
+                            } else {
+                                // myStory.url = xItem.mediaUrl
+                            }
+                            // myStory.date = simpleDateFormat.parse(xItem.createdAt)
+                            // myStory.description = xItem.text
+                            // myStoriesList.add(myStory)
+                        }
+                    }
+                }
+
+                is ResponseHandler.Error -> {
+                    viewModel.obsIsFull.set(false)
+
+                    // show error message
+                    showToast(it.message, 1)
+                }
+
+                is ResponseHandler.Loading -> {
+                    // show a progress bar
+                    viewModel.obsIsLoading.set(true)
+                    viewModel.obsIsFull.set(false)
+                }
+
+                is ResponseHandler.StopLoading -> {
+                    // show a progress bar
+                    viewModel.obsIsLoading.set(false)
+                    viewModel.obsIsFull.set(false)
+                }
+
+                else -> {}
+            }
+        }
         observe(viewModel.addedStoriesAdapter.deleteStoryData) {
             when (it) {
-                is StoriesItem -> {
+                is Story -> {
                     viewModel.setShowProgress(true)
                     viewModel.deleteStories(it.id)
                 }
             }
         }
 
-        /* observe(viewModel.addedStoriesAdapter.showStoryData) {
+        observe(viewModel.addedStoriesAdapter.showStoryData) {
             when (it) {
-                is StoriesItem -> {
-                    findNavController().navigate(R.id.add_stories_to_show_story)
+                is Story -> {
+//                    val args = Bundle().apply {
+//                        putInt("storyItemId", it.id)
+//                    }
+//                    findNavController().navigate(R.id.nav_show_story, args)
+                    val storyView = StoryView(0, mutableListOf(arrayListOf(it)))
+                    storyView.setStoryViewListener(this)
+                    storyView.show(childFragmentManager, "story")
                 }
             }
-        }*/
+        }
 
         observe(viewModel.addedStoriesAdapter.allStories) {
-            val stories: MutableList<ArrayList<StoriesItem>> = ArrayList()
+            val stories: MutableList<ArrayList<Story>> = ArrayList()
 
             it!!.forEach { value ->
                 value.store = storiesItem.store
@@ -111,7 +167,7 @@ class AddedStoriesFragment : BaseHomeFragment(), Observer<Any?>, StoryView.Story
         }
     }
 
-    override fun onDoneClicked(num: Int, storiesItem: StoriesItem) {
+    override fun onDoneClicked(num: Int, storiesItem: Story) {
         when (num) {
             1 -> {}
             2 -> {}

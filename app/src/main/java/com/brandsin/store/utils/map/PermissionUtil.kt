@@ -1,4 +1,4 @@
-package com.brandsin.user.utils.map
+package com.brandsin.store.utils.map
 
 import android.Manifest
 import android.app.Activity

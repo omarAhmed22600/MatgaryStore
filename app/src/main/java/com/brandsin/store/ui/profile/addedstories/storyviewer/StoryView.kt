@@ -19,6 +19,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.brandsin.store.R
 import com.brandsin.store.databinding.DialogStoriesBinding
+import com.brandsin.store.model.Story
 import com.brandsin.store.model.profile.addedstories.liststories.StoriesItem
 import com.brandsin.store.ui.profile.addedstories.showstory.ShowStoryViewModel
 import com.brandsin.store.ui.profile.addedstories.storyviewer.callBack.CubeOutTransformer
@@ -29,7 +30,7 @@ import com.brandsin.store.utils.PullDismissLayout
 import com.bumptech.glide.Glide
 class StoryView(
     var currentPage: Int,
-    private val storiesList: MutableList<ArrayList<StoriesItem>>
+    private val storiesList: MutableList<ArrayList<Story>>
 ) : DialogFragment(), PullDismissLayout.Listener, Observer<Any?>, PageViewOperator, TouchCallbacks {
 
     private lateinit var binding: DialogStoriesBinding
@@ -74,7 +75,7 @@ class StoryView(
     }
 
     interface StoryViewListener {
-        fun onDoneClicked(num: Int, storiesItem: StoriesItem)
+        fun onDoneClicked(num: Int, storiesItem: Story)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -222,9 +223,9 @@ class StoryView(
         dialog?.window?.attributes = params
     }
 
-    private fun preLoadImages(imageList: MutableList<StoriesItem>) {
+    private fun preLoadImages(imageList: MutableList<Story>) {
         imageList.forEach { imageStory ->
-            Glide.with(this).load(imageStory.mediaUrl).preload()
+            Glide.with(this).load(imageStory.media_url).preload()
         }
     }
 

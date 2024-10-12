@@ -12,6 +12,7 @@ import com.brandsin.user.ui.chat.model.MessageModel
 import com.bumptech.glide.Glide
 import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Locale
 
 class MessagesAdapter(
     private val imageClickCallBack: (image: String) -> Unit
@@ -25,12 +26,12 @@ class MessagesAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         return when (viewType) {
-            0 -> {
+            1 -> {
                 val binding = ItemRightMessageBinding.inflate(inflater, parent, false)
                 MessageViewHolder(binding)
             }
 
-            1 -> {
+            0 -> {
                 val binding = ItemLeftMessageBinding.inflate(inflater, parent, false)
                 MessageViewHolder(binding)
             }
@@ -46,12 +47,24 @@ class MessagesAdapter(
         holder.setIsRecyclable(false)
 
         when (viewType) {
-            0 -> {
+            1 -> {
                 // Right message layout binding
                 val binding = ItemRightMessageBinding.bind(holder.itemView)
+// Right message layout binding
+                val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.US)
+                val timeFormat = SimpleDateFormat("hh:mm a", Locale.US)
+
+// The original time string, for example
+                val originalTime = message.date.orEmpty()
+
+// Parsing the original time string
+                val date = dateFormat.parse(originalTime)
+
+// Formatting it to the new format
+                val formattedTime = timeFormat.format(date!!)
+                binding.messageDateR.text = formattedTime
 
                 // Bind data to views
-                binding.messageDateR.text = formatDateSToString(message.date.toLong())
                 if (message.type == "text") {
                     binding.sendImageR.visibility = View.GONE
                     binding.txtMessageR.text = message.message
@@ -67,12 +80,23 @@ class MessagesAdapter(
                 }
             }
 
-            1 -> {
+            0 -> {
                 // Left message layout binding
                 val binding = ItemLeftMessageBinding.bind(holder.itemView)
+// Right message layout binding
+                val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.US)
+                val timeFormat = SimpleDateFormat("hh:mm a", Locale.US)
 
+// The original time string, for example
+                val originalTime = message.date.orEmpty()
+
+// Parsing the original time string
+                val date = dateFormat.parse(originalTime)
+
+// Formatting it to the new format
+                val formattedTime = timeFormat.format(date!!)
+                binding.messageDateL.text = formattedTime
                 // Bind data to views
-                binding.messageDateL.text = formatDateSToString(message.date.toLong())
                 if (message.type == "text") {
                     binding.sendImageL.visibility = View.GONE
                     binding.txtMessageL.text = message.message

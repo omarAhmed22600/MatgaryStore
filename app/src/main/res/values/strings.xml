@@ -660,4 +660,13 @@
     <string name="mass">الحجم</string>
     <string name="capacity">السعة</string>
     <string name="selling_price">سعر البيع</string>
+    <string name="select_color">اختر اللون</string>
+    <string name="select_mass">اختر الحجم</string>
+    <string name="select_capacity">اختر السعة</string>
+    <string name="price_of_mass">سعر الحجم ال%1$s</string>
+    <string name="gallery">المعرض</string>
+    <string name="camera">كاميرا</string>
+    <string name="permission_granted_try_again">Permission Granted Try Again!</string>
+    <string name="permissions_are_needed_to_access_your_media">Permissions are needed to access your media.</string>
+    <string name="permissions_denied_please_enable_them_in_settings">Permissions denied. Please enable them in settings.</string>
 </resources>

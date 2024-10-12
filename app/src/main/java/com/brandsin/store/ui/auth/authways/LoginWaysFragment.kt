@@ -37,7 +37,6 @@ class LoginWaysFragment : BaseAuthFragment(), Observer<Any?>
     }
 
     override fun onChanged(t: Any?) {
-        TODO("Not yet implemented")
     }
 
 }

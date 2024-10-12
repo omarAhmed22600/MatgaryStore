@@ -6,6 +6,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
 import com.brandsin.store.databinding.RawAddedStoriesBinding
+import com.brandsin.store.model.ListStoriesResponse
+import com.brandsin.store.model.Story
 import com.brandsin.store.model.profile.addedstories.liststories.StoriesItem
 import com.brandsin.store.model.profile.addedstories.liststories.StoriesItemByDate
 import com.brandsin.store.utils.PrefMethods
@@ -17,10 +19,10 @@ import java.util.Date
 import java.util.Locale
 
 class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStoriesHolder>() {
-    var allStories = SingleLiveEvent<ArrayList<StoriesItem>>()
-    var itemsList: ArrayList<StoriesItemByDate> = ArrayList()
-    var deleteStoryData = SingleLiveEvent<StoriesItem>()
-    var showStoryData = SingleLiveEvent<StoriesItem>()
+    var allStories = SingleLiveEvent<ArrayList<Story>>()
+    var itemsList: ArrayList<ListStoriesResponse> = ArrayList()
+    var deleteStoryData = SingleLiveEvent<Story>()
+    var showStoryData = SingleLiveEvent<Story>()
 
     private var convertDate = ""
 
@@ -41,7 +43,7 @@ class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStorie
 
         itemViewModel.storyAdapter.deleteLiveData.observeForever {
             when (it) {
-                is StoriesItem -> {
+                is Story -> {
                     deleteStoryData.value = it
                 }
             }
@@ -49,7 +51,7 @@ class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStorie
 
         itemViewModel.storyAdapter.showLiveData.observeForever {
             when (it) {
-                is StoriesItem -> {
+                is Story -> {
                     showStoryData.value = it
                 }
             }
@@ -64,7 +66,7 @@ class AddedStoriesAdapter : RecyclerView.Adapter<AddedStoriesAdapter.AddedStorie
         return itemsList.size
     }
 
-    fun updateList(models: ArrayList<StoriesItemByDate>) {
+    fun updateList(models: ArrayList<ListStoriesResponse>) {
         itemsList = models
         notifyDataSetChanged()
     }

@@ -24,7 +24,7 @@ import com.brandsin.store.ui.main.marketingRequest.viewmodel.MarketingRequestVie
 import com.brandsin.store.utils.PrefMethods
 import com.brandsin.store.utils.longToast
 import com.brandsin.store.utils.observe
-import com.brandsin.user.utils.map.PermissionUtil
+import com.brandsin.store.utils.map.PermissionUtil
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
 import com.google.android.material.datepicker.CalendarConstraints

@@ -3,6 +3,7 @@ package com.brandsin.store.ui.main.addproduct
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
 import com.brandsin.store.databinding.RawAddProductSkuBinding
@@ -10,7 +11,12 @@ import com.brandsin.store.model.main.products.add.SkuAddProductItem
 import com.brandsin.store.utils.SingleLiveEvent
 import java.util.*
 
-class AddProductSkuAdapter  : RecyclerView.Adapter<AddProductSkuAdapter.ProductSkuHolder>() {
+class AddProductSkuAdapter(
+    private val viewModel: AddProductViewModel,
+    private val colorClick: AddProductSkuAdapter.OnClickListener, // For adding new images
+    private val massClick: AddProductSkuAdapter.OnClickListener,
+    private val capacityClick: AddProductSkuAdapter.OnClickListener,// For deleting existing images
+)  : RecyclerView.Adapter<AddProductSkuAdapter.ProductSkuHolder>() {
 
     var productSkuLiveData = SingleLiveEvent<ArrayList<SkuAddProductItem>>()
     var size=1
@@ -36,7 +42,9 @@ class AddProductSkuAdapter  : RecyclerView.Adapter<AddProductSkuAdapter.ProductS
     }
 
     override fun onBindViewHolder(holder: ProductSkuHolder, position: Int) {
-
+// Bind the viewModel to the layout
+        holder.binding.viewModel = viewModel
+        holder.binding.lifecycleOwner = holder.itemView.context as LifecycleOwner // For LiveData
 //        val itemViewModel = ItemProductSkuViewModel(itemsList[position])
 //        holder.binding.viewModel = itemViewModel
 
@@ -70,6 +78,15 @@ class AddProductSkuAdapter  : RecyclerView.Adapter<AddProductSkuAdapter.ProductS
 
         holder.binding.productUnit.setOnClickListener {
             productUnitLiveData.value = position
+        }
+        holder.binding.color.setOnClickListener {
+            colorClick.onClick()
+        }
+        holder.binding.mass.setOnClickListener {
+            massClick.onClick()
+        }
+        holder.binding.capacity.setOnClickListener {
+            capacityClick.onClick()
         }
     }
 
@@ -106,5 +123,7 @@ class AddProductSkuAdapter  : RecyclerView.Adapter<AddProductSkuAdapter.ProductS
     inner class ProductSkuHolder(val binding: RawAddProductSkuBinding) : RecyclerView.ViewHolder(
         binding.root
     )
-
+    class OnClickListener(val clickListener: () -> Unit) {
+        fun onClick() = clickListener()
+    }
 }

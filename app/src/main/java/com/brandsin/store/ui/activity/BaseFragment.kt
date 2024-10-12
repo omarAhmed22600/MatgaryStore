@@ -7,25 +7,36 @@ import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Environment
+import android.provider.MediaStore
 import android.provider.Settings
 import android.util.Log
 import android.view.View
 import androidx.activity.addCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
+import com.brandsin.store.R
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.store.utils.Utils
-import com.brandsin.store.utils.observe
 import com.brandsin.store.model.constants.Params
-import com.brandsin.user.utils.map.PermissionUtil
 import com.fxn.pix.Options
-import com.fxn.pix.Pix
+
+import timber.log.Timber
+import java.io.File
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 open class BaseFragment : Fragment() {
 
@@ -119,28 +130,216 @@ open class BaseFragment : Fragment() {
         )
     }
 
-    fun pickImage(requestCode: Int, mode: Options.Mode? = null) {
-        val options = Options.init()
-            .setRequestCode(requestCode) //Request code for activity results
-            .setFrontfacing(false) //Front Facing camera on start
-            .setExcludeVideos(false) //Option to exclude videos
-            .setMode(mode)
-        if (PermissionUtil.hasImagePermission(requireActivity())) {
-            Pix.start(this, options)
-        } else {
-            observe(
-                PermissionUtil.requestPermission(
-                    requireActivity(),
-                    PermissionUtil.getImagePermissions()
-                )
-            ) {
-                when (it) {
-                    PermissionUtil.AppPermissionResult.AllGood -> Pix.start(
-                        this,
-                        options
-                    )
+    fun pickImage(requestCode: Int, selectedMode: Options.Mode? = null) {
+        Timber.e("pick image called")
 
-                    else -> {}
+
+        // Start the Pix activity if permissions are granted
+        if (hasPermission(permissionsToRequest.toTypedArray())) {
+            Timber.e("permission granted")
+
+            // Create a new PixFragment instance
+            when (selectedMode) {
+                Options.Mode.All -> {
+                    showDialogToChooseMediaType(requestCode)
+                }
+
+                Options.Mode.Picture -> {
+                    showDialogToChooseSourceForPicture(requestCode)
+                }
+
+                Options.Mode.Video -> {
+                    showDialogToChooseSourceForVideo(requestCode)
+                }
+
+                else -> {
+                    showToast(getString(R.string.someThing_went_wrong),1)
+                }
+            }
+        }else {
+            Timber.e("not all permissions granted")
+            // Handle permission request result in the onRequestPermissionsResult
+            // This is handled in the checkAndRequestPermissions method
+            checkAndRequestAllPermissions()
+        }
+    }
+    private fun showDialogToChooseMediaType(requestCode: Int) {
+        val options = arrayOf(getString(R.string.photo), getString(R.string.video))
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.photo_or_video))
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> showDialogToChooseSourceForPicture(requestCode) // Picture
+                    1 -> showDialogToChooseSourceForVideo(requestCode)   // Video
+                }
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    // Method to show dialog to choose source for Picture
+    private fun showDialogToChooseSourceForPicture(requestCode: Int) {
+        val options = arrayOf(getString(R.string.gallery), getString(R.string.camera))
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.photo))
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> openGalleryForImage(requestCode) // Gallery
+                    1 -> openCameraForImage(requestCode)  // Camera
+                }
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    // Method to show dialog to choose source for Video
+    private fun showDialogToChooseSourceForVideo(requestCode: Int) {
+        val options = arrayOf(getString(R.string.gallery), getString(R.string.camera))
+
+        AlertDialog.Builder(requireContext())
+            .setTitle(getString(R.string.video))
+            .setItems(options) { _, which ->
+                when (which) {
+                    0 -> openGalleryForVideo(requestCode) // Gallery
+                    1 -> openCameraForVideo(requestCode)  // Camera
+                }
+            }
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .show()
+    }
+
+    // Helper methods to open gallery or camera
+    private fun openGalleryForImage(requestCode: Int) {
+        // Implement logic to open gallery for picking an image
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        startActivityForResult(intent, requestCode)
+    }
+    var photoURI: File? = null
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString("photoUri", photoURI?.absolutePath.orEmpty())
+    }
+
+    override fun onViewStateRestored(savedInstanceState: Bundle?) {
+        super.onViewStateRestored(savedInstanceState)
+        savedInstanceState?.getString("photoFilePath")?.let {
+            photoURI = File(it) // Restore the file using the path
+        }
+    }
+    private fun openCameraForImage(requestCode: Int) {
+        // Open camera for capturing an image
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val photoFile = createImageFile() // Create a file to save the image
+        photoFile?.let {
+            photoURI = it
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI)
+            startActivityForResult(intent, requestCode) // Use the requestCode passed to this function
+        }
+    }
+    // Helper function to create image file
+    @Throws(IOException::class)
+    private fun createImageFile(): File? {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        return File.createTempFile("JPEG_${timeStamp}_", ".jpg", storageDir)
+    }
+    // Helper function to create video file
+    @Throws(IOException::class)
+    private fun createVideoFile(): File? {
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())
+        val storageDir: File? = requireContext().getExternalFilesDir(Environment.DIRECTORY_MOVIES)
+        return File.createTempFile("MP4_${timeStamp}_", ".mp4", storageDir)
+    }
+    private fun openGalleryForVideo(requestCode: Int) {
+        // Implement logic to open gallery for picking a video
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Video.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "video/*"
+        startActivityForResult(intent, requestCode)
+    }
+
+    private fun openCameraForVideo(requestCode: Int) {
+        // Implement logic to open camera for capturing a video
+        val intent = Intent(MediaStore.ACTION_VIDEO_CAPTURE)
+        val videoFile = createVideoFile() // Create a file to save the video
+        videoFile?.also {
+            val videoURI: Uri = FileProvider.getUriForFile(requireContext(), "${requireContext().packageName}.provider", it)
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, videoURI)
+            startActivityForResult(intent, requestCode)
+        }
+    }
+
+    private val permissionsToRequest = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+            listOf(
+                Manifest.permission.CAMERA,
+                Manifest.permission.READ_MEDIA_IMAGES,
+                Manifest.permission.READ_MEDIA_VIDEO
+            )
+
+    } else {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+
+                listOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                )
+
+        } else {
+
+                listOf(
+                    Manifest.permission.CAMERA,
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                )
+
+        }
+    }
+    private fun checkAndRequestAllPermissions() {
+        // Request permissions if any are missing
+        if (permissionsToRequest.isNotEmpty()) {
+            requestPermissions(permissionsToRequest.toTypedArray(), REQUEST_CODE_PERMISSIONS)
+        }
+    }
+
+    private fun hasPermission(permissions: Array<String>): Boolean {
+        return permissions.all { ContextCompat.checkSelfPermission(requireContext(), it) == PackageManager.PERMISSION_GRANTED }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (hasPermission(permissionsToRequest.toTypedArray())) {
+                // Permission granted, continue with your task
+                showToast(getString(R.string.permission_granted_try_again),2)
+            } else {
+                // Permission denied
+                // Check if the user has denied the permission without checking "Don't ask again"
+                val shouldShowRationale = permissions.any {
+                    ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), it)
+                }
+
+                if (shouldShowRationale) {
+                    // Show a rationale dialog or Toast message explaining why the permission is needed
+                    showToast(getString(R.string.permissions_are_needed_to_access_your_media), 1)
+
+                    // Request permissions again
+                    requestPermissions(permissions, REQUEST_CODE_PERMISSIONS)
+                } else {
+                    // The user has selected "Don't ask again". You might want to disable the feature or show a message.
+                    showToast(getString(R.string.permissions_denied_please_enable_them_in_settings), 1)
                 }
             }
         }
@@ -161,6 +360,10 @@ open class BaseFragment : Fragment() {
                 startActivity(intent)
             }
         builder.create().show()
+    }
+
+    companion object {
+        private const val REQUEST_CODE_PERMISSIONS = 1001
     }
 }
 

@@ -63,6 +63,7 @@ import com.brandsin.store.model.profile.updateprofile.UpdateProfileRequest
 import com.brandsin.store.model.profile.updateprofile.UpdateProfileResponse
 import com.brandsin.store.model.profile.updatestore.UpdateStoreResponse
 import com.brandsin.store.model.profile.updatestore.UploadResponse
+import com.brandsin.store.ui.main.addproduct.ProductAttributesResponse
 import com.brandsin.store.ui.main.categories.model.CategoriesListResponse
 import com.brandsin.store.ui.main.discountCoupon.model.CouponListResponse
 import com.brandsin.store.ui.main.discountCoupon.model.CreateAndUpdateCouponResponse
@@ -161,7 +162,14 @@ interface ApiInterface {
         @Query("code") code: String?,
         @Query("lang") lang: String?
     ): Call<CountryIdResponse?>?
-
+    @FormUrlEncoded
+    @POST("api/common/send_notification")
+    suspend fun sendNotification(
+        @Field("message") message:String,
+        @Field("user_id") userId:Int,
+        @Field("click_action_key") clickActionKey:String,
+        @Field("click_action_id") clickActionId:Int,
+    ): ReadNotificationResponse?
     // verify
     @POST("/api/users/check_code")
     fun verify(@Body verifyCodeRequest: VerifyCodeRequest?): Call<VerifyCodeResponse?>
@@ -306,7 +314,10 @@ interface ApiInterface {
         @Query("lang") lang: String,
         @Query("store_id") storeId: Int
     ): ProductCategoriesResponse
-
+    @GET("/api/hajaty/attr")
+    suspend fun getProductAttrs(
+        @Query("store_id") storeId: Int
+    ): Response<ProductAttributesResponse>
     @GET("/api/hajaty/notifications")
     suspend fun getNotifications(
         @Query("limit") limit: Int, @Query("page") page: Int,
@@ -477,7 +488,7 @@ interface ApiInterface {
     @GET("/api/hajaty/store/list_stories")
     fun getListStories(
         @Query("store_id") storeId: Int
-    ): Call<ListStoriesResponse?>
+    ): BaseResponse<List<com.brandsin.store.model.ListStoriesResponse>?>
 
     // DeleteStories
     @POST("/api/hajaty/store/delete_story")

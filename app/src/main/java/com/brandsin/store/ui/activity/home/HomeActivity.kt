@@ -52,7 +52,7 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
     private var switchBusy: SwitchCompat? = null
     private var switchClose: SwitchCompat? = null
 
-    private var orderId = -1
+    var orderId = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -119,22 +119,38 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
         observe(orderClickLiveData) {
             when (it) {
                 is StoreOrderItem -> {
-                    val bundle = Bundle()
-                    bundle.putInt(Params.ORDER_ID, it.id ?: 0)
-                    // orderClickLiveData.value = null
-                    navController.navigate(R.id.nav_order_details, bundle)
-                }
+                        Timber.e("it $it")
+                    val args = Bundle().apply {
+                        putInt("order_id", it.id?:-1)  // Pass the chat_id variable
+                    }
+                    navController.navigate(R.id.nav_order_details,args)
+                    }
             }
         }
-
-        // Data from NotificationOpenedHandler
-        if (intent.getStringExtra("order_id") != null) {
+       /* if (intent.getStringExtra("order_id") != null) {
             orderId = intent.getIntExtra("order_id", -1)
             if (orderId != -1) {
                 val bundle = Bundle()
                 bundle.putInt(Params.ORDER_ID, orderId)
                 navController.navigate(R.id.nav_order_details, bundle)
             }
+        }*/
+        if (intent.getIntExtra("chat_id",-1) != -1) {
+            Timber.e("chat")
+            navController.navigate(R.id.nav_chat)
+        } else if (intent.getIntExtra("order_id",-1) != -1)
+        {
+//            orderId = intent.getIntExtra("order_id",-1)
+            val id = intent.getIntExtra("order_id",-1)
+            Timber.e("order\n$id")
+            val args = Bundle().apply {
+                putInt("order_id", intent.getIntExtra("order_id",-1))  // Pass the chat_id variable
+            }
+            navController.navigate(R.id.nav_order_details,args)
+        }else if (intent.getIntExtra("refundable_id",-1) != -1)
+        {
+            Timber.e("refund")
+            navController.navigate(R.id.nav_refundableProducts)
         }
 
         switchBusy =

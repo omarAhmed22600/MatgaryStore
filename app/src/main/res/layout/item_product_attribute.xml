@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="data"
+            type="com.brandsin.store.ui.main.addproduct.ProductAttributesResponseItem" />
+    </data>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/code_layout"
+        style="@style/TextInputLayoutNoBorder"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:background="@android:color/transparent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/capacity"
+            android:inputType="text"
+            android:textAlignment="viewStart"
+            android:focusable="false"
+            android:hint="@{data.label}"
+            android:drawableEnd="@drawable/ic_expand_down_arrow"
+            android:drawableTint="@color/color_primary"
+            android:textColorHint="@color/hint_color"
+            android:fontFamily="@font/cairoregular"
+            android:textColor="@color/black"
+            android:background="@android:color/transparent"/>
+        <LinearLayout
+            android:id="@+id/extraEditTextsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</layout>

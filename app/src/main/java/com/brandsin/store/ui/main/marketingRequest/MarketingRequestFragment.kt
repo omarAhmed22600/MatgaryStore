@@ -11,7 +11,7 @@ import com.brandsin.store.databinding.FragmentMarketingRequestBinding
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.main.marketingRequest.viewmodel.MarketingRequestViewModel
 import com.brandsin.store.utils.observe
-import com.brandsin.user.utils.map.PermissionUtil
+import com.brandsin.store.utils.map.PermissionUtil
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
 

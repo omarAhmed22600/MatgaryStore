@@ -22,6 +22,7 @@ import com.brandsin.store.utils.LocalUtil
 import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class AuthActivity : ParentActivity() {
 
@@ -30,7 +31,8 @@ class AuthActivity : ParentActivity() {
     private lateinit var navController: NavController
 
     private var orderId = -1
-
+    private var chatId = -1
+    private var refundableId = -1
     override fun onCreate(savedInstanceState: Bundle?) {
         LocalUtil.changeLanguage(this)
         super.onCreate(savedInstanceState)
@@ -45,8 +47,15 @@ class AuthActivity : ParentActivity() {
         initConnectivityManager()
 
         // Data from NotificationOpenedHandler
-        if (intent.getStringExtra("order_id") != null) {
-            orderId = intent.getIntExtra("order_id", -1)
+        if (intent.getStringExtra("chat_id") != null) {
+            Timber.e("chat")
+            chatId = intent.getStringExtra("chat_id")?.toInt()?:-1
+        } else if (intent.getStringExtra("order_id") != null) {
+            Timber.e("order")
+            orderId = intent.getStringExtra("order_id")?.toInt()?:-1
+        } else if (intent.getStringExtra("refundable_id") != null) {
+            Timber.e("refund")
+            refundableId = intent.getStringExtra("refundable_id")?.toInt()?:-1
         }
 
         binding.ibBack.setOnClickListener {
@@ -119,14 +128,19 @@ class AuthActivity : ParentActivity() {
     }
 
     private fun startIntent() {
-        if (orderId != -1) {
+        /*if (orderId != -1) {*/
             if (PrefMethods.getLoginState()) {
                 var intent = Intent(this@AuthActivity, HomeActivity::class.java)
-                intent.putExtra("order_id", orderId)
+                if (orderId != -1)
+                    intent.putExtra("order_id", orderId)
+                if (chatId != -1)
+                    intent.putExtra("chat_id", chatId)
+                if (refundableId != -1)
+                    intent.putExtra("refundable_id", refundableId)
                 startActivity(intent)
                 finish()
             }
-        }
+//        }
     }
 
     private lateinit var networkConnectionManager: ConnectivityManager

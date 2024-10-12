@@ -1,5 +1,11 @@
 package com.brandsin.store.ui.chat.views
 
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +19,10 @@ import com.brandsin.store.databinding.FragmentInboxBinding
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.chat.adapter.InboxAdapter
 import com.brandsin.store.ui.chat.viewmodel.InboxViewModel
+import com.brandsin.store.utils.BasePushNotificationService
+import com.brandsin.store.utils.PrefMethods
 import com.brandsin.user.ui.chat.model.MessageModel
+import timber.log.Timber
 
 class InboxFragment : BaseHomeFragment() {
 
@@ -31,11 +40,19 @@ class InboxFragment : BaseHomeFragment() {
         bundle.putString("Avatar_User", inbox.avateruser)
         bundle.putString("Sender_Id", inbox.senderId)
         bundle.putString("Sender_Name", inbox.senderName)
-        bundle.putString("Store_Id", inbox.storeId)
+        bundle.putString("Store_Id", PrefMethods.getStoreData()?.userId.toString())
         bundle.putString("Store_Name", inbox.storename)
         findNavController().navigate(R.id.messageFragment, bundle)
     }
-
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Timber.e("investigate1 -> on receive chat ")
+            if (intent?.action.orEmpty() == BasePushNotificationService.REFRESH_CHAT) {
+                Timber.e("investigate1 -> on receive update chat")
+                viewModel.readChat()
+            }
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -62,8 +79,21 @@ class InboxFragment : BaseHomeFragment() {
         viewModel.readChat()
     }
 
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
     override fun onResume() {
         super.onResume()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().registerReceiver(
+                broadcastReceiver,
+                IntentFilter(BasePushNotificationService.REFRESH_CHAT),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            requireActivity().registerReceiver(
+                broadcastReceiver,
+                IntentFilter(BasePushNotificationService.REFRESH_CHAT),
+            )
+        }
         viewModel.readChat()
     }
 
@@ -95,7 +125,10 @@ class InboxFragment : BaseHomeFragment() {
             }
         }
     }
-
+    override fun onPause() {
+        super.onPause()
+        requireActivity().unregisterReceiver(broadcastReceiver)
+    }
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

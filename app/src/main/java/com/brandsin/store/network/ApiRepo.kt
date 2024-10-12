@@ -83,7 +83,8 @@ class ApiRepo(private val apiInterface: ApiInterface) {
 
     suspend fun getStoreOrders(lang: String, userId: Int, limit: Int?, status: String, page: Int?) =
         apiInterface.getStoreOrders(lang, userId, limit, status, page)
-
+    suspend fun sendNotification(message: String, userId: Int, currentUserId: Int) =
+        apiInterface.sendNotification(message,userId,"chat_id",currentUserId)
     suspend fun getNotifications(limit: Int, page: Int, userId: Int,storeId: Int) =
         apiInterface.getNotifications(limit, page, userId, storeId)
 
@@ -199,6 +200,10 @@ class ApiRepo(private val apiInterface: ApiInterface) {
 
     suspend fun getProductCategories(parentsOnly: Int, lang: String, storeId: Int) =
         apiInterface.getProductCategories(parentsOnly, lang, storeId)
+
+
+    suspend fun getProductAttrs(storeId: Int) =
+        apiInterface.getProductAttrs(storeId)
 
     suspend fun getStoreTypes(lang: String) = apiInterface.getStoreTypes(lang)
 

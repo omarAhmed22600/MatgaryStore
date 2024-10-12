@@ -36,6 +36,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.brandsin.store.R
 import com.brandsin.store.ui.main.addproduct.PhotoModel
+import com.brandsin.store.ui.main.addproduct.ProductAttributesAdapter
+import com.brandsin.store.ui.main.addproduct.ProductAttributesResponseItem
 import com.brandsin.store.ui.main.addproduct.ProductPhotoAdapter
 import com.brandsin.store.ui.menu.storeStatistics.Product
 import com.brandsin.store.ui.menu.storeStatistics.ProductAdapter
@@ -141,6 +143,16 @@ fun RecyclerView.bindLinearLayout(
 ) {
     if (boolean.not()) {
         layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, boolean).apply {
+            isMeasurementCacheEnabled = false
+        }
+    }
+}
+@BindingAdapter("linearLayoutManagerForScrollingVertical")
+fun RecyclerView.bindLinearLayoutVertical(
+    boolean: Boolean
+) {
+    if (boolean.not()) {
+        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, boolean).apply {
             isMeasurementCacheEnabled = false
         }
     }
@@ -269,6 +281,14 @@ fun bindRecyclerViewForProductPhotos(
     data: List<PhotoModel>?
 ) {
     val adapter = recyclerView.adapter as ProductPhotoAdapter
+    adapter.submitList(data)
+}
+@BindingAdapter("listDataForProductAttributes")
+fun bindRecyclerViewForProductAttributes(
+    recyclerView: RecyclerView,
+    data: List<ProductAttributesResponseItem>?
+) {
+    val adapter = recyclerView.adapter as ProductAttributesAdapter
     adapter.submitList(data)
 }
 // Binding adapter function to set a Bitmap to an ImageView

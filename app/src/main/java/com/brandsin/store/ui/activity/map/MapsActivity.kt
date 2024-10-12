@@ -28,7 +28,7 @@ import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.map.GpsUtils
 import com.brandsin.store.utils.map.MapUtil
 import com.brandsin.store.model.constants.Params
-import com.brandsin.user.utils.map.PermissionUtil
+import com.brandsin.store.utils.map.PermissionUtil
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap

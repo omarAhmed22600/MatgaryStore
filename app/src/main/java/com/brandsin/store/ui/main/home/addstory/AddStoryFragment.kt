@@ -161,6 +161,7 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Timber.e("result code is $resultCode \n ${requestCode == Codes.PRODUCT_IMG_REQUEST_CODE}")
         when (resultCode) {
             Activity.RESULT_OK -> {
                 when (requestCode) {

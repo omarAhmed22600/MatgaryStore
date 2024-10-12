@@ -59,9 +59,10 @@
         android:name="com.brandsin.store.ui.main.orderdetails.OrderDetailsFragment"
         tools:layout="@layout/home_fragment_order_details">
 
-        <!--<argument
+        <argument
             android:name="order_id"
-            app:argType="integer" />-->
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 
     <fragment
@@ -241,7 +242,10 @@
         <action
             android:id="@+id/show_story_to_add_stories"
             app:destination="@+id/nav_add_stories" />
-
+        <argument
+            android:name="storyItemId"
+            app:argType="integer"
+            android:defaultValue="-1" />
     </fragment>
 
     <fragment

@@ -1,5 +1,6 @@
 package com.brandsin.store.ui.dialogs.productcategories
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import com.brandsin.store.model.main.products.add.AddProductRequest
 import com.brandsin.store.model.main.products.productcategories.ProductCategoriesData
 import com.brandsin.store.model.main.products.update.UpdateProductRequest
 import com.brandsin.store.model.constants.Params
+import timber.log.Timber
 
 class DialogProductCategoriesFragment  : DialogFragment(), Observer<Any?>
 {
@@ -86,10 +88,11 @@ class DialogProductCategoriesFragment  : DialogFragment(), Observer<Any?>
             else -> when (it) {
                 Codes.CONFIRM_CLICKED -> {
                     val intent = Intent()
+                    Timber.e("data before sent --> $productCategoryId\n$productCategoryNames")
                     intent.putExtra(Params.DIALOG_CLICK_ACTION, 1)
                     intent.putIntegerArrayListExtra("productCategoryId",productCategoryId)
                     intent.putExtra("productCategoryNames", productCategoryNames.joinToString { it -> "$it" })
-                    requireActivity().setResult(Codes.DIALOG_PRODUCT_CATEGORY_CODE, intent)
+                    requireActivity().setResult(Activity.RESULT_OK, intent)
                     requireActivity().finish()
                 }
                 Codes.CANCEL_CLICKED -> {

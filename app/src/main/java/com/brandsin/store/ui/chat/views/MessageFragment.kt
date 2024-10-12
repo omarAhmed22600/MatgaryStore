@@ -1,8 +1,13 @@
 package com.brandsin.store.ui.chat.views
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -15,13 +20,17 @@ import com.brandsin.store.databinding.FragmentMessageBinding
 import com.brandsin.store.ui.activity.BaseFragment
 import com.brandsin.store.ui.chat.adapter.MessagesAdapter
 import com.brandsin.store.ui.chat.viewmodel.InboxViewModel
+import com.brandsin.store.utils.BasePushNotificationService
 import com.brandsin.store.utils.PrefMethods
 import com.brandsin.store.utils.gone
 import com.brandsin.store.utils.longToast
 import com.brandsin.store.utils.visible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.Date
+import java.util.Locale
 
 class MessageFragment : BaseFragment() {
 
@@ -45,6 +54,19 @@ class MessageFragment : BaseFragment() {
         val bundle = Bundle()
         bundle.putString("Image_Message", image)
         findNavController().navigate(R.id.messageImagePreviewFragment, bundle)
+    }
+    private val broadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context?, intent: Intent?) {
+            Timber.e("investigate1 -> on receive chat ")
+            if (intent?.action.orEmpty() == BasePushNotificationService.REFRESH_CHAT) {
+                Timber.e("investigate1 -> on receive update chat")
+                val targetId = intent?.getIntExtra(BasePushNotificationService.CHAT, -1)
+                if (targetId == (senderId?.toInt() ?: -1)) {
+                    Timber.e("it is the same id")
+                    viewModel.readMessage(senderId.orEmpty())
+                }
+            }
+        }
     }
 
     override fun onCreateView(
@@ -121,7 +143,7 @@ class MessageFragment : BaseFragment() {
     }
 
     private fun subscribeData() {
-        viewModel.messagesLiveData.observe(viewLifecycleOwner) {
+        /*viewModel.messagesLiveData.observe(viewLifecycleOwner) {
             if (it.isNotEmpty()) {
                 binding.rvMessages.apply {
                     setHasFixedSize(true)
@@ -138,8 +160,35 @@ class MessageFragment : BaseFragment() {
                 }
                 binding.progressBar.gone()
             }
+        }*/
+
+        viewModel.messagesLiveData.observe(viewLifecycleOwner) { it ->
+            if (it.isNotEmpty()) {
+                binding.rvMessages.apply {
+                    setHasFixedSize(true)
+
+                    // Set the adapter if it's not already set
+                    if (adapter == null) {
+                        messagesAdapter = MessagesAdapter(imageClickCallBack)
+                        adapter = messagesAdapter
+                    }
+
+                    // Sort the list of messages by date
+                    val sortedMessages = it.sortedBy { it.date.toDate() }.toMutableList()
+
+                    // Submit the sorted data to the adapter
+                    messagesAdapter.submitData(sortedMessages)
+
+                    // Post the scrolling action to ensure it happens after layout update
+                    post {
+                        smoothScrollToPosition(sortedMessages.size - 1)
+                    }
+                }
+                binding.progressBar.gone()
+            }
         }
     }
+
 
     private fun validateData(): Boolean {
         var isValid = true
@@ -210,6 +259,30 @@ class MessageFragment : BaseFragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    @SuppressLint("UnspecifiedRegisterReceiverFlag")
+    override fun onResume() {
+        super.onResume()
+        Timber.e("MessageFragment -> onResume()")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            requireActivity().registerReceiver(
+                broadcastReceiver,
+                IntentFilter(BasePushNotificationService.REFRESH_CHAT),
+                Context.RECEIVER_EXPORTED
+            )
+        } else {
+            requireActivity().registerReceiver(
+                broadcastReceiver,
+                IntentFilter(BasePushNotificationService.REFRESH_CHAT),
+            )
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Timber.e("MessageFragment -> onPause()")
+        requireActivity().unregisterReceiver(broadcastReceiver)
     }
 }
 

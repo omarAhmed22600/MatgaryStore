@@ -13,6 +13,8 @@ import com.brandsin.store.utils.gone
 import com.brandsin.user.ui.chat.model.MessageModel
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import timber.log.Timber
+import java.text.SimpleDateFormat
 import java.util.Locale
 
 class InboxAdapter(
@@ -41,20 +43,35 @@ class InboxAdapter(
         val inbox = inboxList[position]
 
         holder.txtInboxUserName.text = inbox.senderName
+        val thisList = inboxList.filter { it.senderId == inbox.senderId && it.storeId == inbox.storeId }
+        val dateFormat = SimpleDateFormat("yyyyMMddHHmmss", Locale.US)
 
+        // Sort the list of messages by date
+        val sortedMessages = thisList.sortedBy { dateFormat.parse(it.date) }.toMutableList()
+        Timber.e("list $sortedMessages")
         Glide.with(holder.itemView.context)
             .load(inbox.avateruser.trim())
             .apply(RequestOptions().circleCrop())
             .into(holder.imgInboxUserImage)
 
         if (inbox.type == "text") {
-            holder.txtInboxLastMessage.text = inbox.message
+            holder.txtInboxLastMessage.text = sortedMessages.last().message
         } else if (inbox.type == "image") {
             holder.txtInboxLastMessage.text = holder.itemView.context.getString(R.string.photo)
         }
+        val timeFormat = SimpleDateFormat("hh:mm a", Locale.US)
 
-        val date = getTimeAgo(holder.itemView.context, inbox.date.toLong())
-        holder.txtInboxTime.text = date
+// The original time string, for example
+        val originalTime = inbox.date.orEmpty()
+
+// Parsing the original time string
+        val date = dateFormat.parse(originalTime)
+
+// Formatting it to the new format
+        val formattedTime = timeFormat.format(date!!)
+//        val date = getTimeAgo(holder.itemView.context, inbox.date.toLong())
+        holder.txtInboxTime.text = formattedTime
+
 
         binding.root.setOnClickListener {
             inboxClickCallBack.invoke(inbox)

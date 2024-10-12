@@ -17,7 +17,7 @@ import com.brandsin.store.ui.dialogs.toast.DialogToastFragment
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
 import com.brandsin.store.model.constants.Params
-import com.brandsin.user.utils.map.PermissionUtil
+import com.brandsin.store.utils.map.PermissionUtil
 import com.bumptech.glide.Glide
 import com.fxn.pix.Options
 import com.fxn.pix.Pix

@@ -5,7 +5,11 @@
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
+    <data>
+        <variable
+            name="viewModel"
+            type="com.brandsin.store.ui.main.addproduct.AddProductViewModel" />
+    </data>
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -70,6 +74,7 @@
                     android:textSize="@dimen/_12ssp"
                     android:fontFamily="@font/cairoregular"
                     android:maxLines="1"
+
                     android:ellipsize="end"
                     android:gravity="center"
                     android:paddingStart="@dimen/_3sdp"
@@ -164,6 +169,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/color"
                         android:hint="@string/color"
+                        android:focusable="false"
+                        android:text="@{viewModel.selectedColorText}"
                         android:inputType="numberDecimal"
                         android:textAlignment="viewStart"
                         android:textColorHint="@color/hint_color"
@@ -205,6 +212,8 @@
                         android:drawableEnd="@drawable/ic_expand_down_arrow"
                         android:drawableTint="@color/color_primary"
                         android:inputType="numberDecimal"
+                        android:focusable="false"
+                        android:text="@{viewModel.selectedMassText}"
                         android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color">
@@ -233,6 +242,8 @@
                 android:id="@+id/capacity"
                 android:inputType="text"
                 android:textAlignment="viewStart"
+                android:focusable="false"
+                android:text="@{viewModel.selectedCapacityText}"
                 android:hint="@string/capacity"
                 android:drawableEnd="@drawable/ic_expand_down_arrow"
                 android:drawableTint="@color/color_primary"

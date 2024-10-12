@@ -1,4 +1,4 @@
-package com.brandsin.user.utils.wheelview
+package com.brandsin.store.utils.wheelview
 
 import android.view.View
 import android.view.ViewGroup

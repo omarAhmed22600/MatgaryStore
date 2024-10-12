@@ -650,6 +650,7 @@
                         android:textSize="@dimen/_12ssp"
                         app:cornerRadius="@dimen/_6sdp" />
 
+                    <!--TODO-->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btn_print_invoice"
                         style="@style/Widget.MaterialComponents.Button"
@@ -660,6 +661,7 @@
                         android:fontFamily="@font/cairo_semibold"
                         android:insetTop="0dp"
                         android:insetBottom="0dp"
+                        android:visibility="gone"
                         android:text="@string/print_invoice"
                         android:textAllCaps="false"
                         android:textColor="@color/white"
