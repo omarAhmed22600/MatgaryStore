@@ -490,7 +490,7 @@ class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (resultCode) {
-            Activity.RESULT_OK -> {
+            Activity.RESULT_OK, -> {
                 when (requestCode) {
                     Codes.STORE_IMAGE -> {
                         data?.let {
@@ -737,47 +737,52 @@ class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
                         viewModel.uploadRequest.image = file
                         viewModel.upload(5)
                     }
+
+                    Codes.SELECT_PHOTO5 -> {
+                        val fileUri: Uri? =
+                            if (tempFileUri == null)
+                                data?.data
+                            else
+                                tempFileUri
+                        tempFileUri = null
+                        val file = fileUri?.let { uri ->
+                            Timber.e("fileUri?.let { $uri")
+                            val mimeType = context?.contentResolver?.getType(fileUri)
+                            val extension =
+                                MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
+                            val fileName = "file_${System.currentTimeMillis()}.$extension"
+                            val inputStream = context?.contentResolver?.openInputStream(uri)
+                            val file = File(requireContext().cacheDir, fileName)
+                            val outputStream = FileOutputStream(file)
+                            inputStream?.copyTo(outputStream)
+                            outputStream.close()
+                            file
+                        }
+                        binding.notPhoto5.visibility = View.GONE
+                        binding.ivImg5.visibility = View.VISIBLE
+                        binding.ivPhoto5.setImageURI(fileUri)
+                        if (viewModel.updateRequest.storeMedia != null) {
+                            if (viewModel.updateRequest.deleteMedia == null) {
+                                viewModel.updateRequest.deleteMedia = ArrayList()
+                            }
+                            if (viewModel.updateRequest.storeMedia!!.size >= 7) {
+                                viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![6])
+                                viewModel.updateRequest.storeMedia!!.removeAt(6)
+                            }
+                        } else {
+                            viewModel.updateRequest.storeMedia = ArrayList()
+                        }
+                        viewModel.uploadRequest.collection = "store-registration-images"
+                        viewModel.uploadRequest.image = file
+                        viewModel.upload(6)
+                    }
                 }
+            }
+            Activity.RESULT_CANCELED -> {
+                showToast(getString(R.string.someThing_went_wrong,),1)
+                return
             }
 
-            Codes.SELECT_PHOTO5 -> {
-                val fileUri: Uri? =
-                    if (tempFileUri == null)
-                        data?.data
-                    else
-                        tempFileUri
-                tempFileUri = null
-                val file = fileUri?.let { uri ->
-                    Timber.e("fileUri?.let { $uri")
-                    val mimeType = context?.contentResolver?.getType(fileUri)
-                    val extension =
-                        MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType)
-                    val fileName = "file_${System.currentTimeMillis()}.$extension"
-                    val inputStream = context?.contentResolver?.openInputStream(uri)
-                    val file = File(requireContext().cacheDir, fileName)
-                    val outputStream = FileOutputStream(file)
-                    inputStream?.copyTo(outputStream)
-                    outputStream.close()
-                    file
-                }
-                binding.notPhoto5.visibility = View.GONE
-                binding.ivImg5.visibility = View.VISIBLE
-                binding.ivPhoto5.setImageURI(fileUri)
-                if (viewModel.updateRequest.storeMedia != null) {
-                    if (viewModel.updateRequest.deleteMedia == null) {
-                        viewModel.updateRequest.deleteMedia = ArrayList()
-                    }
-                    if (viewModel.updateRequest.storeMedia!!.size >= 7) {
-                        viewModel.updateRequest.deleteMedia!!.add(viewModel.updateRequest.storeMedia!![6])
-                        viewModel.updateRequest.storeMedia!!.removeAt(6)
-                    }
-                } else {
-                    viewModel.updateRequest.storeMedia = ArrayList()
-                }
-                viewModel.uploadRequest.collection = "store-registration-images"
-                viewModel.uploadRequest.image = file
-                viewModel.upload(6)
-            }
 //                }
 //            }
 

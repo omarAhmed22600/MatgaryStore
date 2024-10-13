@@ -681,6 +681,10 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                     }
                 }
             }
+            Activity.RESULT_CANCELED -> {
+                showToast(getString(R.string.someThing_went_wrong,),1)
+                return
+            }
         }
 
     }

@@ -193,7 +193,11 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
                                 inputStream?.copyTo(outputStream)
                                 outputStream.close()
                                 file
+                            }?: run {
+                                showToast(getString(R.string.someThing_went_wrong,),1)
+                                return
                             }
+
                         var bitmap: Bitmap? = null
 
                         if (file!!.extension.lowercase(Locale.ROOT).let { ext ->
@@ -234,14 +238,18 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
                                     // viewModel.uploadStories()
                                     Timber.e("Bitmap created and processed successfully")
                                 } ?: run {
+                                    showToast(getString(R.string.someThing_went_wrong,),1)
                                     Timber.e("Failed to create bitmap: unsupported URI scheme")
+                                    return
                                 }
 
                                 // Handle image selection
                                 Timber.e("Image selected")
                             } catch (e: Exception) {
                                 e.printStackTrace()
+                                showToast(getString(R.string.someThing_went_wrong,),1)
                                 Timber.e("Error converting Uri to Bitmap: ${e.message}")
+                                return
                             }
 
                         } else
@@ -276,6 +284,9 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
                                 inputStream?.copyTo(outputStream)
                                 outputStream.close()
                                 file
+                            } ?: run {
+                                showToast(getString(R.string.someThing_went_wrong,),1)
+                                return
                             }
 //                            returnValue?.let { array ->
                             viewModel.request.file = file
@@ -291,6 +302,10 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
 //                        }
                     }
                 }
+            }
+            Activity.RESULT_CANCELED -> {
+                showToast(getString(R.string.someThing_went_wrong,),1)
+                return
             }
         }
     }

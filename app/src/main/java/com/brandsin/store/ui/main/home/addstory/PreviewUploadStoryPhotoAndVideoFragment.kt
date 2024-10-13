@@ -3,6 +3,7 @@ package com.brandsin.store.ui.main.home.addstory
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.SurfaceHolder
 import android.view.View
 import android.view.ViewGroup
 import android.widget.MediaController
@@ -77,10 +78,24 @@ class PreviewUploadStoryPhotoAndVideoFragment : BaseHomeFragment() {
         mediaController.setAnchorView(binding.uploadVideo)
         binding.uploadVideo.setMediaController(mediaController)
 
-        // Set the video URI and start playing
-        binding.uploadVideo.setVideoURI(videoUri)
-        binding.uploadVideo.start()
+        // Add a callback to ensure the surface is ready
+        binding.uploadVideo.holder.addCallback(object : SurfaceHolder.Callback {
+            override fun surfaceCreated(holder: SurfaceHolder) {
+                // Set the video URI and start playing when the surface is ready
+                binding.uploadVideo.setVideoURI(videoUri)
+                binding.uploadVideo.start()
+            }
+
+            override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int, height: Int) {
+                // Handle surface changes if needed
+            }
+
+            override fun surfaceDestroyed(holder: SurfaceHolder) {
+                // Release resources if the surface is destroyed
+            }
+        })
     }
+
 
     private fun setBtnListener() {
         binding.icCancel.setOnClickListener {

@@ -572,9 +572,10 @@
     <string name="communicate_with_clients">التواصل مع العملاء</string>
     <string name="send_message">إرسال رسالة</string>
 
-    <string name="permission_needed">Permission Needed</string>
-    <string name="picture_permission_explanation">Need Storage Permission To Complete Action</string>
-    <string name="someThing_went_wrong">Something went wrong</string>
+    <string name="permission_needed">بحاجة إلى إذن</string>
+    <string name="picture_permission_explanation">نحتاج إلى إذن الوصول إلى التخزين لإكمال العملية</string>
+    <string name="someThing_went_wrong">حدث خطأ ما</string>
+
 
     <string name="yesterday">أمس</string>
     <string name="days_ago">أيام</string>
@@ -622,10 +623,11 @@
     <string name="price_of_mass">الحجم ال%1$s</string>
     <string name="gallery">المعرض</string>
     <string name="camera">كاميرا</string>
-    <string name="permission_granted_try_again">Permission Granted Try Again!</string>
-    <string name="permissions_are_needed_to_access_your_media">Permissions are needed to access your media.</string>
-    <string name="permissions_denied_please_enable_them_in_settings">Permissions denied. Please enable them in settings.</string>
-    <string name="invalid_uri_or_file_path">Invalid URI or file path: %1$s</string>
-    <string name="permission_denied">Permission denied: %1$s</string>
-    <string name="failed_to_set_data_source">Failed to set data source: %1$s</string>
+    <string name="permission_granted_try_again">تم منح الإذن، حاول مرة أخرى!</string>
+    <string name="permissions_are_needed_to_access_your_media">هناك حاجة إلى الأذونات للوصول إلى الوسائط الخاصة بك.</string>
+    <string name="permissions_denied_please_enable_them_in_settings">تم رفض الأذونات. يرجى تمكينها في الإعدادات.</string>
+    <string name="invalid_uri_or_file_path">رابط URI أو مسار الملف غير صالح: %1$s</string>
+    <string name="permission_denied">تم رفض الإذن: %1$s</string>
+    <string name="failed_to_set_data_source">فشل في تعيين مصدر البيانات: %1$s</string>
+
 </resources>
