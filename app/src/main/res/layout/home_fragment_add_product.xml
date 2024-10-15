@@ -433,6 +433,8 @@
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 tools:itemCount="3"
                 tools:listitem="@layout/raw_add_product_sku" />-->
+
+                <!--TODO WHEN HANDLED BY BACKEND-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_product_sku"
                     android:layout_width="0dp"
@@ -442,14 +444,25 @@
                     android:padding="@dimen/_5sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="@+id/code_layout"
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="@+id/code_layout"
                     app:layout_constraintTop_toBottomOf="@+id/code_layout"
+                    app:layout_constraintVertical_bias="0.0"
                     app:linearLayoutManagerForScrollingVertical="@{false}"
                     app:listDataForProductAttributes="@{viewModel.attributesList}"
-                    tools:listitem="@layout/item_product_attribute"
-                    tools:itemCount="5"/>
+                    tools:itemCount="5"
+                    tools:listitem="@layout/item_product_attribute" />
 
-                <!--TODO WHEN HANDLED BY BACKEND-->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="clear selection"
+                    android:id="@+id/clear_selection"
+                    android:textColor="@color/black"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/rv_product_sku" />
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/text_addSizePrice"
                     style="@style/Widget.MaterialComponents.Button.TextButton"

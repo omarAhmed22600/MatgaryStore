@@ -158,6 +158,7 @@ class ApiRepo(private val apiInterface: ApiInterface) {
     suspend fun getStoreProducts(storeId: Int, locale: String, page: Int, limit: Int) =
         apiInterface.getStoreProducts(storeId, locale, page, limit)
 
+/*
     suspend fun createProduct(request: AddProductRequest) = apiInterface.createProduct(
         request.name!!.toRequestBodyParam(),
         request.description!!.toRequestBodyParam(),
@@ -174,6 +175,7 @@ class ApiRepo(private val apiInterface: ApiInterface) {
         request.deleteMediaId!!,
         request.locale!!.toRequestBodyParam()
     )
+*/
 
     suspend fun deleteProduct(request: DeleteProductRequest) = apiInterface.deleteProduct(request)
 

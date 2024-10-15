@@ -30,6 +30,19 @@ import timber.log.Timber
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
+fun <T> LiveData<T>.distinctUntilChangedNew(): LiveData<T> {
+    val result = MutableLiveData<T>()
+    var lastValue: T? = null
+
+    this.observeForever { value ->
+        if (value != lastValue) {
+            lastValue = value
+            result.value = value
+        }
+    }
+
+    return result
+}
 
 fun View.gone() = run { visibility = View.GONE }
 

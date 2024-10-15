@@ -1,5 +1,6 @@
 package com.brandsin.store.ui.main.addproduct
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
@@ -31,7 +32,6 @@ import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.util.Locale
-import kotlin.io.path.fileVisitor
 
 class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
     lateinit var binding: HomeFragmentAddProductBinding
@@ -48,6 +48,7 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -55,7 +56,14 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.rvProductSku.adapter = ProductAttributesAdapter(viewModel)
+        binding.rvProductSku.adapter = ProductAttributesAdapter(viewModel,viewLifecycleOwner)
+        binding.clearSelection.setOnClickListener {
+            val adapter = binding.rvProductSku.adapter
+            binding.rvProductSku.adapter = null // Temporarily detach the adapter
+            binding.rvProductSku.adapter = adapter // Re-attach it, forcing view rebuilding
+            viewModel.attributes.value = listOf()
+
+        }
         /*viewModel.addproductSkuAdapter.value = AddProductSkuAdapter(
             viewModel,
             AddProductSkuAdapter.OnClickListener {
@@ -68,6 +76,8 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                 viewModel.showCapacitySelectionDialog(requireContext())
             },
         )*/
+
+
         binding.rvProductPhotos.adapter = ProductPhotoAdapter(
             ProductPhotoAdapter.OnClickListener { _, _ ->
                 // Add new image if dummy image is clicked
@@ -173,6 +183,9 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
         }
         viewModel.fileImageList.observe(viewLifecycleOwner) {
             Timber.e("file list changed $it")
+        }
+        viewModel.attributes.observe(viewLifecycleOwner) {
+            Timber.e("attributes changed to :$it")
         }
 
         /*viewModel.addproductSkuAdapter.value!!.productSkuLiveData.observe(viewLifecycleOwner, {

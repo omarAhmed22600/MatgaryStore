@@ -629,5 +629,6 @@
     <string name="invalid_uri_or_file_path">رابط URI أو مسار الملف غير صالح: %1$s</string>
     <string name="permission_denied">تم رفض الإذن: %1$s</string>
     <string name="failed_to_set_data_source">فشل في تعيين مصدر البيانات: %1$s</string>
+    <string name="add_price">أضف سعر</string>
 
 </resources>

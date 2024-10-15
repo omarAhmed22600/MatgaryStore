@@ -7,11 +7,6 @@ import java.util.*
 
 data class AddProductRequest(
 
-        @SerializedName("media_id[]")
-        var mediaId: ArrayList<Int>? = ArrayList(),
-
-        @SerializedName("delete_media_id[]")
-        var deleteMediaId:  ArrayList<Int>? = ArrayList(),
 
         @SerializedName("locale")
         var locale: String? = null,
@@ -39,20 +34,17 @@ data class AddProductRequest(
         @SerializedName("store_id")
         var storeId: Int? = null,
 
-        @SerializedName("skusList")
-        var skusList: ArrayList<SkuAddProductItem>? = null,
-
-        @SerializedName("skus")
-        var skus: String? = null,
-
         @SerializedName("categories")
         var categoriesIds: ArrayList<Int>? = null,
 
         @SerializedName("device")
         var device: String = "android",
 
-        var productImage: File? = null
+        @SerializedName("videos[]")
+        var videosList : List<File>? = null,
 
+        @SerializedName("images[]")
+        var imagesList : List<File>? = null,
 ) : Serializable
 
 data class SkuAddProductItem(
