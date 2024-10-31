@@ -54,7 +54,6 @@ import com.brandsin.store.model.menu.connectingmain.list.ListConnectingMainRespo
 import com.brandsin.store.model.menu.notifications.ReadNotificationRequest
 import com.brandsin.store.model.profile.addedstories.deletestory.DeleteStoryRequest
 import com.brandsin.store.model.profile.addedstories.deletestory.DeleteStoryResponse
-import com.brandsin.store.model.profile.addedstories.liststories.ListStoriesResponse
 import com.brandsin.store.model.profile.addedstories.uploadstory.UploadStoryResponse
 import com.brandsin.store.model.profile.addedstories.uploadstory.UploadStoryWithoutRequest
 import com.brandsin.store.model.profile.changePass.ChangePassRequest
@@ -73,6 +72,7 @@ import com.brandsin.store.ui.main.offersAndFeatures.model.OfferAndFeatureListRes
 import com.brandsin.store.ui.main.refundableProduct.model.RefundableDetailsResponse
 import com.brandsin.store.ui.main.refundableProduct.model.RefundableProductResponse
 import com.brandsin.store.ui.main.subscriptions.SubscriptionListResponse
+import com.brandsin.store.ui.menu.storeStatistics.StatisticsResponse
 import com.brandsin.store.ui.menu.wallet.model.WalletTransactionsResponse
 import com.brandsin.user.model.menu.help.HelpQuesResponse
 import com.brandsin.user.model.menu.notifications.NotificationResponse
@@ -253,6 +253,13 @@ interface ApiInterface {
         @Part("locale") locale: RequestBody
     ): UpdateOfferResponse
 
+    @GET("/api/hajaty/reports/store")
+    suspend fun getStoreStatistics(
+        @Query("store_id") storeId: Int,
+        @Query("year") page: Int,
+        @Query("locale") locale: String,
+        ): StatisticsResponse
+
     @GET("/api/hajaty/store/show")
     suspend fun getStoreProducts(
         @Query("store_id") storeId: Int,
@@ -262,6 +269,7 @@ interface ApiInterface {
     ): ListProductsResponse
 
     @Multipart
+    @JvmSuppressWildcards
     @POST("/api/hajaty/product")
     suspend fun createProduct(
         @Part("name") name: RequestBody,
@@ -272,12 +280,12 @@ interface ApiInterface {
         @Part("status") status: RequestBody,
         @Part("product_status") productStatus: RequestBody,
         @Part("store_id") storeId: RequestBody,
-        @Part("skus") skus: RequestBody,
         @Part("categories[]") categories: ArrayList<Int>,
         @Part("device") device: RequestBody,
-        @Part("media_id[]") storeMedia: ArrayList<Int>,
-        @Part("delete_media_id[]") deleteMedia: ArrayList<Int>,
-        @Part("locale") locale: RequestBody
+        @Part("locale") locale: RequestBody,
+        @Part images: List<MultipartBody.Part>,
+        @Part videos: List<MultipartBody.Part>,
+        @PartMap variationOptions: Map<String, RequestBody> // Adding JSON object as RequestBody
     ): AddProductResponse
     @POST("api/product/update_status/{id}")
     suspend fun changeProductStatus(
@@ -288,6 +296,8 @@ interface ApiInterface {
     suspend fun deleteProduct(@Body deleteProductRequest: DeleteProductRequest): DeleteProductResponse
 
     @Multipart
+    @JvmSuppressWildcards
+
     @POST("/api/hajaty/product")
     suspend fun updateProduct(
         @Part("id") id: RequestBody,
@@ -299,12 +309,12 @@ interface ApiInterface {
         @Part("status") status: RequestBody,
         @Part("product_status") productStatus: RequestBody,
         @Part("store_id") storeId: RequestBody,
-        @Part("skus") skus: RequestBody,
         @Part("categories[]") categories: ArrayList<Int>,
         @Part("device") device: RequestBody,
-        @Part("media_id[]") storeMedia: ArrayList<Int>,
-        @Part("delete_media_id[]") deleteMedia: ArrayList<Int>,
-        @Part("locale") locale: RequestBody
+        @Part("locale") locale: RequestBody,
+        @PartMap variationOptions: Map<String, RequestBody>, // Adding JSON object as RequestBody
+        @Part images: List<MultipartBody.Part>,
+        @Part videos: List<MultipartBody.Part>,
     ): UpdateProductResponse
 
 

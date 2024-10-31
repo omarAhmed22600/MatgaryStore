@@ -267,6 +267,11 @@
         <action
             android:id="@+id/add_products_to_products"
             app:destination="@+id/nav_my_products" />
+        <argument
+            android:name="productItem"
+            app:argType="com.brandsin.store.model.main.products.list.ProductsItem"
+            app:nullable="true"
+            android:defaultValue="@null" />
 
     </fragment>
 

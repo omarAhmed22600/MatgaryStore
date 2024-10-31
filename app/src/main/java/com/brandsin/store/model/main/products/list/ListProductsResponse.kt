@@ -179,6 +179,8 @@ data class ProductsItem(
 
 	@field:SerializedName("images")
 	val images: List<String?>? = null,
+	@field:SerializedName("videos")
+	val videos: List<String?>? = null,
 
 	@field:SerializedName("images_ids")
 	val imagesIds: List<ImagesIdsItem?>? = null,

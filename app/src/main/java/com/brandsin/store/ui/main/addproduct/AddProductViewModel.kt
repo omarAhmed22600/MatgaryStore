@@ -16,6 +16,8 @@ import com.brandsin.store.model.main.products.add.AddProductResponse
 
 import com.brandsin.store.model.main.products.productcategories.ProductCategoriesData
 import com.brandsin.store.model.main.products.productcategories.ProductCategoriesResponse
+import com.brandsin.store.model.main.products.update.UpdateProductRequest
+import com.brandsin.store.model.main.products.update.UpdateProductResponse
 import com.brandsin.store.model.profile.updatestore.UploadRequest
 import com.brandsin.store.model.profile.updatestore.UploadResponse
 import com.brandsin.store.network.ApiResponse
@@ -24,6 +26,12 @@ import com.brandsin.store.utils.PrefMethods
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONArray
+import org.json.JSONObject
 import retrofit2.Response
 import timber.log.Timber
 import java.io.File
@@ -33,29 +41,25 @@ class AddProductViewModel : BaseViewModel()
 
     //add
 
+    var isUpdateProduct = MutableLiveData(false)
     val attributesList = MutableLiveData<List<ProductAttributesResponseItem>>()
-    var colorList: ArrayList<Option> = ArrayList()
-    var massList: ArrayList<Option> = ArrayList()
-    var capacityList: ArrayList<Option> = ArrayList()
     var categoriesList: ArrayList<ProductCategoriesData> = ArrayList()
     var unitList: ArrayList<DataItem> = ArrayList()
     var addProductRequest = AddProductRequest()
+    var updateProductRequest = UpdateProductRequest()
+    var normalPrice = MutableLiveData("")
+    var salePrice = MutableLiveData("")
     var addproductSkuAdapter = MutableLiveData<AddProductSkuAdapter>()
-    var validate = false
     var skuPosition = -1
     var imageList = MutableLiveData(mutableListOf<PhotoModel>())
     var fileImageList = MutableLiveData(mutableListOf<File>())
     var uploadRequest = UploadRequest ()
-    val selectedColorText = MutableLiveData("")
-    val selectedMassText = MutableLiveData("")
-    val selectedCapacityText = MutableLiveData("")
     // Backing property for the attributes list
-     val attributes = MutableLiveData<List<SelectedAttrsWithPrice>>()
+    val attributes = MutableLiveData<List<SelectedAttrsWithPrice>>()
 
     // Publicly exposed immutable LiveData
 
     var canChangePRice = MutableLiveData(true)
-    val selectedAttrId = MutableLiveData(mutableListOf<SelectedAttrsWithPrice>())
 
     fun updateSelectedItemIds(attributeId: Int, selectedIds: List<Int>) {
         Timber.e("update selected it $attributeId $selectedIds")
@@ -64,12 +68,6 @@ class AddProductViewModel : BaseViewModel()
         val selectedAttrsList = selectedIds.map { id ->
             Attrs(selectionId = id)
         }
-        selectedAttrId.value!!.add(
-            SelectedAttrsWithPrice(
-                attrId = attributeId,
-                selectionIds = selectedIds
-            )
-        )
 
         // Get the current list of attributes
         val currentAttributes = attributes.value.orEmpty().toMutableList()
@@ -77,24 +75,33 @@ class AddProductViewModel : BaseViewModel()
         // Check if the attributeId already exists in the list
         val existingAttributeIndex = currentAttributes.indexOfFirst { it.attrId == attributeId }
 
-        if (existingAttributeIndex != -1) {
-            // If it exists, update the selectedAttrId for that attribute
-            val updatedAttribute = currentAttributes[existingAttributeIndex].copy(
-                selectedAttrId = selectedAttrsList
-            )
-            currentAttributes[existingAttributeIndex] = updatedAttribute
+        if (selectedIds.isEmpty()) {
+            // If selectedIds is empty, remove the attribute if it exists
+            if (existingAttributeIndex != -1) {
+                currentAttributes.removeAt(existingAttributeIndex)
+            }
         } else {
-            // If it doesn't exist, add a new SelectedAttrsWithPrice entry
-            val newAttribute = SelectedAttrsWithPrice(
-                attrId = attributeId,
-                selectedAttrId = selectedAttrsList
-            )
-            currentAttributes.add(newAttribute)
+            // If selectedIds is not empty, update or add the attribute
+            if (existingAttributeIndex != -1) {
+                // If it exists, update the selectedAttrId for that attribute
+                val updatedAttribute = currentAttributes[existingAttributeIndex].copy(
+                    selectedAttrId = selectedAttrsList
+                )
+                currentAttributes[existingAttributeIndex] = updatedAttribute
+            } else {
+                // If it doesn't exist, add a new SelectedAttrsWithPrice entry
+                val newAttribute = SelectedAttrsWithPrice(
+                    attrId = attributeId,
+                    selectedAttrId = selectedAttrsList
+                )
+                currentAttributes.add(newAttribute)
+            }
         }
 
         // Update the LiveData with the modified list
         attributes.value = currentAttributes
     }
+
 
 
     fun updateOptionPrice(attributeId: Int, optionId: Int, newPrice: Double) {
@@ -264,7 +271,6 @@ class AddProductViewModel : BaseViewModel()
                /*colorList = res.body()?.data.orEmpty()[0].options as ArrayList<Option>
                massList = res.body()?.data.orEmpty()[1].options as ArrayList<Option>
                capacityList = res.body()?.data.orEmpty()[2].options as ArrayList<Option>*/
-               Timber.e("$colorList\n$massList$capacityList")
            }
         }
     }
@@ -316,24 +322,78 @@ class AddProductViewModel : BaseViewModel()
     }
 
     fun onAddClicked() {
-        addproductSkuAdapter.value?.getData()
+        validation()
+        val normalPriceDouble = if (normalPrice.value=="")0.0 else normalPrice.value!!.toDouble()
+        val salePriceDouble = if (salePrice.value=="")0.0 else salePrice.value!!.toDouble()
+//        Timber.e("json is :${createVariationOptionsJson(attributes.value.orEmpty(),normalPriceDouble,salePriceDouble)}")
     }
+    fun createVariationOptionsMap(
+        attributeList: List<SelectedAttrsWithPrice>,
+        normalPrice: Double,
+        salePrice: Double
+    ): Map<String, RequestBody> {
+        val variationOptionsMap = mutableMapOf<String, RequestBody>()
+
+        // Create a JSON array for variation options
+        if (attributeList.isEmpty()) {
+            // Create the correct nested JSON array when attributeList is empty
+            val jsonString = """
+            [{"regular_price": $normalPrice,"sale_price": $salePrice}]""".trimIndent()
+            Timber.e("json string $jsonString")
+            variationOptionsMap["variation_options"] = jsonString.toRequestBody()
+        } else {
+            // When normalPrice and salePrice are valid
+            val variationOptionsArray = mutableListOf<Map<String, Any>>()
+
+            for (attribute in attributeList) {
+                for (attr in attribute.selectedAttrId) {
+                    val option = mutableMapOf<String, Any>().apply {
+                        put(attribute.attrId.toString(), attr.selectionId)
+                        put("regular_price", if (normalPrice != 0.0) normalPrice else attr.selectedPrice)
+                        put("sale_price", if (salePrice != 0.0) salePrice else attr.selectedPrice)
+                    }
+                    variationOptionsArray.add(option)
+                }
+            }
+
+            // Convert the variation options array to a JSON string
+            val jsonString = Gson().toJson(variationOptionsArray)
+
+            variationOptionsMap["variation_options"] = jsonString.toRequestBody()
+        }
+
+        return variationOptionsMap
+    }
+
+    // Extension function to convert String to RequestBody
+    fun String.toRequestBody(): RequestBody {
+        return RequestBody.create("application/json; charset=utf-8".toMediaTypeOrNull(), this)
+    }
+
 
     fun validation(){
         addProductRequest.imagesList = fileImageList.value.orEmpty().filter { it.extension == "jpg" || it.extension == "png" ||it.extension == "jpeg" }
         addProductRequest.videosList = fileImageList.value.orEmpty().filter { it.extension != "jpg" && it.extension != "png" && it.extension != "jpeg" }
-        if (addProductRequest.categoriesIds == null || addProductRequest.categoriesIds!!.size == 0) {
+        val allAttributesHasZeroPrices = areAllPricesZero(attributes.value.orEmpty())
+        if(attributes.value.orEmpty().isEmpty()&&salePrice.value.isNullOrEmpty()&&normalPrice.value.isNullOrEmpty()) {
+            setValue(Codes.EMPTY_Price)
+        }
+        else if (salePrice.value.isNullOrEmpty().not()&&normalPrice.value.isNullOrEmpty().not()&&allAttributesHasZeroPrices.not()){
+            setValue(Codes.ONE_PRICE_ONLY)
+        }else if (addProductRequest.categoriesIds == null || addProductRequest.categoriesIds!!.size == 0) {
             setValue(Codes.EMPTY_TYPE)
         }else if ( addProductRequest.name  == null  || addProductRequest.name.toString().trim().isEmpty() ) {
             setValue(Codes.NAME_EMPTY)
-//        }else if ( addProductRequest.nameEn  == null  || addProductRequest.nameEn.toString().trim().isEmpty() ) {
-//            setValue(Codes.EMPTY_PRODUCT_NAME_EN)
+        }else if ( addProductRequest.nameEn  == null  || addProductRequest.nameEn.toString().trim().isEmpty() ) {
+            setValue(Codes.EMPTY_PRODUCT_NAME_EN)
         }else if (  addProductRequest.description == null  || addProductRequest.description.toString().trim().isEmpty() ) {
             setValue(Codes.EMPTY_DESCRIPTION)
-//        }else if (  addProductRequest.descriptionEn == null  || addProductRequest.descriptionEn.toString().trim().isEmpty() ) {
-//            setValue(Codes.EMPTY_PRODUCT_DESCRIPTION_EN)
+        }else if (  addProductRequest.descriptionEn == null  || addProductRequest.descriptionEn.toString().trim().isEmpty() ) {
+            setValue(Codes.EMPTY_PRODUCT_DESCRIPTION_EN)
         }else if (   addProductRequest.imagesList.orEmpty().isEmpty() && addProductRequest.videosList.orEmpty().isEmpty()) {
             setValue(Codes.EMPTY_IMAGE)
+        }else if (addProductRequest.type != updateProductRequest.type) {
+            setValue(Codes.Edit_NOW)
         }
         else {
             createProduct()
@@ -342,8 +402,11 @@ class AddProductViewModel : BaseViewModel()
     fun createProduct() {
 
         var gson = Gson()
-
-        if (attributes.value.orEmpty().size>1){
+        val normalPriceDouble = if (normalPrice.value=="")0.0 else normalPrice.value!!.toDouble()
+        val salePriceDouble = if (salePrice.value=="")0.0 else salePrice.value!!.toDouble()
+        val priceJson = createVariationOptionsMap(attributes.value.orEmpty(),normalPriceDouble,salePriceDouble)
+        Timber.e("map is ${priceJson.toMutableMap()}")
+        if (attributes.value.orEmpty().isEmpty().not()){
             addProductRequest.type = "variable"
         }else{
             addProductRequest.type = "simple"
@@ -358,26 +421,49 @@ class AddProductViewModel : BaseViewModel()
 
         addProductRequest.storeId = PrefMethods.getStoreData()!!.id!!.toInt()
         addProductRequest.locale = PrefMethods.getLanguage()
-
         obsIsVisible.set(true)
-        /*requestCall<AddProductResponse?>({
-            withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().createProduct(addProductRequest)
-            }
-        })
-        { res ->
-            obsIsVisible.set(false)
-            when (res!!.success) {
-                true -> {
-                    apiResponseLiveData.value = ApiResponse.success(res)
+        if (isUpdateProduct.value!=true) {
+            requestCall<AddProductResponse?>({
+                withContext(Dispatchers.IO) {
+                    return@withContext getApiRepo().createProduct(addProductRequest, priceJson)
                 }
-                else -> {
-                    apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
-                }
-            }
-        }*/
-    }
+            })
+            { res ->
+                obsIsVisible.set(false)
+                when (res!!.success) {
+                    true -> {
 
+                        apiResponseLiveData.value = ApiResponse.success(res)
+                    }
+
+                    else -> {
+                        apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
+                    }
+                }
+            }
+        } else {
+            requestCall<UpdateProductResponse?>({
+                withContext(Dispatchers.IO) { return@withContext getApiRepo().updateProduct(addProductRequest,priceJson)
+                }
+            })
+            { res ->
+                obsIsVisible.set(false)
+                when (res!!.isSuccess) {
+                    true -> {
+                        apiResponseLiveData.value = ApiResponse.success(res)
+                    }
+                    else -> {
+                        apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
+                    }
+                }
+            }
+        }
+    }
+    // Function to convert JSON object to RequestBody
+    fun createJsonRequestBody(jsonObject: JSONObject): RequestBody {
+        val jsonString = jsonObject.toString() // Convert JSON object to string
+        return jsonString.toRequestBody("application/json".toMediaTypeOrNull()) // Convert string to RequestBody
+    }
     fun upload(i: Int){
         obsIsVisible.set(true)
         requestCall<UploadResponse?>({

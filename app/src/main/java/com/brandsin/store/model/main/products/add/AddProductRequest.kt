@@ -7,7 +7,8 @@ import java.util.*
 
 data class AddProductRequest(
 
-
+        @SerializedName("id")
+        var id: Int? = null,
         @SerializedName("locale")
         var locale: String? = null,
 
@@ -35,7 +36,7 @@ data class AddProductRequest(
         var storeId: Int? = null,
 
         @SerializedName("categories")
-        var categoriesIds: ArrayList<Int>? = null,
+        var categoriesIds: ArrayList<Int>? = arrayListOf(),
 
         @SerializedName("device")
         var device: String = "android",

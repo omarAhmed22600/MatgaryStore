@@ -2,24 +2,33 @@ package com.brandsin.store.ui.main.addproduct
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
 import android.media.MediaMetadataRetriever
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.MimeTypeMap
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.brandsin.store.R
 import com.brandsin.store.databinding.HomeFragmentAddProductBinding
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.model.constants.Params
 import com.brandsin.store.model.main.products.add.AddProductResponse
+import com.brandsin.store.model.main.products.list.ProductsItem
+import com.brandsin.store.model.main.products.update.SkuUpdateProductItem
+import com.brandsin.store.model.main.products.update.UpdateProductResponse
 import com.brandsin.store.network.Status
 import com.brandsin.store.ui.activity.BaseHomeFragment
 import com.brandsin.store.ui.activity.home.HomeActivity
@@ -27,17 +36,27 @@ import com.brandsin.store.ui.dialogs.addproduct.DialogAddProductFragment
 import com.brandsin.store.ui.dialogs.productcategories.DialogProductCategoriesFragment
 import com.brandsin.store.utils.Utils
 import com.brandsin.store.utils.observe
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
 import com.fxn.pix.Options
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
+import java.util.ArrayList
 import java.util.Locale
+import kotlin.coroutines.resume
 
 class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
     lateinit var binding: HomeFragmentAddProductBinding
 
-
+    private val args: AddProductFragmentArgs by navArgs()
+    var productData = ProductsItem()
     lateinit var viewModel: AddProductViewModel
+    var categoriesNames: ArrayList<String> = ArrayList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +75,7 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
         binding.viewModel = viewModel
         binding.lifecycleOwner = this
 
-        binding.rvProductSku.adapter = ProductAttributesAdapter(viewModel,viewLifecycleOwner)
+        binding.rvProductSku.adapter = ProductAttributesAdapter(viewModel, viewLifecycleOwner)
         binding.clearSelection.setOnClickListener {
             val adapter = binding.rvProductSku.adapter
             binding.rvProductSku.adapter = null // Temporarily detach the adapter
@@ -64,20 +83,6 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
             viewModel.attributes.value = listOf()
 
         }
-        /*viewModel.addproductSkuAdapter.value = AddProductSkuAdapter(
-            viewModel,
-            AddProductSkuAdapter.OnClickListener {
-                viewModel.showColorSelectionDialog(requireContext())
-            },
-            AddProductSkuAdapter.OnClickListener {
-                viewModel.showMassSelectionDialog(requireContext())
-            },
-            AddProductSkuAdapter.OnClickListener {
-                viewModel.showCapacitySelectionDialog(requireContext())
-            },
-        )*/
-
-
         binding.rvProductPhotos.adapter = ProductPhotoAdapter(
             ProductPhotoAdapter.OnClickListener { _, _ ->
                 // Add new image if dummy image is clicked
@@ -137,8 +142,65 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
             }
 
         )
+        viewModel.imageList.observe(viewLifecycleOwner) {
+            Timber.e("image list changed $it")
+        }
+        viewModel.fileImageList.observe(viewLifecycleOwner) {
+            Timber.e("file list changed $it")
+        }
+        viewModel.attributes.observe(viewLifecycleOwner) {
+            Timber.e("attributes changed to :$it")
+        }
 
-        setBarName(getString(R.string.add_product))
+        if (args.productItem != null) {
+            binding.btnAdd.text = getString(R.string.update)
+            viewModel.isUpdateProduct.value = true
+            productData = args.productItem!!
+            Timber.e("productData: $productData")
+            viewModel.addProductRequest.id = productData.id
+            viewModel.addProductRequest.name = productData.name
+            viewModel.addProductRequest.description = productData.description
+            viewModel.addProductRequest.nameEn = productData.nameEn
+            viewModel.addProductRequest.descriptionEn = productData.descriptionEn
+            /*      viewModel.addProductRequest.name = productData.name
+                  viewModel.addProductRequest.description = productData.description
+                  viewModel.addProductRequest.nameEn = productData.nameEn
+                  viewModel.addProductRequest.descriptionEn = productData.descriptionEn*/
+            viewModel.updateProductRequest.type = productData.type
+            viewModel.addProductRequest.type = productData.type
+            viewModel.addProductRequest.storeId = productData.storeId
+            productData.categories.orEmpty()
+                .forEach { viewModel.addProductRequest.categoriesIds!!.add(it?.id ?: -1) }
+            productData.categories.orEmpty().forEach { categoriesNames.add(it!!.name.toString()) }
+            binding.productCategory.text = categoriesNames.joinToString { it -> "$it" }
+            viewModel.getUnitsList(viewModel.addProductRequest.categoriesIds!!)
+            val productImages = productData.images.orEmpty()
+            val productVideos = productData.videos.orEmpty()
+
+            Timber.e("videos $productVideos and photos $productImages")
+            loadMedia(productImages, productVideos)
+        }
+        /*viewModel.addproductSkuAdapter.value = AddProductSkuAdapter(
+            viewModel,
+            AddProductSkuAdapter.OnClickListener {
+                viewModel.showColorSelectionDialog(requireContext())
+            },
+            AddProductSkuAdapter.OnClickListener {
+                viewModel.showMassSelectionDialog(requireContext())
+            },
+            AddProductSkuAdapter.OnClickListener {
+                viewModel.showCapacitySelectionDialog(requireContext())
+            },
+        )*/
+
+
+
+
+        setBarName(
+            if (viewModel.isUpdateProduct.value == true) getString(R.string.update_product) else getString(
+                R.string.add_product
+            )
+        )
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
 
@@ -165,6 +227,12 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                                 bundle
                             )
                         }
+
+                        is UpdateProductResponse -> {
+                            showToast(getString(R.string.successfully_updated), 2)
+                            findNavController().navigateUp()
+                        }
+
                     }
                 }
 
@@ -178,15 +246,6 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
         /**
          * for debugging purpose
          */
-        viewModel.imageList.observe(viewLifecycleOwner) {
-            Timber.e("image list changed $it")
-        }
-        viewModel.fileImageList.observe(viewLifecycleOwner) {
-            Timber.e("file list changed $it")
-        }
-        viewModel.attributes.observe(viewLifecycleOwner) {
-            Timber.e("attributes changed to :$it")
-        }
 
         /*viewModel.addproductSkuAdapter.value!!.productSkuLiveData.observe(viewLifecycleOwner, {
             if (it != null) {
@@ -217,6 +276,152 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
         */
     }
 
+    fun bitmapToFile(bitmap: Bitmap, fileName: String): File {
+        // Create a file in the cache directory
+        val file = File(requireContext().cacheDir, fileName)
+
+        var quality = 100
+        var fileSize: Long
+
+        // Compress the bitmap and write it to the file with decreasing quality if the size is above 1 MB
+        do {
+            file.outputStream().use { fileOutputStream ->
+                // Compress the bitmap, you can adjust the quality (0-100)
+                bitmap.compress(Bitmap.CompressFormat.JPEG, quality, fileOutputStream)
+            }
+            fileSize = file.length()
+            quality -= 5 // Reduce the quality by 5 in each iteration
+        } while (fileSize > 1024 * 1024 && quality > 0) // Continue until the file is under 1 MB or quality reaches 0
+
+        return file
+    }
+
+
+    // Function to load both images and videos sequentially
+    fun loadMedia(productImages: List<String?>, productVideos: List<String?>) {
+        lifecycleScope.launch {
+            viewModel.obsIsLoading.set(true)
+            // First load all the images
+            loadAllImages(productImages)
+
+            // Once images are loaded, load the videos
+            loadAllVideos(productVideos)
+            val tmpList = viewModel.imageList.value
+            // Ensure we still have exactly 10 slots (fill with dummies if needed)
+            while (tmpList.orEmpty().size < 10) {
+                tmpList!!.add(
+                    PhotoModel(
+                        isPhotoOrVideo = "none",
+                        photoOrVideoBitmap = null
+                    )
+                )
+            }
+            viewModel.imageList.postValue(tmpList)
+            // Notify the adapter that the data has changed
+            binding.rvProductPhotos.adapter?.notifyDataSetChanged()
+            viewModel.obsIsLoading.set(false)
+
+        }
+    }
+
+    suspend fun loadAllImages(productImages: List<String?>) {
+        val tempList = viewModel.imageList.value?.toMutableList() ?: mutableListOf()
+        val tempFileList = viewModel.fileImageList.value?.toMutableList() ?: mutableListOf()
+
+        productImages.orEmpty().forEach { imageUrl ->
+            val bitmap = withContext(Dispatchers.IO) {
+                getBitmapFromUrl(requireContext(), imageUrl.orEmpty())
+            }
+            bitmap?.let {
+                Timber.e("bitmap is $it")
+
+                val photoModel = PhotoModel("photo", it)
+                tempList.add(photoModel)
+
+                // Create file from bitmap
+                val file = bitmapToFile(it, "image_${System.currentTimeMillis()}.jpg")
+                tempFileList.add(file)
+            }
+        }
+
+        // Update the lists in ViewModel after images are loaded
+        viewModel.imageList.value = tempList
+        viewModel.fileImageList.value = tempFileList
+
+        Timber.e("Final image list: $tempList")
+    }
+
+    suspend fun loadAllVideos(productVideos: List<String?>) {
+        // Get the current lists
+        val tempList = viewModel.imageList.value?.toMutableList() ?: mutableListOf()
+        val tempFileList = viewModel.fileImageList.value?.toMutableList() ?: mutableListOf()
+
+        productVideos.orEmpty().forEach { videoUri ->
+            var thumbnail: Bitmap? = null
+            val retriever = MediaMetadataRetriever()
+
+            try {
+                // Set the data source for the retriever
+                retriever.setDataSource(videoUri.orEmpty(), HashMap<String, String>())
+
+                // Retrieve a frame at the 1st second (1000000 microseconds = 1 second)
+                thumbnail = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                    retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                } else {
+                    retriever.frameAtTime // Retrieve the default frame (usually the first frame)
+                }
+
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to retrieve thumbnail for %s", videoUri)
+            }
+
+            // If a thumbnail is retrieved, add it to the list
+            if (thumbnail != null) {
+                val photoModel = PhotoModel("video", thumbnail)
+                tempList.add(photoModel)
+            }
+
+            // Convert video URI to a File object (video itself, not the thumbnail)
+            if (!videoUri.isNullOrEmpty()) {
+                val videoFile = File(Uri.parse(videoUri).path ?: "")
+                if (videoFile.exists()) {
+                    Timber.e("video file exists :$videoFile")
+                    tempFileList.add(videoFile)
+                } else {
+                    Timber.e("Video file for %s does not exist.", videoUri)
+                }
+            }
+        }
+
+        // Update ViewModel lists
+        viewModel.imageList.value = tempList
+        viewModel.fileImageList.value = tempFileList
+    }
+
+
+    suspend fun getBitmapFromUrl(context: Context, url: String): Bitmap? =
+        suspendCancellableCoroutine { cont ->
+            Glide.with(context)
+                .asBitmap()
+                .load(url)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: com.bumptech.glide.request.transition.Transition<in Bitmap>?
+                    ) {
+                        cont.resume(resource) // Resume with bitmap
+                    }
+
+                    override fun onLoadFailed(errorDrawable: Drawable?) {
+                        cont.resume(null) // Resume with null if failed
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        // Clear resources if needed
+                    }
+                })
+        }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         Timber.e("request code wanted is $Codes.DIALOG_PRODUCT_CATEGORY_CODE\nrequest code sent $requestCode \n result code $resultCode\ndata: ${data}")
@@ -224,125 +429,7 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
         when (resultCode) {
             Activity.RESULT_OK -> {
                 when (requestCode) {
-                    /*Codes.SELECT_PHOTO1 -> {
-                        data?.let {
-                            // Get the photoURI that you previously set when opening the camera
-                            val returnValue = photoURI
-                            returnValue?.let { file2 ->
-                                binding.rvProductPhotos.visibility = View.VISIBLE
-                                binding.photo1Layout.visibility = View.GONE
-                                val file = file2 // Convert URI to File object
-                                val uri = file.toUri()
-                                Timber.e("uri $uri")
 
-                                var bitmap: Bitmap? = null
-                                var thumbnail: Bitmap? = null
-                                val isVideo: Boolean? = when {
-                                    file.extension.lowercase(Locale.ROOT).let { ext ->
-                                        ext == "jpg" || ext == "png" || ext == "jpeg"
-                                    } -> {
-                                        try {
-                                            bitmap = when {
-                                                // Handle content URI (content://)
-                                                uri.scheme.equals("content", ignoreCase = true) -> {
-                                                    // Use ContentResolver to open an InputStream for content URIs
-                                                    val inputStream = requireActivity().contentResolver.openInputStream(uri)
-                                                    BitmapFactory.decodeStream(inputStream)
-                                                }
-                                                // Handle file URI (file://) or regular file path
-                                                uri.scheme.equals("file", ignoreCase = true) || uri.scheme == null -> {
-                                                    BitmapFactory.decodeFile(file.absolutePath)
-                                                }
-                                                else -> null
-                                            }
-
-                                            // If bitmap is successfully created
-                                            bitmap?.let {
-                                                Timber.e("Bitmap created successfully")
-                                            } ?: run {
-                                                Timber.e("Failed to create bitmap: unsupported URI scheme")
-                                            }
-                                            // Handle image selection
-                                            Timber.e("Image selected")
-                                            false // Indicate it's not a video
-                                        } catch (e: Exception) {
-                                            e.printStackTrace()
-                                            Timber.e("Error converting Uri to Bitmap: ${e.message}")
-                                            null
-                                        }
-                                    }
-                                    // Check for video formats
-                                    file.extension.lowercase(Locale.ROOT).let { ext ->
-                                        ext == "mp4" || ext == "mkv" || ext == "mpeg" ||
-                                                ext == "wmv" || ext == "amv" || ext == "mov"
-                                    } -> {
-                                        Timber.e("Video selected")
-                                        val retriever = MediaMetadataRetriever()
-                                        retriever.setDataSource(file.path)
-                                        thumbnail = retriever.getFrameAtTime(
-                                            1000000,
-                                            MediaMetadataRetriever.OPTION_CLOSEST_SYNC
-                                        ) // Get frame at 1 second (in microseconds)
-                                        retriever.release()
-                                        true // Indicate it's a video
-                                    }
-                                    else -> {
-                                        showToast(getString(R.string.unsupported_format), 1)
-                                        null
-                                    }
-                                }
-
-                                // Determine the position in the image list
-                                var position = getEmptyPosition(viewModel.imageList.value.orEmpty())
-                                if (viewModel.imageList.value.isNullOrEmpty()) {
-                                    position = 0
-                                }
-                                if ((position == -1 && viewModel.imageList.value!!.size == 10) || position >= 10) {
-                                    // No available position or exceeded the limit
-                                    showToast(getString(com.fxn.pix.R.string.selection_limiter_pix, 10), 1)
-                                    return
-                                }
-
-                                // Create the new photo model
-                                val newPhotoModel = PhotoModel(
-                                    isPhotoOrVideo = when {
-                                        isVideo == true -> "video"
-                                        isVideo == false -> "photo"
-                                        else -> "none"
-                                    },
-                                    photoOrVideoBitmap = when {
-                                        isVideo == true -> thumbnail
-                                        isVideo == false -> bitmap
-                                        else -> null
-                                    }
-                                )
-
-                                // Ensure we still have exactly 10 slots (fill with dummies if needed)
-                                while (viewModel.imageList.value!!.size < 10) {
-                                    viewModel.imageList.value!!.add(
-                                        PhotoModel(
-                                            isPhotoOrVideo = "none",
-                                            photoOrVideoBitmap = null
-                                        )
-                                    )
-                                }
-
-                                // Replace the dummy item at the found position with the new photo or video
-                                viewModel.imageList.value = viewModel.imageList.value!!.apply {
-                                    removeAt(position) // Remove dummy item
-                                    add(position, newPhotoModel) // Add new photo/video at the same position
-                                }
-
-                                // Update the file list accordingly
-                                viewModel.fileImageList.value = viewModel.fileImageList.value!!.apply {
-                                    add(position, file) // Add the new file at the same position
-                                }
-
-                                // Notify the adapter about the change
-                                binding.rvProductPhotos.adapter?.notifyDataSetChanged()
-                            }
-                        }
-                    }*/
                     Codes.SELECT_PHOTO1 -> {
                         val fileUri: Uri? =
                             if (tempFileUri == null)
@@ -379,23 +466,38 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                                         // Handle content URI (content://)
                                         fileUri.scheme.equals("content", ignoreCase = true) -> {
                                             // Use ContentResolver to open an InputStream for content URIs
-                                            val inputStream = requireActivity().contentResolver.openInputStream(fileUri)
+                                            val inputStream =
+                                                requireActivity().contentResolver.openInputStream(
+                                                    fileUri
+                                                )
                                             BitmapFactory.decodeStream(inputStream)
                                         }
                                         // Handle file URI (file://) or regular file path
-                                        fileUri.scheme.equals("file", ignoreCase = true) || fileUri.scheme == null -> {
+                                        fileUri.scheme.equals(
+                                            "file",
+                                            ignoreCase = true
+                                        ) || fileUri.scheme == null -> {
                                             BitmapFactory.decodeFile(file.absolutePath)
                                         }
+
                                         else -> null
                                     }
 
                                     // If bitmap is successfully created
                                     bitmap?.let {
                                         // Resize the bitmap to a manageable size
-                                        val resizedBitmap = resizeBitmap(it, 1024, 1024) // Adjust maxWidth and maxHeight as needed
+                                        val resizedBitmap = resizeBitmap(
+                                            it,
+                                            1024,
+                                            1024
+                                        ) // Adjust maxWidth and maxHeight as needed
 
                                         // Rotate the resized bitmap if required
-                                        bitmap = rotateImageIfRequired(requireContext(), resizedBitmap, fileUri)
+                                        bitmap = rotateImageIfRequired(
+                                            requireContext(),
+                                            resizedBitmap,
+                                            fileUri
+                                        )
                                         Timber.e("Bitmap created and processed successfully")
                                     } ?: run {
                                         Timber.e("Failed to create bitmap: unsupported URI scheme")
@@ -429,17 +531,19 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                                         getString(
                                             R.string.invalid_uri_or_file_path,
                                             e.message
-                                        ),1)
+                                        ), 1
+                                    )
                                     return
                                 } catch (e: SecurityException) {
-                                    showToast(getString(R.string.permission_denied, e.message),1)
+                                    showToast(getString(R.string.permission_denied, e.message), 1)
                                     return
                                 } catch (e: RuntimeException) {
                                     showToast(
                                         getString(
                                             R.string.failed_to_set_data_source,
                                             e.message
-                                        ),1)
+                                        ), 1
+                                    )
                                     return
                                 } finally {
                                     retriever.release()
@@ -493,142 +597,30 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                             removeAt(position) // Remove dummy item
                             add(position, newPhotoModel) // Add new photo/video at the same position
                         }
-
+                        var quality = 100
+                        var fileSize: Long
+                        // Compress the bitmap and write it to the file with decreasing quality if the size is above 1 MB
+                        if (isVideo!!.not()) {
+                            do {
+                                file.outputStream().use { fileOutputStream ->
+                                    // Compress the bitmap, you can adjust the quality (0-100)
+                                    bitmap!!.compress(
+                                        Bitmap.CompressFormat.JPEG,
+                                        quality,
+                                        fileOutputStream
+                                    )
+                                }
+                                fileSize = file.length()
+                                quality -= 5 // Reduce the quality by 5 in each iteration
+                            } while (fileSize > 1024 * 1024 && quality > 0) // Continue until the file is under 1 MB or quality reaches 0
+                        }
                         // Update the file list accordingly
                         viewModel.fileImageList.value = viewModel.fileImageList.value!!.apply {
                             add(position, file) // Add the new file at the same position
                         }
-
                         // Notify the adapter about the change
                         binding.rvProductPhotos.adapter?.notifyDataSetChanged()
                     }
-                    /*data?.let {
-                            val returnValue = it.getStringArrayListExtra(Pix.IMAGE_RESULTS)
-                            returnValue?.let { array ->
-                                binding.rvProductPhotos.visibility = View.VISIBLE
-                                binding.photo1Layout.visibility = View.GONE
-                                val fileUri = array[0].toUri()
-
-                                val file = File(array[0])
-                                Timber.e("uri $fileUri")
-                                var bitmap: Bitmap? = null
-                                var thumbnail: Bitmap? = null
-                                val isVideo =
-                                    if (file.extension.toLowerCase(Locale.ROOT).contains("jpg")
-                                        || file.extension.toLowerCase(Locale.ROOT).contains("png")
-                                        || file.extension.toLowerCase(Locale.ROOT).contains("jpeg")
-                                    ) {
-                                        try {
-                                            bitmap = when {
-                                                // Handle content URI (content://)
-                                                fileUri.scheme.equals(
-                                                    "content",
-                                                    ignoreCase = true
-                                                ) -> {
-                                                    val inputStream =
-                                                        requireActivity().contentResolver.openInputStream(
-                                                            fileUri
-                                                        )
-                                                    BitmapFactory.decodeStream(inputStream)
-                                                }
-                                                // Handle file URI (file://) or regular file path
-                                                fileUri.scheme.equals(
-                                                    "file",
-                                                    ignoreCase = true
-                                                ) || fileUri.scheme == null -> {
-                                                    BitmapFactory.decodeFile(file.absolutePath)
-                                                }
-
-                                                else -> null
-                                            }
-
-                                            // If bitmap is successfully created
-                                            bitmap?.let {
-                                                Timber.e("Bitmap created successfully")
-                                            } ?: run {
-                                                Timber.e("Failed to create bitmap: unsupported URI scheme")
-                                            }
-                                        } catch (e: Exception) {
-                                            e.printStackTrace()
-                                            Timber.e("Error converting Uri to Bitmap")
-                                        }
-                                        // Handle image selection
-                                        Timber.e("image")
-                                        false
-                                    } else if (file.extension.toLowerCase(Locale.ROOT)
-                                            .contains("mp4")
-                                        || file.extension.toLowerCase(Locale.ROOT).contains("mkv")
-                                        || file.extension.toLowerCase(Locale.ROOT).contains("mpeg")
-                                        || file.extension.toLowerCase(Locale.ROOT).contains("wmv")
-                                        || file.extension.toLowerCase(Locale.ROOT).contains("amv")
-                                        || file.extension.toLowerCase(Locale.ROOT).contains("mov")
-                                    ) {
-                                        // Handle video selection
-                                        Timber.e("video")
-                                        val videoFile = File(array[0])
-                                        val retriever = MediaMetadataRetriever()
-                                        retriever.setDataSource(videoFile.path)
-                                        thumbnail = retriever.getFrameAtTime(
-                                            1000000,
-                                            MediaMetadataRetriever.OPTION_CLOSEST_SYNC
-                                        ) // Get frame at 1 second (in microseconds)
-                                        retriever.release()
-                                        true
-                                    } else {
-                                        showToast(
-                                            getString(R.string.unsupported_format),
-                                            1
-                                        )
-                                        null
-                                    }
-                                var position = getEmptyPosition(viewModel.imageList.value.orEmpty())
-                                if (viewModel.imageList.value.isNullOrEmpty()) {
-                                    position = 0
-                                }
-                                if ((position == -1 && viewModel.imageList.value!!.size == 10) || position >= 10) {
-                                    // No available position or exceeded the limit
-                                    showToast(
-                                        getString(com.fxn.pix.R.string.selection_limiter_pix, 10),
-                                        1
-                                    )
-                                    return
-                                }
-
-                                val newPhotoModel = PhotoModel(
-                                    isPhotoOrVideo = if (isVideo == true) "video" else if (isVideo == false) "photo" else "none",
-                                    photoOrVideoBitmap = if (isVideo == true) thumbnail else if (isVideo == false) bitmap else null
-                                )
-
-// Ensure we still have exactly 10 slots (fill with dummies if needed)
-                                while (viewModel.imageList.value!!.size < 10) {
-                                    viewModel.imageList.value!!.add(
-                                        PhotoModel(
-                                            isPhotoOrVideo = "none",
-                                            photoOrVideoBitmap = null
-                                        )
-                                    )
-                                }
-// Replace the dummy item at the found position with the new photo or video
-                                viewModel.imageList.value = viewModel.imageList.value!!.apply {
-                                    removeAt(position) // Remove dummy item
-                                    add(
-                                        position,
-                                        newPhotoModel
-                                    ) // Add new photo/video at the same position
-                                }
-
-// Update the file list accordingly
-                                viewModel.fileImageList.value =
-                                    viewModel.fileImageList.value!!.apply {
-                                        add(position, file) // Add the new file at the same position
-                                    }
-
-
-// Notify the adapter about the change
-                                binding.rvProductPhotos.adapter?.notifyDataSetChanged()
-
-                            }
-                        }*/
                 }
 
 
@@ -694,10 +686,25 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
                     }
                 }
             }
+
             Activity.RESULT_CANCELED -> {
-                showToast(getString(R.string.someThing_went_wrong,),1)
-                return
+                if (requestCode == Codes.SELECT_PHOTO1) {
+                    showToast(getString(R.string.someThing_went_wrong), 1)
+                    return
+                }
             }
+
+            Codes.DIALOG_OFFER_REQUEST -> {
+                data.let {
+                    val result = it!!.getIntExtra(Params.DIALOG_CLICK_ACTION, -1)
+                    if (result == 1) {
+                        findNavController().navigate(R.id.nav_my_products)
+                    } else if (result == 2) {
+                        findNavController().navigate(R.id.nav_home)
+                    }
+                }
+            }
+
         }
 
     }
@@ -773,6 +780,13 @@ class AddProductFragment : BaseHomeFragment(), Observer<Any?> {
 
                     Codes.EMPTY_CODE -> {
                         showToast(getString(R.string.enter_product_code), 1)
+                    }
+
+                    Codes.ONE_PRICE_ONLY -> {
+                        showToast(getString(R.string.please_choose_either_the_attribute_price_or_general_price), 1)
+                    }
+                    Codes.Edit_NOW -> {
+                        showToast(getString(R.string.cant_change_the_product_type_from_simple_to_variable_or_vise_versa),1)
                     }
                 }
             }

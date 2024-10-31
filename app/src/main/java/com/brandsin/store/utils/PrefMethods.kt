@@ -97,7 +97,7 @@ object PrefMethods {
         getString(Const.PREF_STORE_MODEL, null)?.let {
             val gSon = Gson()
             return gSon.fromJson(it, StoreModel::class.java)
-        } ?: return null
+        } ?: return StoreModel()
     }
 
     fun getLoginState(context: Context? = null): Boolean {

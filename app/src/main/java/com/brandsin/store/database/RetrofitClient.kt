@@ -1,4 +1,4 @@
-package com.brandsin.user.database
+package com.brandsin.store.database
 
 import com.brandsin.store.BuildConfig
 import com.brandsin.store.model.constants.Params
@@ -10,6 +10,7 @@ import okhttp3.Response
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import timber.log.Timber
 import java.io.IOException
 
 object RetrofitClient {
@@ -41,6 +42,7 @@ object RetrofitClient {
                     val request: Request =
                         chain.request().newBuilder().addHeader("X-API-KEY", "mykey").build()
                     // chain.request().newBuilder().addHeader("X-API-KE", "mykey").build()
+                    Timber.e("request $request")
                     return chain.proceed(request)
                 }
             })

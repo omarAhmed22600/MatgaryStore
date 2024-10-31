@@ -41,6 +41,7 @@ class InboxViewModel : BaseViewModel() {
     fun readChat() {
         // get all Users who start conversation before
         // enqueueSignal(Load)
+        Timber.e("user:${PrefMethods.getStoreData()?.userId}")
         inboxDao.getInboxListRef(PrefMethods.getStoreData()?.userId.toString())
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
@@ -147,6 +148,7 @@ class InboxViewModel : BaseViewModel() {
             messageId,
             messageModel
         )
+        Timber.e("notification request :${messageModel.message}\n${senderId?.toInt()?:-1}\n${PrefMethods.getStoreData()?.userId?:-1}")
         requestCall<ReadNotificationResponse?>({
             withContext(Dispatchers.IO) { // to return a result its like asyncTask() and await
                 return@withContext getApiRepo().sendNotification(

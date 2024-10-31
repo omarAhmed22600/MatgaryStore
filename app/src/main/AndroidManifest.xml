@@ -2,12 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.brandsin.store">
-    <supports-screens
+    <!--<supports-screens
         android:smallScreens="true"
         android:normalScreens="true"
         android:largeScreens="false"
         android:xlargeScreens="false"
         android:anyDensity="true" />
+    <uses-feature android:name="android.hardware.memory.lowram" android:required="false"/>
+    <uses-feature android:name="android.hardware.ram.atleast" android:required="true" android:value="4096"/>-->
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -66,7 +69,6 @@
             android:name=".ui.auth.register.bankAccountInfo.BankAccountInfoActivity"
             android:exported="false" />
 
-        <uses-library android:name="com.google.android.maps" />
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
@@ -135,10 +137,13 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="9bf377e8cdc0618851d3486abcb6e3338b22f596"
+            tools:replace="android:value" />
         <meta-data
             android:name="firebase_crashlytics_collection_enabled"
-            android:value="false" />
+            android:value="${enableCrashReporting}" />
         <service
             android:name=".utils.MainPushNotificationService"
             android:exported="true">

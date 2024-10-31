@@ -10,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import com.brandsin.store.R
 import com.brandsin.store.databinding.AuthFragmentLoginWaysBinding
 import com.brandsin.store.ui.activity.auth.BaseAuthFragment
+import timber.log.Timber
 
 class LoginWaysFragment : BaseAuthFragment(), Observer<Any?>
 {
@@ -28,11 +29,21 @@ class LoginWaysFragment : BaseAuthFragment(), Observer<Any?>
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.ways_to_login)
+            try {
+                findNavController().navigate(R.id.navigation_login)
+            } catch (e:Exception)
+            {
+                Timber.e(e.stackTraceToString())
+            }
         }
 
         binding.btnRegister.setOnClickListener {
-            findNavController().navigate(R.id.ways_to_register)
+            try {
+                findNavController().navigate(R.id.navigation_register)
+            } catch (e:Exception)
+            {
+                Timber.e(e.stackTraceToString())
+            }
         }
     }
 

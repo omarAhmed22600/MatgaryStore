@@ -15,9 +15,16 @@ import com.brandsin.store.model.profile.addedstories.uploadstory.UploadStoryRequ
 import com.brandsin.store.model.profile.addedstories.uploadstory.UploadStoryWithoutRequest
 import com.brandsin.store.model.profile.updatestore.UpdateStoreRequest
 import com.brandsin.store.model.profile.updatestore.UploadRequest
+import com.brandsin.store.ui.main.addproduct.SelectedAttrsWithPrice
 import com.brandsin.store.utils.PrefMethods
 import com.brandsin.store.utils.toMultiPart
 import com.brandsin.store.utils.toMultiPartV
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
 
 
 class ApiRepo(private val apiInterface: ApiInterface) {
@@ -157,32 +164,102 @@ class ApiRepo(private val apiInterface: ApiInterface) {
 
     suspend fun getStoreProducts(storeId: Int, locale: String, page: Int, limit: Int) =
         apiInterface.getStoreProducts(storeId, locale, page, limit)
+    suspend fun getStoreStatistics(storeId: Int,year: Int,locale: String) =
+        apiInterface.getStoreStatistics(storeId,year,locale)
+    fun createVariationOptionsJson(attributeList: List<SelectedAttrsWithPrice>, normalPrice: Double, salePrice: Double): JSONObject? {
+        // Ensure attributeList is not empty and prices are valid
+        if (attributeList.isNotEmpty() && normalPrice != 0.0 && salePrice != 0.0) {
 
-/*
-    suspend fun createProduct(request: AddProductRequest) = apiInterface.createProduct(
-        request.name!!.toRequestBodyParam(),
-        request.description!!.toRequestBodyParam(),
-        request.nameEn!!.toRequestBodyParam(),
-        request.descriptionEn!!.toRequestBodyParam(),
-        request.type!!.toRequestBodyParam(),
-        request.status.toRequestBodyParam(),
-        request.productStatus!!.toRequestBodyParam(),
-        request.storeId!!.toRequestBodyParam(),
-        request.skus!!.toRequestBodyParam(),
-        request.categoriesIds!!,
-        request.device.toRequestBodyParam(),
-        request.mediaId!!,
-        request.deleteMediaId!!,
-        request.locale!!.toRequestBodyParam()
-    )
-*/
+            // Create the main JSON object
+            val variationOptionsJson = JSONObject()
+            val variationOptionsArray = JSONArray()
+
+            // Iterate over attributeList and construct the variation options
+            for (attribute in attributeList) {
+                for (attr in attribute.selectedAttrId) {
+                    // Create a JSON object for each attribute
+                    val attributeJson = JSONObject().apply {
+                        put(attribute.attrId.toString(), attr.selectionId)
+                        put("regular_price", normalPrice)
+                        put("sale_price", salePrice)
+                    }
+
+                    // Add the attribute JSON object to the array
+                    variationOptionsArray.put(attributeJson)
+                }
+            }
+
+            // Add the variation options array to the main JSON object
+            variationOptionsJson.put("variation_options", variationOptionsArray)
+
+            return variationOptionsJson
+        }
+        else
+        {
+            // Create the JSON for the case where not all prices are zero
+            val variationOptionsJson = JSONObject()
+            val variationOptionsArray = JSONArray()
+
+            for (attribute in attributeList) {
+                for (attr in attribute.selectedAttrId) {
+                    if (attr.selectedPrice != 0.0) {
+                        // Create a JSON object for each attribute
+                        val attributeJson = JSONObject().apply {
+                            put(attribute.attrId.toString(), attr.selectionId)
+                            put("regular_price", attr.selectedPrice)
+                            put("sale_price", attr.selectedPrice)
+                        }
+
+                        // Add the attribute JSON object to the array
+                        variationOptionsArray.put(attributeJson)
+                    }
+                }
+            }
+
+            // Add the variation options array to the main JSON object
+            variationOptionsJson.put("variation_options", variationOptionsArray)
+
+            return variationOptionsJson
+        }
+    }
+    suspend fun createProduct(request: AddProductRequest,priceJson : Map<String, RequestBody>) =
+        apiInterface.createProduct(
+            request.name!!.toRequestBodyParam(),
+            request.description!!.toRequestBodyParam(),
+            request.nameEn!!.toRequestBodyParam(),
+            request.descriptionEn!!.toRequestBodyParam(),
+            request.type!!.toRequestBodyParam(),
+            request.status.toRequestBodyParam(),
+            request.productStatus!!.toRequestBodyParam(),
+            request.storeId!!.toRequestBodyParam(),
+            request.categoriesIds!!,
+            request.device.toRequestBodyParam(),
+            request.locale!!.toRequestBodyParam(),
+            prepareMediaParts(request.imagesList!!,"images[]"),
+            prepareMediaParts(request.videosList!!,"videos[]"),
+            priceJson
+        )
+
+    fun prepareMediaParts(mediaFiles: List<File>,key:String): List<MultipartBody.Part> {
+        return mediaFiles.map { file ->
+            val mediaType = if (file.extension.lowercase() in listOf("jpg", "jpeg", "png")) {
+                "image/*".toMediaTypeOrNull()
+            } else if (file.extension.lowercase() in listOf("mp4", "mov", "avi")) {
+                "video/*".toMediaTypeOrNull()
+            } else {
+                "*/*".toMediaTypeOrNull() // Fallback for unknown types
+            }
+            val requestFile = RequestBody.create(mediaType, file)
+            MultipartBody.Part.createFormData(key, file.name, requestFile)
+        }
+    }
 
     suspend fun deleteProduct(request: DeleteProductRequest) = apiInterface.deleteProduct(request)
 
     suspend fun changeProductStatus(productId:Int) = apiInterface.changeProductStatus(productId)
 
 
-    suspend fun updateProduct(request: UpdateProductRequest) = apiInterface.updateProduct(
+    suspend fun updateProduct(request: AddProductRequest,priceJson : Map<String, RequestBody>) = apiInterface.updateProduct(
         request.id!!.toRequestBodyParam(),
         request.name!!.toRequestBodyParam(),
         request.description!!.toRequestBodyParam(),
@@ -192,12 +269,13 @@ class ApiRepo(private val apiInterface: ApiInterface) {
         request.status.toRequestBodyParam(),
         request.productStatus!!.toRequestBodyParam(),
         request.storeId!!.toRequestBodyParam(),
-        request.skus!!.toRequestBodyParam(),
         request.categoriesIds!!,
         request.device.toRequestBodyParam(),
-        request.mediaId!!,
-        request.deleteMediaId!!,
-        request.locale!!.toRequestBodyParam()
+        request.locale!!.toRequestBodyParam(),
+        priceJson,
+        prepareMediaParts(request.imagesList!!,"images[]"),
+        prepareMediaParts(request.videosList!!,"videos[]"),
+
     )
 
     suspend fun getProductCategories(parentsOnly: Int, lang: String, storeId: Int) =

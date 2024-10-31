@@ -1,5 +1,6 @@
 package com.brandsin.store.ui.main.updateproduct
 
+import androidx.lifecycle.MutableLiveData
 import com.google.gson.Gson
 import com.brandsin.store.database.BaseViewModel
 import com.brandsin.store.model.constants.Codes
@@ -150,7 +151,7 @@ class UpdateProductViewModel : BaseViewModel() {
 
 
         obsIsVisible.set(true)
-        requestCall<UpdateProductResponse?>({
+       /* requestCall<UpdateProductResponse?>({
             withContext(Dispatchers.IO) { return@withContext getApiRepo().updateProduct(updateProductRequest)
             }
         })
@@ -164,7 +165,7 @@ class UpdateProductViewModel : BaseViewModel() {
                     apiResponseLiveData.value = ApiResponse.errorMessage(res.message.toString())
                 }
             }
-        }
+        }*/
     }
 
     fun upload(i: Int){

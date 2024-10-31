@@ -1,6 +1,7 @@
 package com.brandsin.store.model.constants
 
 object Codes {
+    const val ONE_PRICE_ONLY = 123456
     const val SETTING_SUCCCESS = 10
     const val DIALOG_VERSION_REQUEST = 1001
     const val DIALOG_OFFER_REQUEST = 1002

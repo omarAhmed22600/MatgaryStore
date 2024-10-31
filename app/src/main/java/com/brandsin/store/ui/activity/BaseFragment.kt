@@ -134,7 +134,7 @@ open class BaseFragment : Fragment() {
         )
     }
 
-    fun pickImage(requestCode: Int, selectedMode: Options.Mode? = null) {
+    fun pickImage(requestCode: Int, selectedMode: Options.Mode) {
         Timber.e("pick image called")
 
 
@@ -405,7 +405,7 @@ open class BaseFragment : Fragment() {
     }
 
     companion object {
-        private const val REQUEST_CODE_PERMISSIONS = 1001
+        const val REQUEST_CODE_PERMISSIONS = 1001
     }
 }
 

@@ -58,6 +58,9 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:elevation="5dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:visibleGone="@{!viewModel.obsIsLoading}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
             app:layout_constraintVertical_bias="0.0">
@@ -78,7 +81,7 @@
 
                     <!-- First CardView -->
                     <androidx.cardview.widget.CardView
-                        android:id="@+id/cvStoreVisits"
+                        android:id="@+id/cvStoreFollowers"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginVertical="@dimen/_16sdp"
@@ -100,12 +103,13 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tvStoreFollowersCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:fontFamily="@font/cairo_bold"
-                                android:text="132.485"
+                                tools:text="13290"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_20ssp" />
 
@@ -115,7 +119,7 @@
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginBottom="@dimen/_8sdp"
                                 android:fontFamily="@font/cairo_semibold"
-                                android:text="@string/Store_visitings"
+                                android:text="@string/store_followers"
                                 android:textColor="@color/grey"
                                 android:textSize="@dimen/_10ssp" />
                         </LinearLayout>
@@ -135,7 +139,7 @@
                         app:cardElevation="@dimen/_10sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/cvStoreVisits"
+                        app:layout_constraintStart_toEndOf="@+id/cvStoreFollowers"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <LinearLayout
@@ -144,12 +148,13 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tvStoriesViewsCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:layout_marginTop="@dimen/_8sdp"
                                 android:fontFamily="@font/cairo_bold"
-                                android:text="96.247"
+                                tools:text="96.247"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_20ssp" />
 
@@ -202,6 +207,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tvStoreRatingCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -209,7 +215,7 @@
                                 android:drawableStart="@drawable/ic_star"
                                 android:drawablePadding="@dimen/_5sdp"
                                 android:fontFamily="@font/cairo_bold"
-                                android:text="4.9"
+                                tools:text="4.9"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_20ssp" />
 
@@ -248,6 +254,7 @@
                             android:orientation="vertical">
 
                             <TextView
+                                android:id="@+id/tvProductsRatingCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -255,7 +262,7 @@
                                 android:drawableStart="@drawable/ic_star"
                                 android:drawablePadding="@dimen/_5sdp"
                                 android:fontFamily="@font/cairo_bold"
-                                android:text="5.0"
+                                tools:text="5.0"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_20ssp" />
 
@@ -273,107 +280,7 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/clThirdRow"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clSecondRow"
-                    app:layout_constraintVertical_bias="0.0">
 
-                    <!-- First CardView -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cvStoreFollowers"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginVertical="@dimen/_16sdp"
-                        android:layout_marginStart="@dimen/_16sdp"
-                        android:layout_marginEnd="@dimen/_8sdp"
-                        android:background="@drawable/cart_total_bg"
-                        android:paddingStart="@dimen/_12sdp"
-                        android:paddingEnd="@dimen/_12sdp"
-                        app:cardCornerRadius="@dimen/_8sdp"
-                        app:cardElevation="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@+id/cvStoreLikes"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:fontFamily="@font/cairo_bold"
-                                android:text="13290"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_20ssp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/_8sdp"
-                                android:fontFamily="@font/cairo_semibold"
-                                android:text="@string/store_followers"
-                                android:textColor="@color/grey"
-                                android:textSize="@dimen/_10ssp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-                    <!-- Second CardView -->
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/cvStoreLikes"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/_8sdp"
-                        android:layout_marginEnd="@dimen/_16sdp"
-                        android:background="@drawable/cart_total_bg"
-                        android:paddingStart="@dimen/_12sdp"
-                        android:paddingEnd="@dimen/_12sdp"
-                        app:cardCornerRadius="@dimen/_8sdp"
-                        app:cardElevation="@dimen/_10sdp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/cvStoreFollowers"
-                        app:layout_constraintTop_toTopOf="parent">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginTop="@dimen/_8sdp"
-                                android:fontFamily="@font/cairo_bold"
-                                android:text="990"
-                                android:textColor="@color/black"
-                                android:textSize="@dimen/_20ssp" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_horizontal"
-                                android:layout_marginBottom="@dimen/_8sdp"
-                                android:fontFamily="@font/cairo_semibold"
-                                android:text="@string/store_likes"
-                                android:textColor="@color/grey"
-                                android:textSize="@dimen/_10ssp" />
-                        </LinearLayout>
-                    </androidx.cardview.widget.CardView>
-
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/clBarChart"
@@ -382,7 +289,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/clThirdRow"
+                    app:layout_constraintTop_toBottomOf="@+id/clSecondRow"
                     app:layout_constraintVertical_bias="0.0">
 
 
@@ -429,9 +336,10 @@
                                     android:drawableTint="@color/grey"
                                     android:fontFamily="@font/cairo_semibold"
                                     android:gravity="center"
-                                    android:text="2024"
+                                    android:text="@{viewModel.selectedYear}"
                                     android:textColor="@color/grey"
-                                    android:textSize="@dimen/_10ssp" />
+                                    android:textSize="@dimen/_10ssp"
+                                    tools:text="2024" />
                             </androidx.cardview.widget.CardView>
 
                             <TextView
@@ -448,6 +356,21 @@
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toTopOf="parent" />
 
+                            <TextView
+                                android:id="@+id/noData"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="@font/cairo_bold"
+                                android:text="@string/no_data"
+                                android:textColor="@color/black"
+                                android:textSize="@dimen/_13ssp"
+                                android:elevation="5dp"
+                                android:visibility="gone"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toBottomOf="@+id/cvYearSelector" />
+
                             <com.anychart.AnyChartView
                                 android:id="@+id/anyChartView"
                                 android:layout_width="match_parent"
@@ -456,7 +379,7 @@
                                 app:layout_constraintBottom_toBottomOf="parent"
                                 app:layout_constraintEnd_toEndOf="parent"
 
-                                app:layout_constraintHorizontal_bias="0.0"
+                                app:layout_constraintHorizontal_bias="1.0"
                                 app:layout_constraintStart_toStartOf="parent"
                                 app:layout_constraintTop_toBottomOf="@+id/cvYearSelector"
                                 app:layout_constraintVertical_bias="0.0" />
@@ -470,6 +393,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_200sdp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/clBarChart">
 
@@ -677,7 +601,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginStart="@dimen/_8sdp"
                                 android:fontFamily="@font/cairo_bold"
-                                android:text="أفضل المنتحات مبيعا"
+                                android:text="@string/best_selling_products"
                                 android:textColor="@color/black"
                                 android:textSize="@dimen/_11ssp"
                                 app:layout_constraintStart_toEndOf="@+id/imageView6"
@@ -689,7 +613,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginBottom="@dimen/_8sdp"
                                 android:fontFamily="@font/cairo_semibold"
-                                android:text="50 منتج"
+                                tools:text="50 منتج"
                                 android:textColor="@color/grey"
                                 android:textSize="@dimen/_10ssp"
                                 app:layout_constraintBottom_toBottomOf="parent"
@@ -738,6 +662,7 @@
         </ScrollView>
         <!--Header BGs-->
         <ImageView
+            android:id="@+id/imageView7"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_100sdp"
             android:padding="0dp"
@@ -771,6 +696,21 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.20" />
 
-
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            visibleGone="@{viewModel.obsIsLoading}"
+            android:indeterminate="true"
+            android:indeterminateTint="@color/color_primary"
+            android:indeterminateTintMode="src_atop"
+            android:progressTint="@color/color_primary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardView" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

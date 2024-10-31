@@ -65,8 +65,8 @@ class ProductAttributesAdapter(
                     binding.addPrice.setOnClickListener {
                         // Dynamically add EditText views based on the number of selected options
 //                        if (viewModel.canChangePRice.value == true) {
-
-
+                        viewModel.normalPrice.value = ""
+                        viewModel.salePrice.value = ""
 
                         // Disable further price changes initially
                         viewModel.canChangePRice.value = false
@@ -141,6 +141,8 @@ class ProductAttributesAdapter(
 
                     priceEditText.addTextChangedListener(object : TextWatcher {
                         override fun afterTextChanged(s: Editable?) {
+                            viewModel.normalPrice.value = ""
+                            viewModel.salePrice.value = ""
                             val newPrice = s?.toString()?.toDoubleOrNull()
                             Timber.e("new price is $newPrice")
                             if (newPrice != null) {

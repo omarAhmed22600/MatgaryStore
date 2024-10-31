@@ -1,7 +1,6 @@
 package com.brandsin.store.database
 
 import androidx.lifecycle.MutableLiveData
-import com.brandsin.user.database.RetrofitClient
 
 open class BaseRepository
 {

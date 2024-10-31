@@ -89,7 +89,6 @@ class StoryAdapter : RecyclerView.Adapter<StoryAdapter.StoryHolder>() {
 
             holder.binding.txtStory.text = itemViewModel.item.text.toString()
         }
-        //TODO
 //
         holder.binding.ivCloseTxt.setOnClickListener {
             deleteLiveData.value = itemViewModel.item

@@ -8,63 +8,34 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:305418294270:android:7c67df20e427988c21e6af",
+        "mobilesdk_app_id": "1:305418294270:android:c90013157014c50021e6af",
         "android_client_info": {
-          "package_name": "com.brandsin.driver"
+          "package_name": "com.brandsin.driverapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD7o6zvb6ZJl2Z4O79zjSOTnWpj_inzroY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "305418294270-118lfl7c04ehd3eip7da2uj00ddedbm9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.Ahmed.BRANDS-IN",
-                "app_store_id": "1635151799"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:305418294270:android:6bc44d026e84399021e6af",
-        "android_client_info": {
-          "package_name": "com.brandsin.store"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "305418294270-j2iuqlqrida7csvoh23l3otmra1fomh2.apps.googleusercontent.com",
+          "client_id": "305418294270-4in7k4q8lsaj4c8otlcv5f1ue4fu8ert.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.brandsin.store",
-            "certificate_hash": "303a3c2b7e2d3ece32edca3724cc865e05e8b9ae"
+            "package_name": "com.brandsin.driverapp",
+            "certificate_hash": "716c3dcdf5ba3e32d3a77af26aeec6126fa73d16"
           }
         },
         {
-          "client_id": "305418294270-s25oisnjosea1kfl711f740gc44g0us5.apps.googleusercontent.com",
+          "client_id": "305418294270-r52frssn8bc1k8q1kdr6j7hd95cqa6vg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.brandsin.store",
-            "certificate_hash": "aad1ded5d49c749526b1839261ae4bf42453ba54"
+            "package_name": "com.brandsin.driverapp",
+            "certificate_hash": "0656de28631803d533e94e27103092e01a0dc8bb"
+          }
+        },
+        {
+          "client_id": "305418294270-vicqcc925rsb1sf7e3hmf7juf2dc3scr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brandsin.driverapp",
+            "certificate_hash": "303a3c2b7e2d3ece32edca3724cc865e05e8b9ae"
           }
         },
         {
@@ -105,6 +76,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "305418294270-0njin8v8c0dv56mi35qs33iga5vjllak.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brandsin.storeapp",
+            "certificate_hash": "aad1ded5d49c749526b1839261ae4bf42453ba54"
+          }
+        },
+        {
           "client_id": "305418294270-r489voh81h81bl4tji5egtludgs894p1.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
@@ -113,56 +92,11 @@
           }
         },
         {
-          "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD7o6zvb6ZJl2Z4O79zjSOTnWpj_inzroY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "305418294270-118lfl7c04ehd3eip7da2uj00ddedbm9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.Ahmed.BRANDS-IN",
-                "app_store_id": "1635151799"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:305418294270:android:d8a8304146f123fb21e6af",
-        "android_client_info": {
-          "package_name": "com.brandsin.user"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "305418294270-cpveelkaskh68t2ind3petpca9dg3a37.apps.googleusercontent.com",
+          "client_id": "305418294270-v95q99hr404panl36sn1uc4d15b5nscv.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.brandsin.user",
-            "certificate_hash": "303a3c2b7e2d3ece32edca3724cc865e05e8b9ae"
-          }
-        },
-        {
-          "client_id": "305418294270-iagednep4ij774qmspmusmd8s94rm9up.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.brandsin.user",
-            "certificate_hash": "39427d16a9077d54ce962638db2c76a54fe61023"
+            "package_name": "com.brandsin.storeapp",
+            "certificate_hash": "075bd9911a0905bf414ac49c9a1827ae2e368fc6"
           }
         },
         {
@@ -219,79 +153,13 @@
           }
         },
         {
-          "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD7o6zvb6ZJl2Z4O79zjSOTnWpj_inzroY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "305418294270-118lfl7c04ehd3eip7da2uj00ddedbm9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.Ahmed.BRANDS-IN",
-                "app_store_id": "1635151799"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:305418294270:android:840135c6cd0c109921e6af",
-        "android_client_info": {
-          "package_name": "com.brandsinStore"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyD7o6zvb6ZJl2Z4O79zjSOTnWpj_inzroY"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "305418294270-118lfl7c04ehd3eip7da2uj00ddedbm9.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.Ahmed.BRANDS-IN",
-                "app_store_id": "1635151799"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:305418294270:android:c37e69b63425d30a21e6af",
-        "android_client_info": {
-          "package_name": "com.brandsinUser"
-        }
-      },
-      "oauth_client": [
+          "client_id": "305418294270-mu7o8h0k8rmvm1th82peik7mgcqb4vi9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.brandsin.userapp",
+            "certificate_hash": "aa2ce43bc3ba1707451e9ee4618668e23249b69e"
+          }
+        },
         {
           "client_id": "305418294270-nri54fmnadmmunun61v4ptjgn7bvc0so.apps.googleusercontent.com",
           "client_type": 3

@@ -269,54 +269,54 @@ class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
             viewModel.updateRequest.storeMedia!!.add(storeData?.commercialRegister.id!!)
         }
 
-        if (storeData?.images?.size!! >= 1) {
+        if (storeData?.images.orEmpty().isNotEmpty()) {
             binding.notPhoto1.visibility = View.GONE
             binding.ivImg1.visibility = View.VISIBLE
-            Glide.with(this).load(storeData.images[0]?.url).into(binding.ivPhoto1)
+            Glide.with(this).load(storeData?.images!![0]?.url).into(binding.ivPhoto1)
             if (viewModel.updateRequest.storeMedia == null) {
                 viewModel.updateRequest.storeMedia = ArrayList()
             }
             viewModel.updateRequest.storeMedia!!.add(storeData.images[0]?.id!!)
         }
 
-        if (storeData.images.size >= 2) {
+        if (storeData?.images.orEmpty().size >= 2) {
             binding.notPhoto2.visibility = View.GONE
             binding.ivImg2.visibility = View.VISIBLE
-            Glide.with(this).load(storeData.images[1]?.url).into(binding.ivPhoto2)
+            Glide.with(this).load(storeData?.images!![1]?.url).into(binding.ivPhoto2)
             if (viewModel.updateRequest.storeMedia == null) {
                 viewModel.updateRequest.storeMedia = ArrayList()
             }
-            viewModel.updateRequest.storeMedia!!.add(storeData.images[1]?.id!!)
+            viewModel.updateRequest.storeMedia!!.add(storeData!!.images?.get(1)?.id!!)
         }
 
-        if (storeData.images.size >= 3) {
+        if (storeData?.images.orEmpty().size >= 3) {
             binding.notPhoto3.visibility = View.GONE
             binding.ivImg3.visibility = View.VISIBLE
-            Glide.with(this).load(storeData.images[2]?.url).into(binding.ivPhoto3)
+            Glide.with(this).load(storeData!!.images!![2]?.url).into(binding.ivPhoto3)
             if (viewModel.updateRequest.storeMedia == null) {
                 viewModel.updateRequest.storeMedia = ArrayList()
             }
-            viewModel.updateRequest.storeMedia!!.add(storeData.images[2]?.id!!)
+            viewModel.updateRequest.storeMedia!!.add(storeData.images!![2]?.id!!)
         }
 
-        if (storeData.images.size >= 4) {
+        if (storeData?.images.orEmpty().size >= 4) {
             binding.notPhoto4.visibility = View.GONE
             binding.ivImg4.visibility = View.VISIBLE
-            Glide.with(this).load(storeData.images[3]?.url).into(binding.ivPhoto4)
+            Glide.with(this).load(storeData!!.images!![3]!!.url).into(binding.ivPhoto4)
             if (viewModel.updateRequest.storeMedia == null) {
                 viewModel.updateRequest.storeMedia = ArrayList()
             }
-            viewModel.updateRequest.storeMedia!!.add(storeData.images[3]?.id!!)
+            viewModel.updateRequest.storeMedia!!.add(storeData.images!![3]?.id!!)
         }
 
-        if (storeData.images.size >= 5) {
+        if (storeData?.images.orEmpty().size >= 5) {
             binding.notPhoto5.visibility = View.GONE
             binding.ivImg5.visibility = View.VISIBLE
-            Glide.with(this).load(storeData.images[4]?.url).into(binding.ivPhoto5)
+            Glide.with(this).load(storeData!!.images!![4]?.url).into(binding.ivPhoto5)
             if (viewModel.updateRequest.storeMedia == null) {
                 viewModel.updateRequest.storeMedia = ArrayList()
             }
-            viewModel.updateRequest.storeMedia!!.add(storeData.images[4]?.id!!)
+            viewModel.updateRequest.storeMedia!!.add(storeData.images!![4]?.id!!)
         }
     }
 
@@ -779,8 +779,18 @@ class StoreInfoFragment : BaseHomeFragment(), Observer<Any?> {
                 }
             }
             Activity.RESULT_CANCELED -> {
-                showToast(getString(R.string.someThing_went_wrong,),1)
-                return
+                if (requestCode == Codes.SELECT_PHOTO1
+                    ||requestCode == Codes.SELECT_PHOTO2
+                    ||requestCode == Codes.SELECT_PHOTO3
+                    ||requestCode == Codes.SELECT_PHOTO4
+                    ||requestCode == Codes.SELECT_PHOTO5
+                    ||requestCode == Codes.STORE_IMAGE
+                    ||requestCode == Codes.STORE_THUMBNAIL)
+                {
+                    showToast(getString(R.string.someThing_went_wrong,),1)
+                    return
+                }
+
             }
 
 //                }

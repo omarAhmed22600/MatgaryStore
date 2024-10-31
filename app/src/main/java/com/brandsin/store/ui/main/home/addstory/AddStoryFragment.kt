@@ -304,8 +304,11 @@ class AddStoryFragment : BaseHomeFragment(), Observer<Any?> {
                 }
             }
             Activity.RESULT_CANCELED -> {
-                showToast(getString(R.string.someThing_went_wrong,),1)
-                return
+                if (requestCode == Codes.PRODUCT_IMG_REQUEST_CODE||requestCode == 9999)
+                {
+                    showToast(getString(R.string.someThing_went_wrong,),1)
+                    return
+                }
             }
         }
     }

@@ -35,7 +35,7 @@ import com.brandsin.store.model.constants.Params
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.delay
 import timber.log.Timber
-import java.lang.Exception
+import kotlin.Exception
 
 class HomeActivity : ParentActivity(), Observer<Any?> {
 
@@ -59,7 +59,7 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
         // DataBindingUtil.setContentView(this, R.layout.activity_home)
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
+//        throw RuntimeException("new crash")
         //init view model
         initViewModel()
         binding.viewModel = viewModel
@@ -152,7 +152,6 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
             Timber.e("refund")
             navController.navigate(R.id.nav_refundableProducts)
         }
-
         switchBusy =
             navView.menu.findItem(R.id.nav_busy).actionView?.findViewById(R.id.switch_busy)
 
@@ -300,7 +299,14 @@ class HomeActivity : ParentActivity(), Observer<Any?> {
         initViewModel()
         viewModel?.obsTitle!!.set(title)
         viewModel?.obsShowToolbar!!.set(show)
-        binding.toolbar.setBackgroundColor(toolBarColor)
+        try
+        {
+            binding.toolbar.setBackgroundColor(toolBarColor)
+        } catch (e:Exception)
+        {
+            Timber.e(e.stackTraceToString()
+            )
+        }
     }
 
     fun customStatusBar(statusBarColor: Int) {

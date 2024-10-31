@@ -8,6 +8,8 @@ import com.google.android.exoplayer2.database.DatabaseProvider
 import com.google.android.exoplayer2.database.ExoDatabaseProvider
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
+import com.google.firebase.FirebaseApp
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 class MyApp : Application() {
@@ -48,6 +50,8 @@ class MyApp : Application() {
         // DataBindingUtil.setDefaultComponent(AppDataBindingComponent())
 
         context = applicationContext
+        FirebaseApp.initializeApp(this)
+        FirebaseCrashlytics.getInstance().sendUnsentReports()
 
         val databaseProvider: DatabaseProvider = ExoDatabaseProvider(this)
         val leastRecentlyUsedCacheEvictor = LeastRecentlyUsedCacheEvictor(100)

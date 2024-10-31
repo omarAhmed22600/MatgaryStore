@@ -83,7 +83,7 @@ data class StoreModel(
     val approved: Int? = null,
 
     @field:SerializedName("id")
-    val id: Int? = null,
+    val id: Int? = 66,
 
     @field:SerializedName("slug")
     val slug: String? = null,
@@ -95,7 +95,7 @@ data class StoreModel(
     val isClosed: Int? = null,
 
     @field:SerializedName("image")
-    val image: String? = null,
+    val image: String? = "https://backend.brandsin.net//media//user_v1oz1Yz27j//10757//conversions//image_350x350_0.jpeg",
 
     @field:SerializedName("thumbnail")
     val thumbnail: String? = null,
@@ -140,7 +140,7 @@ data class StoreModel(
     val minPriceProduct: Any? = null,
 
     @field:SerializedName("user_id")
-    val userId: Int? = null,
+    val userId: Int? = 817,
 
     @field:SerializedName("apartment_no")
     val apartmentNo: Any? = null,
@@ -149,7 +149,7 @@ data class StoreModel(
     val registrationImage2: Any? = null,
 
     @field:SerializedName("name")
-    val name: String? = null,
+    val name: String? = "Omar",
 
     @field:SerializedName("registration_image")
     val registrationImage: Any? = null,

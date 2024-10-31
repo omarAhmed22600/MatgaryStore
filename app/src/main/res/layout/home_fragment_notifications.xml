@@ -55,28 +55,29 @@
             <!-- Empty Notifications Layout -->
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/empty_layout"
+                isEmpty="@{viewModel.obsIsEmpty}"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="#FAFAFA"
-                tools:visibility="gone"
-                isEmpty="@{viewModel.obsIsEmpty}"
                 android:orientation="vertical"
-                app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/img_empty"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/_24sdp"
                     android:src="@drawable/empty_notifications_img"
+
+                    app:layout_constraintBottom_toTopOf="@+id/tv_empty"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:layout_marginBottom="@dimen/_24sdp"
-                    app:layout_constraintBottom_toTopOf="@+id/tv_empty"
                     tools:ignore="ContentDescription" />
 
                 <TextView
@@ -85,8 +86,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/_24sdp"
                     android:fontFamily="@font/cairo_semibold"
-                    android:textColor="@color/black"
                     android:text="@string/no_notifications_found"
+                    android:textColor="@color/black"
                     android:textSize="@dimen/_12ssp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"

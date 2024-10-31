@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.brandsin.store.R
 import com.brandsin.store.databinding.HomeFragmentMyProductsBinding
 import com.brandsin.store.model.constants.Codes
@@ -44,11 +45,15 @@ class MyProductsFragment : BaseHomeFragment(), Observer<Any?>
 
         viewModel.mutableLiveData.observe(viewLifecycleOwner, this)
 
-        viewModel.productsAdapter.editLiveData.observe(viewLifecycleOwner, {
-            val intent = Intent(requireActivity(), UpdateProductActivity::class.java)
+        viewModel.productsAdapter.editLiveData.observe(viewLifecycleOwner) {
+            /*val intent = Intent(requireActivity(), UpdateProductActivity::class.java)
             intent.putExtra(Params.PRODUCT_ITEM , it)
-            startActivityForResult(intent, Codes.UPDATE_PRODUCT)
-        })
+            startActivityForResult(intent, Codes.UPDATE_PRODUCT)*/
+            val bundle = Bundle().apply {
+                putSerializable("productItem", it)
+            }
+            findNavController().navigate(R.id.nav_add_product,bundle)
+        }
 
         viewModel.productsAdapter.deleteLiveData.observe(viewLifecycleOwner, {
             val bundle = Bundle()

@@ -485,7 +485,7 @@
     <string name="add_new_section_in_arabic">إضافة قسم جديد بالعربي</string>
     <string name="add_new_section_in_english">إضافة قسم جديد باﻹنجليزى</string>
     <string name="add_new_category">إضافة قسم جديد</string>
-    <string name="please_enter_category_name">Please enter category name</string>
+    <string name="please_enter_category_name">يرجى إدخال اسم الفئة.</string>
     <string name="offers_and_features">عروض ومميزات</string>
     <string name="banking_data">البيانات المصرفية</string>
     <string name="enter_bank_information">ادخل البيانات المصرفية</string>
@@ -630,5 +630,9 @@
     <string name="permission_denied">تم رفض الإذن: %1$s</string>
     <string name="failed_to_set_data_source">فشل في تعيين مصدر البيانات: %1$s</string>
     <string name="add_price">أضف سعر</string>
+    <string name="please_choose_either_the_attribute_price_or_general_price">يرجى اختيار إما سعر السمة أو السعر العام.</string>
+    <string name="cant_change_the_product_type_from_simple_to_variable_or_vise_versa">لا يمكن تغيير نوع المنتج من بسيط إلى متغير أو العكس.</string>
+    <string name="best_selling_products">أفضل المنتحات مبيعا</string>
+    <string name="no_data">لا يوجد بيانات</string>
 
 </resources>

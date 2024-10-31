@@ -24,8 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/cairo_semibold"
-            android:icon="@drawable/ic_wallet"
-            android:iconTint="@color/color_primary"
+            android:icon="@drawable/ic_statistics"
             android:title="@string/store_statistics" />
         <item
             android:id="@+id/nav_reports"
@@ -92,7 +91,6 @@
             android:icon="@drawable/code"
             android:iconTint="@color/color_primary"
             android:title="@string/store_codes" />
-
         <item
             android:id="@+id/nav_connecting_main"
             android:fontFamily="@font/cairo_semibold"
@@ -144,7 +142,7 @@
             android:icon="@drawable/logout"
             android:title="@string/logout"
             />
-        <item
+   <!--     <item
             android:id="@+id/nav_delete_account"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -152,7 +150,7 @@
             android:icon="@drawable/logout"
             android:iconTint="@color/order_rejected_color"
             android:title="@string/delete_account"
-            />
+            />-->
     </group>
 
 </menu>

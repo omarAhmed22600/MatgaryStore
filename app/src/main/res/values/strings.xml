@@ -672,5 +672,9 @@
     <string name="permission_denied">Permission denied: %1$s</string>
     <string name="failed_to_set_data_source">Failed to set data source: %1$s</string>
     <string name="unsupported_format">Unsupported Format</string>
-    <string name="add_price">أضف سعر</string>
+    <string name="add_price">Add Price</string>
+    <string name="please_choose_either_the_attribute_price_or_general_price">Please Choose either the Attribute price or general price</string>
+    <string name="cant_change_the_product_type_from_simple_to_variable_or_vise_versa">Cant change the product type from simple to variable or vise versa</string>
+    <string name="best_selling_products">Best Selling Products</string>
+    <string name="no_data">No data</string>
 </resources>

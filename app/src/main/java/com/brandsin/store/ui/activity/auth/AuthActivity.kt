@@ -33,6 +33,7 @@ class AuthActivity : ParentActivity() {
     private var orderId = -1
     private var chatId = -1
     private var refundableId = -1
+    private var shouldNavigate = false
     override fun onCreate(savedInstanceState: Bundle?) {
         LocalUtil.changeLanguage(this)
         super.onCreate(savedInstanceState)
@@ -50,12 +51,17 @@ class AuthActivity : ParentActivity() {
         if (intent.getStringExtra("chat_id") != null) {
             Timber.e("chat")
             chatId = intent.getStringExtra("chat_id")?.toInt()?:-1
+            shouldNavigate = true
         } else if (intent.getStringExtra("order_id") != null) {
             Timber.e("order")
             orderId = intent.getStringExtra("order_id")?.toInt()?:-1
+            shouldNavigate = true
+
         } else if (intent.getStringExtra("refundable_id") != null) {
             Timber.e("refund")
             refundableId = intent.getStringExtra("refundable_id")?.toInt()?:-1
+            shouldNavigate = true
+
         }
 
         binding.ibBack.setOnClickListener {
@@ -128,7 +134,7 @@ class AuthActivity : ParentActivity() {
     }
 
     private fun startIntent() {
-        /*if (orderId != -1) {*/
+        if (shouldNavigate) {
             if (PrefMethods.getLoginState()) {
                 var intent = Intent(this@AuthActivity, HomeActivity::class.java)
                 if (orderId != -1)
@@ -140,7 +146,7 @@ class AuthActivity : ParentActivity() {
                 startActivity(intent)
                 finish()
             }
-//        }
+        }
     }
 
     private lateinit var networkConnectionManager: ConnectivityManager
@@ -151,7 +157,11 @@ class AuthActivity : ParentActivity() {
         networkConnectionCallback = object : ConnectivityManager.NetworkCallback() {
             override fun onAvailable(network: Network) {
                 // there is internet
-                binding.noWifi.visibility = View.GONE
+                try {
+                    binding.noWifi.visibility = View.GONE
+                } catch (e:Exception) {
+                    Timber.e(e.stackTraceToString())
+                }
             }
 
             override fun onLost(network: Network) {

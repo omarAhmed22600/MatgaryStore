@@ -10,3 +10,10 @@ data class SelectedAttrsWithPrice(
     val selectionId:Int,
     val selectedPrice: Double = 0.0
 )
+fun areAllPricesZero(selectedAttrsList: List<SelectedAttrsWithPrice>): Boolean {
+    return selectedAttrsList.all { selectedAttrs ->
+        selectedAttrs.selectedAttrId.all { attr ->
+            attr.selectedPrice == 0.0
+        }
+    }
+}

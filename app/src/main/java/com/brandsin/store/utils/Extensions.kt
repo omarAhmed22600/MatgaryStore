@@ -17,10 +17,13 @@ import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.*
-import androidx.lifecycle.Observer
 import com.brandsin.store.R
+import com.brandsin.store.database.BaseViewModel
+import com.brandsin.store.network.ApiResponse
+import com.brandsin.store.network.ExceptionUtil.getExceptionMessage
 import com.brandsin.store.ui.activity.ParentActivity
 import com.brandsin.store.ui.activity.home.HomeActivity
+import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
@@ -42,6 +45,20 @@ fun <T> LiveData<T>.distinctUntilChangedNew(): LiveData<T> {
     }
 
     return result
+}
+fun <responseBody : Any?> BaseViewModel.requestCall(
+    networkCall: suspend () -> responseBody?,
+    callback: (responseBody?) -> Unit = {}
+) {
+    viewModelScope.launch {
+        setResult(ApiResponse.loading(null))
+        try {
+            val res = networkCall()
+            callback(res)
+        } catch (e: Exception) {
+            postResult(ApiResponse.errorMessage(e.getExceptionMessage()))
+        }
+    }
 }
 
 fun View.gone() = run { visibility = View.GONE }

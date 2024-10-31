@@ -330,6 +330,7 @@
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/cairoregular"
                                 android:hint="@string/price"
+                                android:text="@={viewModel.normalPrice}"
                                 android:inputType="numberDecimal"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/black"
@@ -374,6 +375,7 @@
                                 android:background="@android:color/transparent"
                                 android:fontFamily="@font/cairoregular"
                                 android:hint="@string/selling_price"
+                                android:text="@={viewModel.salePrice}"
                                 android:inputType="numberDecimal"
                                 android:textAlignment="viewStart"
                                 android:textColor="@color/black"
@@ -434,7 +436,6 @@
                 tools:itemCount="3"
                 tools:listitem="@layout/raw_add_product_sku" />-->
 
-                <!--TODO WHEN HANDLED BY BACKEND-->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_product_sku"
                     android:layout_width="0dp"

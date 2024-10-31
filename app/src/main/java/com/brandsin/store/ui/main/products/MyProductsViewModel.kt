@@ -42,7 +42,7 @@ class MyProductsViewModel : BaseViewModel()
                     PrefMethods.getStoreData()!!.id!!.toInt(),
                         PrefMethods.getLanguage(),
                         0,
-                        50
+                        500
                 )
             }
         })

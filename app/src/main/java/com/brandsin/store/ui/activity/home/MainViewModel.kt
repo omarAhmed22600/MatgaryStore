@@ -66,7 +66,7 @@ class MainViewModel : BaseViewModel() {
 
     fun setMenuBusy(i: Int) {
         requestMenuBusy.isBusy = i
-        requestMenuBusy.storeId = PrefMethods.getStoreData()!!.id
+        requestMenuBusy.storeId = PrefMethods.getStoreData()?.id?:-1
         val baeRepo = BaseRepository()
         val responseCall: Call<MenuResponse?> = baeRepo.apiInterface.setMenuBusy(requestMenuBusy)
         responseCall.enqueue(object : Callback<MenuResponse?> {
@@ -97,7 +97,7 @@ class MainViewModel : BaseViewModel() {
 
     fun setMenuClosed(i: Int) {
         requestMenuClosed.isClosed = i
-        requestMenuClosed.storeId = PrefMethods.getStoreData()!!.id
+        requestMenuClosed.storeId = PrefMethods.getStoreData()?.id?: -1
         val baeRepo = BaseRepository()
         val responseCall: Call<MenuResponse?> =
             baeRepo.apiInterface.setMenuClosed(requestMenuClosed)

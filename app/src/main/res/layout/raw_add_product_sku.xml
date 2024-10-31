@@ -170,7 +170,6 @@
                         android:id="@+id/color"
                         android:hint="@string/color"
                         android:focusable="false"
-                        android:text="@{viewModel.selectedColorText}"
                         android:inputType="numberDecimal"
                         android:textAlignment="viewStart"
                         android:textColorHint="@color/hint_color"
@@ -213,7 +212,6 @@
                         android:drawableTint="@color/color_primary"
                         android:inputType="numberDecimal"
                         android:focusable="false"
-                        android:text="@{viewModel.selectedMassText}"
                         android:textAlignment="viewStart"
                         android:textColor="@color/black"
                         android:textColorHint="@color/hint_color">
@@ -243,7 +241,6 @@
                 android:inputType="text"
                 android:textAlignment="viewStart"
                 android:focusable="false"
-                android:text="@{viewModel.selectedCapacityText}"
                 android:hint="@string/capacity"
                 android:drawableEnd="@drawable/ic_expand_down_arrow"
                 android:drawableTint="@color/color_primary"

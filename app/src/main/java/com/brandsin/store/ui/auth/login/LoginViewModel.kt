@@ -6,6 +6,7 @@ import com.brandsin.store.model.auth.devicetoken.DeviceTokenRequest
 import com.brandsin.store.model.auth.devicetoken.DeviceTokenResponse
 import com.brandsin.store.model.auth.login.LoginRequest
 import com.brandsin.store.model.auth.login.LoginResponse
+import com.brandsin.store.model.auth.register.StoreModel
 import com.brandsin.store.model.constants.Codes
 import com.brandsin.store.utils.PrefMethods
 import retrofit2.Call
@@ -54,7 +55,7 @@ class LoginViewModel : BaseViewModel() {
                         when {
                             response.body()!!.isSuccess!! -> {
                                 PrefMethods.saveUserData(response.body()!!.user)
-                                PrefMethods.saveStoreData(response.body()!!.store)
+                                PrefMethods.saveStoreData(response.body()?.store?:StoreModel())
                                 PrefMethods.saveLoginState(true)
                                 deviceToken()
                                 setValue(Codes.LOGIN_SUCCESS)

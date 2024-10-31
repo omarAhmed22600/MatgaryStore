@@ -11,10 +11,7 @@ import android.graphics.RectF
 import android.graphics.Typeface
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.text.SpannableString
 import android.text.style.AbsoluteSizeSpan
-import android.text.style.ForegroundColorSpan
-import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.FrameLayout
@@ -28,7 +25,6 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.core.net.toUri
 import androidx.core.text.buildSpannedString
 import androidx.core.text.inSpans
-import androidx.core.widget.doOnTextChanged
 import androidx.databinding.BindingAdapter
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -43,10 +39,7 @@ import com.brandsin.store.ui.menu.storeStatistics.Product
 import com.brandsin.store.ui.menu.storeStatistics.ProductAdapter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.bumptech.glide.request.target.Target
 import com.google.android.material.button.MaterialButton
-import com.google.android.material.textfield.TextInputLayout
-import com.google.android.material.textview.MaterialTextView
 import kotlin.math.roundToInt
 
 @BindingAdapter("imageView_setDrawableRes")
@@ -283,6 +276,7 @@ fun bindRecyclerViewForProductPhotos(
     val adapter = recyclerView.adapter as ProductPhotoAdapter
     adapter.submitList(data)
 }
+
 @BindingAdapter("listDataForProductAttributes")
 fun bindRecyclerViewForProductAttributes(
     recyclerView: RecyclerView,
@@ -291,11 +285,20 @@ fun bindRecyclerViewForProductAttributes(
     val adapter = recyclerView.adapter as ProductAttributesAdapter
     adapter.submitList(data)
 }
+
 // Binding adapter function to set a Bitmap to an ImageView
 @BindingAdapter("setImageBitmap")
 fun ImageView.setImageBitmap(bitmap: Bitmap?) {
     // Set the Bitmap to the ImageView if it's not null
     bitmap?.let {
         this.setImageBitmap(it)
+    }
+}
+@BindingAdapter("app:conditionalText", "app:text")
+fun setConditionalText(textView: TextView, isUpdate: Boolean, productName: String?) {
+    textView.text = if (isUpdate) {
+        productName ?: ""
+    } else {
+        "" // or set to another default value if needed
     }
 }
