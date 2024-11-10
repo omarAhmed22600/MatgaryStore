@@ -16,11 +16,6 @@ import java.util.concurrent.TimeUnit
  * Created by MouazSalah on 28/12/2020.
  */
 
-// private const val BASE_URL = "https://hagaty-app.com/"
-// private const val BASE_URL = "https://brandsin.net"
-// private const val BASE_URL = "https://backend.brandsin.net/"
-// private const val BASE_URL = "https://dev.brandsin.net/"
-
 /*
 *add this if you want a static header in all requests
 **/

@@ -456,9 +456,9 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
     }
 
     private fun configurationPayTabsPayment(totalAmount: Double) {
-        val profileId = "104321"// PROFILE_ID
-        val serverKey = "SZJN699M9M-JHBMRW9TKG-66LHZRD9MG"
-        val clientLey = "C6KMVT-MPDD6H-2NRVP7-QDMH6N"
+        val profileId = ""// PROFILE_ID
+        val serverKey = ""
+        val clientLey = ""
 
         val locale = if (PrefMethods.getLanguage() == "ar") {
             PaymentSdkLanguageCode.AR
