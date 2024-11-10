@@ -52,6 +52,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.TimeZone
+import kotlin.math.absoluteValue
 
 @SuppressLint("SetTextI18n", "LogNotTimber")
 class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPaymentInterface,
@@ -98,12 +99,10 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
                 viewModel.toOffersCardString.value =
                     getString(R.string.pin_a_story_to_the_offers_page)
             }
-
             "offer_to_home", "offer_to_offers" -> {
                 viewModel.toHomeCardString.value = getString(R.string.pin_an_offer_on_home_page)
                 viewModel.toOffersCardString.value = getString(R.string.show_a_on_the_store_page)
             }
-
             else -> ""
         }
 
@@ -112,9 +111,8 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
 
             if (!inputText.isNullOrEmpty()) {
                 // Safeguard to ensure the string is a valid integer before parsing
-                val numOfDays = inputText.toIntOrNull()
+                val numOfDays = inputText.toIntOrNull()?.absoluteValue
                 val pricePinStoriesType = viewModel.pricePinStoriesType.orEmpty().toIntOrNull()
-
                 if (numOfDays != null && pricePinStoriesType != null) {
                     viewModel.noOfDays.value = inputText
                     numOfDayMarketing = inputText
@@ -126,7 +124,8 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
                 // Reset the values when input is empty
                 viewModel.noOfDays.value = ""
                 numOfDayMarketing = ""
-                binding.marketingValue.text = "${viewModel.pricePinStoriesType} ${getString(R.string.currency)}"
+                binding.marketingValue.text =
+                    "${viewModel.pricePinStoriesType} ${getString(R.string.currency)}"
             }
         }
 
@@ -225,11 +224,7 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
                         binding.ivEnOfferImg.setImageURI(fileUri)
 
                         viewModel.enOfferImage = file
-
-
                     }
-
-
                 }
             }
         }
@@ -300,6 +295,27 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
 
 
     private fun subscribeData() {
+        viewModel.endDate.observe(viewLifecycleOwner)
+        {
+            if (it.isNullOrEmpty().not() && viewModel.startDate.value.isNullOrEmpty().not()) {
+                val diffInMillis = endDate.time - startDate.time
+// Convert milliseconds to days
+                val diffInDays = (diffInMillis / (1000 * 60 * 60 * 24)).toInt()
+                viewModel.noOfDays.value = diffInDays.toString()
+
+                binding.edtNumOfDayMarketing.setText(diffInDays.absoluteValue.toString())
+            }
+        }
+        viewModel.startDate.observe(viewLifecycleOwner)
+        {
+            if (it.isNullOrEmpty().not() && viewModel.endDate.value.isNullOrEmpty().not()) {
+                val diffInMillis = endDate.time - startDate.time
+// Convert milliseconds to days
+                val diffInDays = (diffInMillis / (1000 * 60 * 60 * 24)).toInt()
+                viewModel.noOfDays.value = diffInDays.toString()
+                binding.edtNumOfDayMarketing.setText(diffInDays.toString())
+            }
+        }
         viewModel.getPinStoriesMarketingResponse.observe(viewLifecycleOwner) {
             viewModel.obsIsLoading.set(false)
             when (it) {
@@ -308,26 +324,22 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
                     binding.marketingValue.text =
                         it.data?.value.toString() + " " + getString(R.string.currency)
                 }
-
                 is ResponseHandler.Error -> {
                     viewModel.obsIsFull.set(false)
 
                     // show error message
                     showToast(it.message, 1)
                 }
-
                 is ResponseHandler.Loading -> {
                     // show a progress bar
                     viewModel.obsIsLoading.set(true)
                     viewModel.obsIsFull.set(false)
                 }
-
                 is ResponseHandler.StopLoading -> {
                     // show a progress bar
                     viewModel.obsIsLoading.set(false)
                     viewModel.obsIsFull.set(false)
                 }
-
                 else -> {}
             }
         }
@@ -374,7 +386,6 @@ class ReviewChosenStoriesMarketingFragment : BaseHomeFragment(), CallbackPayment
             showToast(errorMessage, 1)
             isValid = false
         }
-
         numOfDayMarketing = binding.edtNumOfDayMarketing.text.toString().trim()
         val numOfDayMarketingInt = numOfDayMarketing.toIntOrNull()
         viewModel.noOfDays.value = numOfDayMarketing

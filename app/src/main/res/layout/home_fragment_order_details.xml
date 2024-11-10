@@ -550,6 +550,7 @@
                     android:layout_marginStart="@dimen/_8sdp"
                     android:layout_marginTop="@dimen/_4sdp"
                     android:background="@drawable/about_bg"
+
                     android:backgroundTint="@color/grey_subcategory"
                     app:cardCornerRadius="@dimen/_8sdp"
                     app:layout_constraintStart_toStartOf="@+id/tv_storeLocation"
@@ -562,6 +563,22 @@
                         android:layout_height="match_parent" />
 
                 </androidx.cardview.widget.CardView>
+                <View
+                    android:id="@+id/orderMap_layoutClick"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/_100sdp"
+                    android:layout_marginStart="@dimen/_8sdp"
+                    android:layout_marginTop="@dimen/_4sdp"
+                    android:background="@android:color/transparent"
+android:elevation="5dp"
+                    android:onClick="@{v->viewModel.openGoogleMaps(v)}"
+                    app:cardCornerRadius="@dimen/_8sdp"
+                    app:layout_constraintStart_toStartOf="@+id/tv_storeLocation"
+                    app:layout_constraintTop_toBottomOf="@id/tv_storeLocation">
+
+
+
+                </View>
 
                 <RadioGroup
                     android:id="@+id/rg_accept"

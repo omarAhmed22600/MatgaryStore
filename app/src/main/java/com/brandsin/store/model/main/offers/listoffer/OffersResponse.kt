@@ -319,6 +319,8 @@ data class OffersItemDetails(
 
     @field:SerializedName("image")
     val image: String? = null,
+    @field:SerializedName("video")
+    val video: String? = null,
 
     @field:SerializedName("price")
     val price: Int? = null,

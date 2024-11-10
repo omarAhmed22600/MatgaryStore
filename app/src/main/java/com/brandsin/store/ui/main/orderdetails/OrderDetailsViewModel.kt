@@ -1,5 +1,9 @@
 package com.brandsin.store.ui.main.orderdetails
 
+import android.content.Intent
+import android.net.Uri
+import android.view.View
+import android.widget.Toast
 import androidx.databinding.ObservableField
 import androidx.lifecycle.MutableLiveData
 import com.brandsin.store.R
@@ -128,6 +132,26 @@ class OrderDetailsViewModel : BaseViewModel() {
                 else -> {}
             }
         }
+    }
+    fun openGoogleMaps(v: View)
+    {
+        val context = v.context
+        val latitude = orderDetails.order?.lat?.toDouble() ?: 0.0 // Replace with your latitude
+        val longitude = orderDetails.order?.lng?.toDouble() ?: 0.0 // Replace with your longitude
+        val label = "" // Optional: a label for the location
+
+        val uri = "geo:$latitude,$longitude?q=$latitude,$longitude($label)"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(uri)).apply {
+            setPackage("com.google.android.apps.maps") // This ensures Google Maps app is opened
+        }
+
+        if (intent.resolveActivity(context.packageManager) != null) {
+            context.startActivity(intent)
+        } else {
+            // Handle case where Google Maps is not installed
+            Toast.makeText(context, "Google Maps is not installed.", Toast.LENGTH_SHORT).show()
+        }
+
     }
 
     fun setUpdateStatusOrder(status: String) {

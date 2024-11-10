@@ -38,6 +38,7 @@ import com.brandsin.store.model.main.products.add.AddProductResponse
 import com.brandsin.store.model.main.products.delete.DeleteProductRequest
 import com.brandsin.store.model.main.products.delete.DeleteProductResponse
 import com.brandsin.store.model.main.products.list.ListProductsResponse
+import com.brandsin.store.model.main.products.productcategories.ProductCategoriesData
 import com.brandsin.store.model.main.products.productcategories.ProductCategoriesResponse
 import com.brandsin.store.model.main.products.update.UpdateProductResponse
 import com.brandsin.store.model.main.reports.ReportsDetailsResponse
@@ -317,7 +318,12 @@ interface ApiInterface {
         @Part videos: List<MultipartBody.Part>,
     ): UpdateProductResponse
 
-
+    @GET("/api/categories/all_categories")
+    suspend fun getProductCategories2(
+        @Query("parents_only") parentsOnly: Int,
+        @Query("lang") lang: String,
+        @Query("store_id") storeId: Int
+    ): List<ProductCategoriesData>
     @GET("/api/categories/all_categories")
     suspend fun getProductCategories(
         @Query("parents_only") parentsOnly: Int,

@@ -239,16 +239,17 @@ class AddOfferViewModel : BaseViewModel() {
         updateOfferRequest.priceTo = obsOfferPriceTo.get()
 
         val d: Date?
-        val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
+        Timber.e("${obsStartDate.get()}")
+        val date1 = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH) // HH:mm:ss
         d = date1.parse(obsStartDate.get().toString())
         println("date22 ==  ${obsStartDate.get().toString()}")
         println("date22 ==  $d")
-        updateOfferRequest.startDate = obsStartDate.get() // date1.format(d.toString())
+        updateOfferRequest.startDate = obsStartDate.get()+" 11:00:00" // date1.format(d.toString())
 
         val d2: Date?
-        val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
+        val date2 = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH) // HH:mm:ss
         d2 = date2.parse(obsEndDate.get().toString())
-        updateOfferRequest.endDate = obsEndDate.get() // date1.format(d2.toString())
+        updateOfferRequest.endDate = obsEndDate.get()+" 11:00:00" // date1.format(d2.toString())
 
         updateOfferRequest.active = 1
         updateOfferRequest.type = offerType
@@ -324,13 +325,13 @@ class AddOfferViewModel : BaseViewModel() {
 
         val d: Date?
         val date1 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
-        d = date1.parse(obsStartDate.get().toString())
-        updateOfferRequest.startDate = obsStartDate.get().toString() // date1.format(d.toString())
+//        d = date1.parse(obsStartDate.get().toString())
+        updateOfferRequest.startDate = obsStartDate.get().toString()+" 11:00:00" // date1.format(d.toString())
 
         val d2: Date?
         val date2 = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH) // HH:mm:ss
-        d2 = date2.parse(obsEndDate.get().toString())
-        updateOfferRequest.endDate = obsEndDate.get().toString() // date1.format(d2.toString())
+//        d2 = date2.parse(obsEndDate.get().toString())
+        updateOfferRequest.endDate = obsEndDate.get().toString()+" 11:00:00" // date1.format(d2.toString())
 
         updateOfferRequest.active = 1
 
@@ -359,7 +360,7 @@ class AddOfferViewModel : BaseViewModel() {
         obsIsVisible.set(true)
         requestCall<UpdateOfferResponse?>({
             withContext(Dispatchers.IO) {
-                return@withContext getApiRepo().updateOfferWithoutImage(updateOfferRequest)
+                return@withContext getApiRepo().updateOffer(updateOfferRequest,isImage)
             }
         })
         { res ->

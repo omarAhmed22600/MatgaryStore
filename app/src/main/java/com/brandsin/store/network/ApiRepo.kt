@@ -281,7 +281,8 @@ class ApiRepo(private val apiInterface: ApiInterface) {
     suspend fun getProductCategories(parentsOnly: Int, lang: String, storeId: Int) =
         apiInterface.getProductCategories(parentsOnly, lang, storeId)
 
-
+    suspend fun getProductCategories2(parentsOnly: Int, lang: String, storeId: Int) =
+        apiInterface.getProductCategories2(parentsOnly, lang, storeId)
     suspend fun getProductAttrs(storeId: Int) =
         apiInterface.getProductAttrs(storeId)
 

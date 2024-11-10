@@ -49,14 +49,22 @@ import com.brandsin.store.utils.observe
 import com.brandsin.store.utils.visible
 import com.brandsin.store.model.constants.Params
 import com.brandsin.store.ui.activity.BaseFragment
+import com.brandsin.store.ui.main.addproduct.PhotoModel
 import com.brandsin.store.utils.map.PermissionUtil
+import com.brandsin.store.utils.setImageBitmap
 import com.bumptech.glide.Glide
 import com.fxn.pix.Options
 import com.fxn.pix.Pix
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.io.InputStream
+import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -98,13 +106,99 @@ class AddOfferActivity : AppCompatActivity(), Observer<Any?> {
                         binding.ivPhoto.visibility = View.VISIBLE
 
 
+                        Timber.e("image ${offerData}")
                         if (offerData.image != null) {
                             Glide.with(this)
                                 .load(offerData.image)
                                 .error(R.drawable.app_logo)
                                 .into(binding.ivOfferImg)
                             onceFlag = true
-                        } else {
+                        } else if (offerData.video != null)
+                        {
+                            val videoUri = offerData.video
+                            var thumbnail: Bitmap? = null
+                            val retriever = MediaMetadataRetriever()
+
+                            try {
+                                // Set the data source for the retriever
+                                retriever.setDataSource(videoUri.orEmpty(), HashMap<String, String>())
+
+                                // Retrieve a frame at the 1st second (1000000 microseconds = 1 second)
+                                thumbnail = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
+                                    retriever.getFrameAtTime(1000000, MediaMetadataRetriever.OPTION_CLOSEST_SYNC)
+                                } else {
+                                    retriever.frameAtTime // Retrieve the default frame (usually the first frame)
+                                }
+
+                            } catch (e: Exception) {
+                                Timber.e(e, "Failed to retrieve thumbnail for %s", videoUri)
+                            }
+
+                            // If a thumbnail is retrieved, add it to the list
+                            if (thumbnail != null) {
+                                binding.ivOfferImg.setImageBitmap(thumbnail)
+                            }
+
+                            val videoUrl = URL(videoUri) // Convert the string to a URL
+
+// Define a variable file name, e.g., extracting from the URL or generating dynamically
+                            val fileName = "video_${System.currentTimeMillis()}.mp4"
+// Or extract the file name from the URL
+// val fileName = videoUrl.path.substring(videoUrl.path.lastIndexOf('/') + 1)
+
+// Define a file in the local storage with the dynamic file name
+                            val videoFile = File(getExternalFilesDir(null), fileName)
+
+                            CoroutineScope(Dispatchers.IO).launch {
+                                try {
+                                    // Open a connection to the video URL in a background thread
+                                    val connection = videoUrl.openConnection()
+                                    connection.connect()
+
+                                    // Get the input stream of the video
+                                    val inputStream: InputStream = connection.getInputStream()
+
+                                    // Create an output stream to save the video
+                                    val outputStream = FileOutputStream(videoFile)
+
+                                    // Buffer to hold chunks of data during download
+                                    val buffer = ByteArray(4096)
+                                    var bytesRead: Int
+
+                                    // Read from the input stream and write to the output file
+                                    while (inputStream.read(buffer).also { bytesRead = it } != -1) {
+                                        outputStream.write(buffer, 0, bytesRead)
+                                    }
+
+                                    // Flush and close streams
+                                    outputStream.flush()
+                                    outputStream.close()
+                                    inputStream.close()
+
+                                    withContext(Dispatchers.Main) {
+                                        // Video file saved successfully, update the UI in the main thread
+                                        Timber.d("Video file downloaded successfully: $videoFile")
+                                        viewModel.updateOfferRequest.offerVideo = videoFile
+                                    }
+
+                                } catch (e: Exception) {
+                                    withContext(Dispatchers.Main) {
+                                        // Handle the error in the main thread (UI thread)
+                                        Timber.e(
+                                            e,
+                                            "Failed to download and save video from %s",
+                                            videoUri
+                                        )
+                                    }
+                                }
+                            }
+
+                            viewModel.isImage = false
+                            retriever.release()
+                            viewModel.updateOfferRequest.offerImage = null
+                            binding.ivVideo.visibility = View.VISIBLE
+                        }
+                        else {
                             binding.notOfferImg.visibility = View.VISIBLE
                             binding.ivPhoto.visibility = View.GONE
                         }

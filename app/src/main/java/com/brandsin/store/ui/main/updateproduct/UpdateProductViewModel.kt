@@ -37,15 +37,15 @@ class UpdateProductViewModel : BaseViewModel() {
     }
 
     private fun getProductCategories() {
-        requestCall<ProductCategoriesResponse?>({
+        requestCall<List<ProductCategoriesData>?>({
             withContext(Dispatchers.IO) {
                 return@withContext getApiRepo()
-                    .getProductCategories(0, PrefMethods.getLanguage(), PrefMethods.getStoreData()!!.id!!.toInt())
+                    .getProductCategories2(1, PrefMethods.getLanguage(), PrefMethods.getStoreData()!!.id!!.toInt())
             }
         })
         { res ->
-            if (res!!.data!!.isNotEmpty()) {
-                categoriesList = res.data as ArrayList<ProductCategoriesData>
+            if (res.isNullOrEmpty().not()) {
+                categoriesList = res as ArrayList<ProductCategoriesData>
             }
         }
     }
